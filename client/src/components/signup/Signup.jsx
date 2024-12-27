@@ -5,9 +5,9 @@ import * as Yup from "yup";
 import FormTextInput from "../form/FormTextInput";
 import { useState } from "react";
 import axios from "../../axios/axios";
-import {useNavigate} from 'react-router'
+import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
-function Signup() {
+function Signup({ setOtpSent }) {
   const [passwordStrengthClass, setPasswordStrengthClass] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -87,34 +87,28 @@ function Signup() {
         ...values,
         role: "client",
       });
-      console.log("response")
-      if(response.status === 201){
+      console.log("response");
+      if (response.status === 200) {
         toast.success(response.data.message);
+        setOtpSent(true);
       }
     } catch (error) {
-      toast.error(error.response.data.message)
+      toast.error(error.response.data.message);
       setIsSubmitting(false);
       console.log(error);
-    }finally{
+    } finally {
       setIsSubmitting(false);
     }
   };
   return (
-    <div className="h-screen flex flex-col bg-slate-100">
-      <motion.nav
-        className="px-10  py-1 shadow-2xl rounded-3xl bg-white"
-        initial={{ opacity: 0, y: -100 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        <motion.img src={logo} className="h-20" alt="logo" />
-      </motion.nav>
-      <div className="flex items-center justify-center flex-grow">
+
+      <div className="flex flex-col items-center justify-center h-full">
         <motion.div
           className="shadow-2xl mx-8 md:mx-0 md:px-16 px-5 py-20 rounded-2xl bg-white max-w-[90vw] md:max-w-[30vw]"
           initial={{ scale: 0.5 }}
           animate={{ scale: 1 }}
         >
-          <h2 className="text-5xl font-black text-blue-700 mb-16 text-center ">
+          <h2 className="text-5xl font-black text-blue-700 mb-8 text-center ">
             Create Your Account
           </h2>
           <Formik
@@ -164,13 +158,20 @@ function Signup() {
                 >
                   Create Account
                 </button>
-                <p>Already have account <span className="text-blue-800 font-semibold hover:cursor-pointer" onClick={()=>navigate("/login")}>login</span></p>
+                <p>
+                  Already have account{" "}
+                  <span
+                    className="text-blue-800 font-semibold hover:cursor-pointer"
+                    onClick={() => navigate("/login")}
+                  >
+                    login
+                  </span>
+                </p>
               </Form>
             )}
           </Formik>
         </motion.div>
       </div>
-    </div>
   );
 }
 
