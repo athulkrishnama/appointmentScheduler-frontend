@@ -8,6 +8,7 @@ function Otp() {
   const [time, setTime] = useState(60);
   const [otp, setOtp] = useState();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const handleOtpChange = (e) => {
     const otp = e.target.value;
@@ -22,7 +23,8 @@ function Otp() {
   }, [time]);
   const handleSubmit = async () => {
     try {
-      console.log("submitting");
+      if(otp < 100000) return setError("Enter valid OTP");
+      else setError("")
       setIsSubmitting(true);
       const response = await axios.post("/auth/verify-otp", {
         otp,
@@ -34,14 +36,16 @@ function Otp() {
           onClose: () => {
             navigate("/login");
           },
+          autoClose:500  
         });
       }
+      setIsSubmitting(false)
     } catch (error) {
       toast.error(error.response.data.message);
       setOtp("");
       isSubmitting(false);
     }finally{
-      isSubmitting(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -84,6 +88,7 @@ function Otp() {
             Resend OTP
           </p>
         </div>
+        {error && <p className="text-red-600">{error}</p>}
         <div className="flex justify-center h-16">{isSubmitting && <ReactLoading type="bars" color="#3b82f6" height="4rem"/> }</div>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-blue-200 disabled:cursor-default hover:cursor-pointer "
