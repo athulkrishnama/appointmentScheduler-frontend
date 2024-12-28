@@ -1,25 +1,29 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
-import  axios  from "../../axios/axios";
+import { useEffect, useState } from "react";
+import axios from "../../axios/axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
+import ReactLoading from 'react-loading'
 function Otp() {
   const [time, setTime] = useState(60);
   const [otp, setOtp] = useState();
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const handleOtpChange = (e) => {
     const otp = e.target.value;
     if (otp < 1000000) setOtp(otp);
   };
-  setTimeout(() => {
+
+  useEffect(() => {
     if (time > 0) {
-      setTime(time - 1);
+      const timeout = setTimeout(() => setTime(time - 1), 1000);
+      return () => clearTimeout(timeout); // Clear timeout to prevent overlapping
     }
-  }, 1000);
+  }, [time]);
   const handleSubmit = async () => {
     try {
-        console.log('submitting')
+      console.log("submitting");
+      setIsSubmitting(true);
       const response = await axios.post("/auth/verify-otp", {
         otp,
       });
@@ -35,10 +39,26 @@ function Otp() {
     } catch (error) {
       toast.error(error.response.data.message);
       setOtp("");
+      isSubmitting(false);
+    }finally{
+      isSubmitting(false);
     }
   };
 
-  const resendOtp = () => {};
+  const resendOtp = async () => {
+    try {
+      setIsSubmitting(true);
+      const response = await axios.get("/auth/resend-otp");
+      toast.success(response.data.message);
+      setIsSubmitting(false);
+      setTime(60);
+    } catch (error) {
+      setIsSubmitting(false);
+      toast.error(error.response.data.message);
+    }finally{
+      isSubmitting(false)
+    }
+  };
   return (
     <div className=" flex justify-center  items-center h-full ">
       <motion.div
@@ -64,9 +84,10 @@ function Otp() {
             Resend OTP
           </p>
         </div>
+        <div className="flex justify-center h-16">{isSubmitting && <ReactLoading type="bars" color="#3b82f6" height="4rem"/> }</div>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-blue-200 disabled:cursor-default hover:cursor-pointer "
-          disabled={time === 0}
+          disabled={time === 0 || isSubmitting}
           onClick={handleSubmit}
         >
           Submit
