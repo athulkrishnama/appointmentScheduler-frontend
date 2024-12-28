@@ -7,6 +7,9 @@ import { useState } from "react";
 import axios from "../../axios/axios";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import ReactLoading from 'react-loading';
+
+
 function Signup({ setOtpSent }) {
   const [passwordStrengthClass, setPasswordStrengthClass] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -104,7 +107,7 @@ function Signup({ setOtpSent }) {
 
       <div className="flex flex-col items-center justify-center h-full">
         <motion.div
-          className="shadow-2xl mx-8 md:mx-0 md:px-16 px-5 py-20 rounded-2xl bg-white max-w-[90vw] md:max-w-[30vw]"
+          className="shadow-2xl mx-8 md:mx-0 md:px-16 px-5 py-8 rounded-2xl bg-white max-w-[90vw] md:max-w-[30vw]"
           initial={{ scale: 0.5 }}
           animate={{ scale: 1 }}
         >
@@ -158,6 +161,8 @@ function Signup({ setOtpSent }) {
                 >
                   Create Account
                 </button>
+                <div className="flex justify-center h-10">{isSubmitting&&<ReactLoading type="bars" color="#3b82f6"/>}</div>
+                
                 <p>
                   Already have account{" "}
                   <span
