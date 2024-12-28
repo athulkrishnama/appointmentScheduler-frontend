@@ -20,7 +20,7 @@ function Signup() {
           key="signup"
           className="flex-grow"
           exit={{  y: -1000 }}
-          transition={{duration:0.2}}
+          transition={{duration:0.4}}
           >
             <SignupForm setOtpSent={setOtpSent} />
           </motion.div>
@@ -30,7 +30,7 @@ function Signup() {
           className="flex-grow"
           initial={{ opacity: 0, y: 1000 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{duration:0.2}}
+          transition={{duration:0.4}}
           >
             <OtpPage />
           </motion.div>
