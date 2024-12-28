@@ -6,23 +6,32 @@ import logo from "../assets/timelens.png";
 function Signup() {
   const [isOtpSent, setOtpSent] = useState(false);
   return (
-    <div className="h-screen flex flex-col bg-slate-100 gap-3 ">
+    <div className="h-screen flex flex-col bg-slate-100 gap-3 overflow-hidden">
       <motion.nav
-        className="px-10  py-1 shadow-2xl rounded-3xl bg-white"
+        className="px-10  py-1 shadow-2xl rounded-3xl bg-white z-10"
         initial={{ opacity: 0, y: -100 }}
         animate={{ opacity: 1, y: 0 }}
       >
         <motion.img src={logo} className="h-20" alt="logo" />
       </motion.nav>
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {!isOtpSent ? (
           <motion.div
-          className="flex-grow">
+          key="signup"
+          className="flex-grow"
+          exit={{  y: -1000 }}
+          transition={{duration:0.2}}
+          >
             <SignupForm setOtpSent={setOtpSent} />
           </motion.div>
         ) : (
           <motion.div
-          className="flex-grow">
+          key="otp"
+          className="flex-grow"
+          initial={{ opacity: 0, y: 1000 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{duration:0.2}}
+          >
             <OtpPage />
           </motion.div>
         )}
