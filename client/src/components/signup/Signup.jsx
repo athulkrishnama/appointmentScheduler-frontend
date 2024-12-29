@@ -7,8 +7,9 @@ import { useState } from "react";
 import axios from "../../axios/axios";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
-import ReactLoading from 'react-loading';
-
+import ReactLoading from "react-loading";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 function Signup({ setOtpSent }) {
   const [passwordStrengthClass, setPasswordStrengthClass] = useState("");
@@ -103,80 +104,113 @@ function Signup({ setOtpSent }) {
       setIsSubmitting(false);
     }
   };
-  return (
 
-      <div className="flex flex-col items-center justify-center h-full">
-        <motion.div
-          className="shadow-2xl mx-8 md:mx-0 md:px-16 px-5 py-8 rounded-2xl bg-white max-w-[90vw] md:max-w-[30vw]"
-          initial={{ scale: 0.5 }}
-          animate={{ scale: 1 }}
+  const googleSignup = async (credentialResponse) => {
+    try {
+      setIsSubmitting(true);
+      const decodedData = jwtDecode(credentialResponse.credential);
+      console.log(decodedData);
+      const { email, given_name, family_name } = decodedData;
+      const fullname = given_name + " " + family_name;
+      const response = await axios.post("/auth/google-signup", {
+        email,
+        fullname,
+        role: "client",
+      });
+      if (response.status === 200) {
+        toast.success(response.data.message, {
+          onClose: () => {
+            navigate("/login");
+          },
+          autoClose: 1000,
+        });
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+      setIsSubmitting(false);
+      console.log(error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  return (
+    <div className="flex flex-col items-center justify-center h-full">
+      <motion.div
+        className="shadow-2xl mx-8 md:mx-0 md:px-16 px-5 py-8 rounded-2xl bg-white max-w-[90vw] md:max-w-[30vw]"
+        initial={{ scale: 0.5 }}
+        animate={{ scale: 1 }}
+      >
+        <h2 className="text-5xl font-black text-blue-700 mb-8 text-center ">
+          Create Your Account
+        </h2>
+        <Formik
+          validationSchema={validationSchema}
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
         >
-          <h2 className="text-5xl font-black text-blue-700 mb-8 text-center ">
-            Create Your Account
-          </h2>
-          <Formik
-            validationSchema={validationSchema}
-            initialValues={initialValues}
-            onSubmit={handleSubmit}
-          >
-            {({ errors, touched }) => (
-              <Form className="flex flex-col gap-4">
-                <FormTextInput
-                  touched={touched.fullname}
-                  name={"fullname"}
-                  error={errors.fullname}
-                  label="Full Name"
-                />
-                <FormTextInput
-                  touched={touched.email}
-                  name={"email"}
-                  error={errors.email}
-                  label="Email"
-                />
-                <FormTextInput
-                  touched={touched.phone}
-                  name={"phone"}
-                  error={errors.phone}
-                  label="Phone Number"
-                />
-                <FormTextInput
-                  touched={touched.password}
-                  name={"password"}
-                  error={errors.password}
-                  label="Password"
-                  type="password"
-                  classes={passwordStrengthClass}
-                />
-                <FormTextInput
-                  touched={touched.confirmPassword}
-                  name={"confirmPassword"}
-                  error={errors.confirmPassword}
-                  label="Confirm Password"
-                  type="password"
-                />
-                <button
-                  disabled={isSubmitting}
-                  type="submit"
-                  className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 disabled:bg-blue-200 transition-colors disabled:hover:bg-blue-200"
+          {({ errors, touched }) => (
+            <Form className="flex flex-col gap-4">
+              <FormTextInput
+                touched={touched.fullname}
+                name={"fullname"}
+                error={errors.fullname}
+                label="Full Name"
+              />
+              <FormTextInput
+                touched={touched.email}
+                name={"email"}
+                error={errors.email}
+                label="Email"
+              />
+              <FormTextInput
+                touched={touched.phone}
+                name={"phone"}
+                error={errors.phone}
+                label="Phone Number"
+              />
+              <FormTextInput
+                touched={touched.password}
+                name={"password"}
+                error={errors.password}
+                label="Password"
+                type="password"
+                classes={passwordStrengthClass}
+              />
+              <FormTextInput
+                touched={touched.confirmPassword}
+                name={"confirmPassword"}
+                error={errors.confirmPassword}
+                label="Confirm Password"
+                type="password"
+              />
+              <button
+                disabled={isSubmitting}
+                type="submit"
+                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 disabled:bg-blue-200 transition-colors disabled:hover:bg-blue-200"
+              >
+                Create Account
+              </button>
+              <div className="flex justify-center">
+                <GoogleLogin onSuccess={googleSignup} onError={() => {}} />
+              </div>
+              <div className="flex justify-center h-10">
+                {isSubmitting && <ReactLoading type="bars" color="#3b82f6" />}
+              </div>
+
+              <p>
+                Already have account{" "}
+                <span
+                  className="text-blue-800 font-semibold hover:cursor-pointer"
+                  onClick={() => navigate("/login")}
                 >
-                  Create Account
-                </button>
-                <div className="flex justify-center h-10">{isSubmitting&&<ReactLoading type="bars" color="#3b82f6"/>}</div>
-                
-                <p>
-                  Already have account{" "}
-                  <span
-                    className="text-blue-800 font-semibold hover:cursor-pointer"
-                    onClick={() => navigate("/login")}
-                  >
-                    login
-                  </span>
-                </p>
-              </Form>
-            )}
-          </Formik>
-        </motion.div>
-      </div>
+                  login
+                </span>
+              </p>
+            </Form>
+          )}
+        </Formik>
+      </motion.div>
+    </div>
   );
 }
 
