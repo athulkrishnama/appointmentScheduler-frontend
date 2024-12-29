@@ -9,11 +9,14 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import {GoogleLogin} from '@react-oauth/google'
 import { jwtDecode } from "jwt-decode";
+import { useDispatch } from 'react-redux';
+import { setAccessToken } from '../../store/userSlice/userSlice';
 
 function LoginForm({ setIsForgetPassword }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const initialValues = {
     email: "",
@@ -35,6 +38,7 @@ function LoginForm({ setIsForgetPassword }) {
         ...values,
       });
       if (response.status === 200) {
+        dispatch(setAccessToken(response.data.accessToken));
         toast.success(response.data.message);
         navigate("/");
       }
@@ -56,6 +60,7 @@ function LoginForm({ setIsForgetPassword }) {
         email
       });
       if (response.status === 200) {
+        dispatch(setAccessToken(response.data.accessToken));
         toast.success(response.data.message, {
           onClose: () => {
             navigate("/");
