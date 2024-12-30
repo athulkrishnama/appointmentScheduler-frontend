@@ -10,7 +10,7 @@ import { useNavigate } from "react-router";
 import {GoogleLogin} from '@react-oauth/google'
 import { jwtDecode } from "jwt-decode";
 import { useDispatch } from 'react-redux';
-import { setAccessToken } from '../../store/userSlice/userSlice';
+import { setAccessToken, setName, setEmail, setPhoneNumber } from '../../store/userSlice/userSlice';
 
 function LoginForm({ setIsForgetPassword }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -38,7 +38,11 @@ function LoginForm({ setIsForgetPassword }) {
         ...values,
       });
       if (response.status === 200) {
-        dispatch(setAccessToken(response.data.accessToken));
+        const { accessToken, user } = response.data;
+        dispatch(setAccessToken(accessToken));
+        dispatch(setName(user.name));
+        dispatch(setEmail(user.email));
+        dispatch(setPhoneNumber(user.phone));
         toast.success(response.data.message);
         navigate("/");
       }
@@ -60,7 +64,11 @@ function LoginForm({ setIsForgetPassword }) {
         email
       });
       if (response.status === 200) {
-        dispatch(setAccessToken(response.data.accessToken));
+        const { accessToken, user } = response.data;
+        dispatch(setAccessToken(accessToken));
+        dispatch(setName(user.name));
+        dispatch(setEmail(user.email));
+        dispatch(setPhoneNumber(user.phone));
         toast.success(response.data.message, {
           onClose: () => {
             navigate("/");
