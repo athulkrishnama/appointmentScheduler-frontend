@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import logo from "../../assets/timelens.png";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import FormTextInput from "../form/FormTextInput";
