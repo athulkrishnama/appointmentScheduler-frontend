@@ -28,7 +28,7 @@ instance.interceptors.response.use(
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        const response = await axios.get(`${BASE_URL}/auth/refresh-token`);
+        const response = await instance.get(`${BASE_URL}/auth/refresh-token`);
         const newAccessToken = response.data.accessToken;
 
         store.dispatch(setAccessToken(newAccessToken));

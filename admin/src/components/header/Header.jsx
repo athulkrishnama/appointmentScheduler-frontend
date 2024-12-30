@@ -9,10 +9,12 @@ import {
   setEmail,
   setPhoneNumber,
 } from "../../store/userSlice/userSlice";
+import {useNavigate} from 'react-router'
 function Header() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
   const links = [
     { linktext: "Dashboard", link: "dashboard" },
     { linktext: "Service Providers", link: "service-providers" },
@@ -26,6 +28,8 @@ function Header() {
     dispatch(setName(""));
     dispatch(setEmail(""));
     dispatch(setPhoneNumber(""));
+    navigate('/login')
+
   };
   return (
     <motion.nav
@@ -42,8 +46,7 @@ function Header() {
         ))}
       </div>
       <div className="flex gap-9 items-center">
-        {user.accessToken ? (
-          <>
+       
             <h3 className="hover:cursor-pointer">{user.name}</h3>
             <button
               onClick={handleLogout}
@@ -51,15 +54,6 @@ function Header() {
             >
               Logout
             </button>
-          </>
-        ) : (
-          <Link
-            to="/login"
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-          >
-            Login
-          </Link>
-        )}
       </div>
     </motion.nav>
   );
