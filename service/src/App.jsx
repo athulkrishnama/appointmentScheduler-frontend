@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import store from "./store/store";
+import Layout from "./components/layout/Layout";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 function App() {
@@ -10,9 +11,12 @@ function App() {
     <Provider store={store}>
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="/coupons" element={<h1>This is coupons page</h1>} />
+          </Route>
         </Routes>
       </Router>
       <ToastContainer/>

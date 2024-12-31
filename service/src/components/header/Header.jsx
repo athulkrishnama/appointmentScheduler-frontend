@@ -14,7 +14,7 @@ function Header() {
   const dispatch = useDispatch();
 
   const links = [
-    { linktext: "Dashboard", link: "dashboard" },
+    { linktext: "Dashboard", link: "" },
     { linktext: "Service Management", link: "service-management" },
     { linktext: "Coupons", link: "coupons" },
     { linktext: "Quotations", link: "quotations" },

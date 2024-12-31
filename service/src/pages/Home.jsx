@@ -3,7 +3,7 @@ import Header from '../components/header/Header'
 function Home() {
   return (
  <>
- <Header/>
+  this is home
  </>
   )
 }

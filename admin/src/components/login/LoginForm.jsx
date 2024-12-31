@@ -61,7 +61,7 @@ function LoginForm() {
         animate={{ opacity: 1, scale: 1 }}
         className="bg-white px-20 py-10 rounded-3xl shadow-2xl w-[90vw] md:w-[30vw]"
       >
-        <h1 className="text-3xl font-black text-blue-700 text-center">Login</h1>
+        <h1 className="text-3xl font-black text-blue-700 text-center">Admin Login</h1>
         <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}

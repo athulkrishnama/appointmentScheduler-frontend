@@ -111,7 +111,7 @@ function SignupForm({ setOtpSent }) {
 
   return (
     <motion.div className="bg-white px-16 py-6 rounded-3xl shadow-2xl w-[90vw] md:w-[30vw]">
-      <h1 className="text-3xl font-black text-blue-800 mb-4">Signup</h1>
+      <h1 className="text-3xl font-black text-blue-800 mb-4">Service Provider Signup</h1>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
