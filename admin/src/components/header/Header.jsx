@@ -16,7 +16,7 @@ function Header() {
 
   const navigate = useNavigate();
   const links = [
-    { linktext: "Dashboard", link: "dashboard" },
+    { linktext: "Dashboard", link: "" },
     { linktext: "Service Providers", link: "service-providers" },
     { linktext: "Requests", link: "requests" },
     { linktext: "Clients", link: "clients" },
@@ -37,7 +37,7 @@ function Header() {
       initial={{ opacity: 0, y: -100 }}
       animate={{ opacity: 1, y: 0 }}
     >
-      <motion.img src={logo} className="h-20" alt="logo" />
+      <h1 className="text-4xl font-bold text-gray-800 tracking-tight my-4">Admin Panel</h1>
       <div className="flex gap-3 items-center ">
         {links.map(({ linktext, link }) => (
           <Link to={link} className="hover:text-gray-600 text-lg font-medium">
