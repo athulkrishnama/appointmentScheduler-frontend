@@ -1,16 +1,23 @@
 import { motion } from "framer-motion";
-import { Formik, Form } from "formik";
+import { Formik, Form , Field} from "formik";
 import * as Yup from "yup";
 import FormTextInput from "../form/FormTextInput";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import axios from "../../axios/axios";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import ReactLoading from "react-loading";
+import placeholderImage  from '../../assets/imagePlaceholder.png'
+import Cropper from '../cropper/crop'
 
 function SignupForm({ setOtpSent }) {
   const [passwordStrengthClass, setPasswordStrengthClass] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [imagetoCrop, setImagetoCrop] = useState(null)
+  const [logo, setLogo] = useState()
+  const [showCropper, setShowCropper] = useState(false)
+
+  const imageRef = useRef(null);
   const navigate = useNavigate()
   const initialValues = {
     name: "",
@@ -84,6 +91,7 @@ function SignupForm({ setOtpSent }) {
     phone: Yup.string()
       .required("Phone number is required")
       .matches(phoneRegex, "Enter a valid phone number"),
+    
   });
 
   const handleSubmit = async (values) => {
@@ -108,9 +116,43 @@ function SignupForm({ setOtpSent }) {
       setIsSubmitting(false);
     }
   };
+  
+  const handleImageChange = (event)=>{
+    const file = event.target.files[0];
 
+      // Check file size and format
+    if (file) {
+      const isValidSize = file.size <= 2 * 1024 * 1024;
+      const isValidFormat = ["image/jpeg", "image/png"].includes(file.type); 
+  
+      if (isValidSize && isValidFormat) {
+        // setCropperVisible(true); 
+        // setLogo(event.target.files[0]) 
+        const reader = new FileReader();
+        reader.onload = () => setLogo(reader.result); // Load the image
+        reader.readAsDataURL(file);
+        setShowCropper(true)
+      } else {
+        toast.error("Invalid file. Please upload a valid image.");
+      }
+    }
+  }
+
+    const onClose = () => {
+      setShowCropper(false)
+      setLogo(null)
+      imageRef.current.value = ""
+
+    }
+
+    const onCrop = async (imageBlob) => {
+ 
+    
+      // Set the cropped image for preview
+      setImagetoCrop(imageBlob);
+    }
   return (
-    <motion.div className="bg-white px-16 py-6 rounded-3xl shadow-2xl w-[90vw] md:w-[30vw]">
+    <motion.div className="bg-white px-16 py-6 rounded-3xl shadow-2xl w-[90vw] md:w-[30vw] my-8">
       <h1 className="text-3xl font-black text-blue-800 mb-4">Service Provider Signup</h1>
       <Formik
         initialValues={initialValues}
@@ -119,6 +161,11 @@ function SignupForm({ setOtpSent }) {
       >
         {({ touched, errors }) => (
           <Form className="flex flex-col gap-1">
+
+            <img src={imagetoCrop? URL.createObjectURL(imagetoCrop) : placeholderImage} alt="" />
+            <input type="file" name="logo" ref={imageRef}   onChange={handleImageChange} className="hidden"/>
+            <button className="bg-blue-700 text-white py-2 rounded-md hover:bg-blue-600" onClick={() => imageRef.current.click()}>Add Logo</button>
+            { showCropper && <Cropper aspectRatio={1} image={logo} onClose={onClose} onCrop={onCrop}/>}
             <FormTextInput
               label="Company Name"
               name="name"
