@@ -8,7 +8,7 @@ function Signup() {
   const [isOtpSent, setOtpSent] = useState(false);
   return (
     <ProtectedSignup>
-      <div className="h-screen flex flex-col bg-slate-100">
+      <div className="min-h-h-screen flex flex-col bg-slate-100">
         <Header />
         <div className="flex-grow flex justify-center items-center">
           <AnimatePresence mode="wait">
