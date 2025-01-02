@@ -20,13 +20,13 @@ const RequestTable = ({ requests,  }) => {
         dispatch(removeRequest(confirmation.requestId));
         toast.success(response.data.message);
       } else {
-        toast.error(response.data.message); // Add toast notification for unsuccessful response
+        toast.error(response.data.message); 
       }
       setConfirmation({ show: false, requestId: null, status: '' });
     } catch (error) {
       setConfirmation({ show: false, requestId: null, status: '' });
       console.error('There was an error updating the status:', error);
-      toast.error(error.response?.data?.message || 'An unexpected error occurred.'); // Add toast notification for catch block error
+      toast.error(error.response?.data?.message || 'An unexpected error occurred.'); 
     }
   };
 
@@ -42,7 +42,7 @@ const RequestTable = ({ requests,  }) => {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="w-[90vw] md:w-[50vw] mx-auto overflow-x-auto rounded-lg shadow-lg mt-12"
+      className="w-[90vw] md:w-[60vw] mx-auto overflow-x-auto rounded-lg shadow-lg mt-12"
     >
       <table className="w-full bg-white rounded-lg">
         <thead className="bg-gray-200 text-black">
@@ -59,7 +59,7 @@ const RequestTable = ({ requests,  }) => {
               <td className="py-4 px-6 text-black">{request.fullname}</td>
               <td className="py-4 px-6 text-black">{request.serviceDetails.description}</td>
               <td className="py-4 px-6 text-black">{new Date(request.createdAt).toLocaleDateString()}</td>
-              <td className="py-4 px-6">
+              <td className="py-4 px-6 flex">
                 <button 
                   onClick={() => handleButtonClick(request._id, 'accepted')}
                   className="bg-gray-800 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded mr-2"
