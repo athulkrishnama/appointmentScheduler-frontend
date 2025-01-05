@@ -47,6 +47,8 @@ const RequestTable = ({ requests,  }) => {
       <table className="w-full bg-white rounded-lg">
         <thead className="bg-gray-200 text-black">
           <tr>
+            
+            <th className="py-3 px-6 text-left">Company Logo</th>
             <th className="py-3 px-6 text-left">Company Name</th>
             <th className="py-3 px-6 text-left">Description</th>
             <th className="py-3 px-6 text-left">Request Date</th>
@@ -56,10 +58,17 @@ const RequestTable = ({ requests,  }) => {
         <tbody>
           {requests.items.map((request, index) => (
             <tr key={index} className="border-b border-gray-200 hover:bg-gray-100">
+              <td className="py-4 px-6 text-black">
+                <img 
+                  src={request.serviceDetails.logo} 
+                  alt="Company Logo" 
+                  className="w-24 h-24 object-cover rounded-lg"
+                />
+              </td>
               <td className="py-4 px-6 text-black">{request.fullname}</td>
               <td className="py-4 px-6 text-black">{request.serviceDetails.description}</td>
               <td className="py-4 px-6 text-black">{new Date(request.createdAt).toLocaleDateString()}</td>
-              <td className="py-4 px-6 flex">
+              <td className="py-4 px-6  h-full">
                 <button 
                   onClick={() => handleButtonClick(request._id, 'accepted')}
                   className="bg-gray-800 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded mr-2"
