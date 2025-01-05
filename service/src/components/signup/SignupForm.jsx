@@ -13,8 +13,12 @@ import Cropper from '../cropper/crop'
 function SignupForm({ setOtpSent }) {
   const [passwordStrengthClass, setPasswordStrengthClass] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [image, setImage] = useState(null);
+  const [showCropper, setShowCropper] = useState(false);
 
-  const imageRef = useRef(null);
+
+  const inputRef = useRef(null);
+
   const navigate = useNavigate()
   const initialValues = {
     name: "",
@@ -94,21 +98,24 @@ function SignupForm({ setOtpSent }) {
   const handleSubmit = async (values) => {
     try {
       setIsSubmitting(true);
-  
-      console.log("Form Values: ", values);
-  
+
+
       const formData = new FormData();
       for (let key in values) {
         formData.append(key, values[key]);
       }
-      formData.append("logo", imagetoCrop); 
+      if(!image){
+        toast.error("Logo is required");
+        return
+      }
+      formData.append("logo", image);
       formData.append("role", "service");
       formData.append("fullname", values.name);
       formData.append("serviceDetails", JSON.stringify({ description: values.description }));
-  
-  
+
+
       const response = await axios.post("/auth/signup", formData);
-  
+
       if (response.status === 200) {
         toast.success(response.data.message);
         setOtpSent(true);
@@ -124,8 +131,25 @@ function SignupForm({ setOtpSent }) {
     } finally {
       setIsSubmitting(false);
     }
+  }
+  // close cropper
+  const onClose = () => {
+    setShowCropper(false);
   };
-  
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    console.log("handelign iamge")
+    const validFileTypes = ["image/jpeg", "image/png", "image/jpg"];
+    if (!validFileTypes.includes(file.type)) {
+      toast.error("Invalid file type. Please upload a JPEG, PNG, or JPG file.");
+      return;
+    }else if(file.size > 2 * 1024 * 1024){
+      toast.error("Image size should be less than 2MB");
+      return;
+    }
+    setShowCropper(true);
+  }
 
 
 
@@ -142,7 +166,17 @@ function SignupForm({ setOtpSent }) {
         {({ touched, errors }) => (
           <Form className="flex flex-col gap-1">
 
-            
+            <img src={image ? URL.createObjectURL(image) : placeholderImage} alt="" className="w-full rounded-md mx-auto"/>
+            {showCropper && (
+              <Cropper
+                image={inputRef.current.files[0]}
+                onClose={onClose}
+                setImage={setImage}
+                aspectRatio={1}
+              />
+            )}
+            <input type="file" onChange={handleImageChange} ref={inputRef} className="hidden" />
+            <button type="button" onClick={() => inputRef.current.click()} className="bg-blue-700 text-white py-2 rounded-md hover:bg-blue-600 my-2">Upload Logo</button>
             <FormTextInput
               label="Company Name"
               name="name"
@@ -209,4 +243,4 @@ function SignupForm({ setOtpSent }) {
   );
 }
 
-export default SignupForm;
+export default SignupForm
