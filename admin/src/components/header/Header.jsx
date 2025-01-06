@@ -17,7 +17,7 @@ function Header() {
   const navigate = useNavigate();
   const links = [
     { linktext: "Dashboard", link: "" },
-    { linktext: "Service Providers", link: "service-providers" },
+    { linktext: "Service Providers", link: "serviceProviders" },
     { linktext: "Requests", link: "requests" },
     { linktext: "Clients", link: "clients" },
     { linktext: "Categories", link: "categories" }
