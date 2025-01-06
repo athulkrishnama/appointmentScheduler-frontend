@@ -3,6 +3,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import userReducer from './userSlice/userSlice.js';
 import requestReducer from './requestSlice/requestSlice';
+import clientsReducer from './cliientSlice/clientSlic';
 
 const persistConfig = {
   key: 'root',
@@ -16,6 +17,7 @@ const store = configureStore({
   reducer: {
     user: persistedReducer,
     requests: requestReducer,
+    clients: clientsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
