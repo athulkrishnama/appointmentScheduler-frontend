@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import store from './store/store';
 import Login from './pages/Login'
 import Home from './pages/Home'
+import Clients from './pages/Clients'
 import Request from './pages/Request'
 import { ToastContainer, } from 'react-toastify'
 import ProtectedRoute from './components/protectedComponents/ProtectedRoute'
@@ -18,6 +19,7 @@ const App = () => {
                     <Route path='/' element={<Layout />}>
                         <Route index element={<><ProtectedRoute><Home /></ProtectedRoute></>} />
                         <Route path="/requests" element={<><ProtectedRoute><Request /></ProtectedRoute></>} />
+                        <Route path="/clients" element={<><ProtectedRoute><Clients /></ProtectedRoute></>} />
                     </Route>
                     <Route path="/login" element={<Login />} />
                 </Routes>
