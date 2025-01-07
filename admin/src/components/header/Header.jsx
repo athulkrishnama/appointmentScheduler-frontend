@@ -20,7 +20,7 @@ function Header() {
     { linktext: "Service Providers", link: "serviceProviders" },
     { linktext: "Requests", link: "requests" },
     { linktext: "Clients", link: "clients" },
-    { linktext: "Categories", link: "categories" }
+    { linktext: "Categories", link: "category" }
   ]
 
   const handleLogout = () => {
