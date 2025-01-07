@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import Home from './pages/Home'
 import Clients from './pages/Clients'
 import Request from './pages/Request'
+import Category from './pages/Category'
 import ServiceProviders from './pages/ServiceProviders';
 import { ToastContainer, } from 'react-toastify'
 import ProtectedRoute from './components/protectedComponents/ProtectedRoute'
@@ -22,6 +23,7 @@ const App = () => {
                         <Route path="/requests" element={<><ProtectedRoute><Request /></ProtectedRoute></>} />
                         <Route path="/clients" element={<><ProtectedRoute><Clients /></ProtectedRoute></>} />
                         <Route path="/serviceProviders" element={<><ProtectedRoute><ServiceProviders /></ProtectedRoute></>} />
+                        <Route path="/category" element={<><ProtectedRoute><Category /></ProtectedRoute></>} />
                     </Route>
                     <Route path="/login" element={<Login />} />
                 </Routes>
