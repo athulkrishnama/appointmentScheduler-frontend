@@ -12,6 +12,7 @@ import YourServices from './pages/YourServices'
 import History from './pages/History'
 import RecurringServices from './pages/RecurringServices'
 import Profile from './pages/Profile'
+import ServiceDetails from './pages/ServiceDetails'
 import ProtectedRoute from './components/protectedComponents/ProtectedRoute'
 import {ToastContainer,} from 'react-toastify'
 
@@ -30,6 +31,7 @@ const App = () => {
                         <Route path="/history" element={<ProtectedRoute><History/></ProtectedRoute>} />
                         <Route path="/recurringServices" element={<ProtectedRoute><RecurringServices/></ProtectedRoute>} />
                         <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />
+                        <Route path="/serviceDetails/:id" element={<ServiceDetails/>} />
                     </Route>
                 </Routes>
             </BrowserRouter>
