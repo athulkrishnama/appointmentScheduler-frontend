@@ -15,7 +15,7 @@ function Header() {
 
   const links = [
     { linktext: "Dashboard", link: "" },
-    { linktext: "Service Management", link: "service-management" },
+    { linktext: "Service Management", link: "serviceManagement" },
     { linktext: "Coupons", link: "coupons" },
     { linktext: "Quotations", link: "quotations" },
     { linktext: "Schedule Services", link: "schedule-services" },
