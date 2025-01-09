@@ -90,7 +90,6 @@ function Signup({ setOtpSent }) {
         ...values,
         role: "client",
       });
-      console.log("response");
       if (response.status === 200) {
         toast.success(response.data.message);
         setOtpSent(true);
