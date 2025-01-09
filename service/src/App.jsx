@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import ServiceManagement from "./pages/ServiceManagement";
 import store from "./store/store";
 import Layout from "./components/layout/Layout";
 import { Provider } from "react-redux";
@@ -16,6 +17,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<Layout />}>
             <Route index element={<ProtectedRoute><Home /></ProtectedRoute> } />
+            <Route path="/serviceManagement" element={<ProtectedRoute><ServiceManagement /></ProtectedRoute>} />
             <Route path="/coupons" element={<h1>This is coupons page</h1>} />
           </Route>
         </Routes>
