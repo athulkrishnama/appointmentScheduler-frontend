@@ -1,8 +1,8 @@
 import React from "react";
 import { Field } from "formik";
 import { motion, AnimatePresence } from "framer-motion";
-function FormTextInput({ touched, error, label, name, classes, ...props }) {
-  const classNames = props.type == 'file' ? "rounded-md px-2 py-1" : "border border-gray-400 rounded-md px-2 py-1"
+function FormTextInput({ touched, error, label, name, classes,inputClasses, ...props }) {
+  const classNames = (props.type == 'file' ? "rounded-md px-2 py-1" : "border border-gray-400 rounded-md px-2 py-1") + " " + inputClasses
   return (
     <div className="flex flex-col  min-h-20">
       <label htmlFor={name}>{label}</label>
