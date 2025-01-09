@@ -13,7 +13,6 @@ import ProtectedRoute from './components/protectedComponents/ProtectedRoute'
 import Layout from './components/layout/Layout';
 
 const App = () => {
-    console.log(store.getState().user.accessToken)
     return (
         <Provider store={store}>
             <BrowserRouter>
