@@ -10,7 +10,7 @@ import { MdClose } from 'react-icons/md';
 import { MdDelete } from 'react-icons/md';
 import axios from '../../axios/axios';
 
-function CreateService({ setShowCreateService }) {
+function CreateService({ setShowCreateService , setServices }) {
   const [showCrop, setShowCrop] = useState(false)
   const [image, setImage] = useState(null)
   const [additionlDetails, setAdditionalDetails] = useState([])
@@ -23,7 +23,7 @@ function CreateService({ setShowCreateService }) {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('/admin/categories');
+        const response = await axios.get('/admin/categories/?limit=all');
         setCategories(response.data.categories);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -56,11 +56,11 @@ function CreateService({ setShowCreateService }) {
     serviceName: Yup.string()
       .required('Service Name is required')
       .min(3, 'Must be 3 characters or more')
-      .max(15, 'Must be 15 characters or less'),
+      .max(25, 'Must be 25 characters or less'),
     serviceDescription: Yup.string()
       .required('Service Description is required')
       .min(20, 'Must be 20 characters or more')
-      .max(200, 'Must be 200 characters or less'),
+      .max(800, 'Must be 800 characters or less'),
     category: Yup.string()
       .required('Category is required')
   })
@@ -103,6 +103,7 @@ function CreateService({ setShowCreateService }) {
       const response = await axios.post('/serviceProvider/addService', formData)
       if (response.status === 201) {
         toast.success(response.data.message)
+        setServices(prevServices => [...prevServices, response.data.service])
         setShowCreateService(false)
       }
     } catch (error) {

@@ -51,7 +51,7 @@ function ServiceManagement() {
       <div className='flex justify-end'>
         <button className="bg-gray-800 text-gray-200 px-4 py-2 rounded hover:bg-gray-700 hover:text-white"
           onClick={() => setShowCreateService(true)}>Create Service</button>
-        {showCreateService && <CreateService setShowCreateService={setShowCreateService} />}
+        {showCreateService && <CreateService setShowCreateService={setShowCreateService} setServices={setServices} />}
       </div>
         <ListServiceTable services={services} changeStatus={changeStatus} setUpdateData={setUpdateData}/>
         <Pagination total={totalPages} current={page} setPage={setPage}/>

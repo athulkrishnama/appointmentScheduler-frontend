@@ -42,7 +42,7 @@ function ServiceProviders() {
     <div >
       <ServiceProviderTable providers={providers} changeStatus={changeStatus} />
       <div className='mt-4'>
-        <Pagination total={totalPages} current={page} setPage={setPage} />
+        {providers.length > 0 && <Pagination total={totalPages} current={page} setPage={setPage} />}
       </div>
     </div>
   )

@@ -5,6 +5,14 @@ import store from './store/store';
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Home from './pages/Home'
+import Quotes from './pages/Quotes'
+import Layout from './components/layout/Layout'
+import Services from './pages/Services'
+import YourServices from './pages/YourServices'
+import History from './pages/History'
+import RecurringServices from './pages/RecurringServices'
+import Profile from './pages/Profile'
+import ProtectedRoute from './components/protectedComponents/ProtectedRoute'
 import {ToastContainer,} from 'react-toastify'
 
 const App = () => {
@@ -12,9 +20,17 @@ const App = () => {
         <Provider store={store}>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Home/>} />
                     <Route path="/login" element={<Login/>} />
                     <Route path="/signup" element={<Signup/>} />
+                    <Route path="/" element={<Layout/>} >
+                        <Route index element={<Home/>} />
+                        <Route path="/services" element={<Services/>} />
+                        <Route path="/quotes" element={<ProtectedRoute><Quotes/></ProtectedRoute>} />
+                        <Route path="/yourServices" element={<ProtectedRoute><YourServices/></ProtectedRoute>} />
+                        <Route path="/history" element={<ProtectedRoute><History/></ProtectedRoute>} />
+                        <Route path="/recurringServices" element={<ProtectedRoute><RecurringServices/></ProtectedRoute>} />
+                        <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />
+                    </Route>
                 </Routes>
             </BrowserRouter>
             <ToastContainer/>

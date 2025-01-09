@@ -47,7 +47,7 @@ const HomePage = () => {
       </div>
 
       <section className="py-8">
-        <h2 className="text-4xl font-bold text-center mb-8 font-serif">Our Services</h2>
+        <h2 className="text-4xl font-bold text-center mb-8 font-sans">Our Service Providers</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service) => (
             <motion.div
@@ -57,9 +57,9 @@ const HomePage = () => {
               whileTap={{ scale: 0.95 }}
             >
               <img
-                src={service.image ? `/placeholder.svg?height=150&width=250&text=${service.fullname}` : defaultLogo}
+                src={service.serviceDetails.logo || defaultLogo}
                 alt={service.fullname}
-                className="w-full h-36 object-cover mb-4"
+                className="w-full  object-cover mb-4"
               />
               <h3 className="mb-2">{service.fullname}</h3>
               <p>{service.serviceDetails.description}</p>

@@ -24,7 +24,7 @@ function EditService({ setEditModalClose, service,setUpdateData }) {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('/admin/categories');
+        const response = await axios.get('/admin/categories/?limit=all');
         setCategories(response.data.categories);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -61,7 +61,7 @@ function EditService({ setEditModalClose, service,setUpdateData }) {
     serviceDescription: Yup.string()
       .required('Service Description is required')
       .min(20, 'Must be 20 characters or more')
-      .max(200, 'Must be 200 characters or less'),
+      .max(800, 'Must be 800 characters or less'),
     category: Yup.string()
       .required('Category is required')
   })

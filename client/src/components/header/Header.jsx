@@ -30,13 +30,13 @@ function Header() {
       <nav className="navigation flex-grow">
         <ul className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 justify-center">
           <li>
-            <Link to="/dashboard" className="hover:text-gray-600 text-lg font-medium">
+            <Link to="/" className="hover:text-gray-600 text-lg font-medium">
               Dashboard
             </Link>
           </li>
           <li>
-            <Link to="/providers" className="hover:text-gray-600 text-lg font-medium">
-              Providers
+            <Link to="/services" className="hover:text-gray-600 text-lg font-medium">
+              Services
             </Link>
           </li>
           <li>
@@ -45,7 +45,7 @@ function Header() {
             </Link>
           </li>
           <li>
-            <Link to="/your-services" className="hover:text-gray-600 text-lg font-medium">
+            <Link to="/yourServices" className="hover:text-gray-600 text-lg font-medium">
               Your Services
             </Link>
           </li>
@@ -55,7 +55,7 @@ function Header() {
             </Link>
           </li>
           <li>
-            <Link to="/recurring-services" className="hover:text-gray-600 text-lg font-medium">
+            <Link to="/recurringServices" className="hover:text-gray-600 text-lg font-medium">
               Recurring Services
             </Link>
           </li>
