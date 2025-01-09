@@ -18,7 +18,7 @@ function Header() {
 
   return (
     <motion.header 
-      className="bg-white text-black p-4 flex flex-col md:flex-row justify-between items-center shadow-md"
+      className="bg-white text-black p-4 flex flex-col md:flex-row justify-between items-center shadow-md mb-5"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
