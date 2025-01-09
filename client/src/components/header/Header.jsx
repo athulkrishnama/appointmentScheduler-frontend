@@ -8,7 +8,6 @@ import logo from '../../assets/timelens.png';
 function Header() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
   const handleLogout = () => {
     dispatch(setAccessToken(''));
     dispatch(setName(''));
@@ -25,10 +24,10 @@ function Header() {
       transition={{ duration: 0.5 }}
     >
       <div className="logo mb-4 md:mb-0">
-        <img src={logo} alt="Logo" className="h-8" />
+        <img src={logo} alt="Logo" className="h-16" />
       </div>
       <nav className="navigation flex-grow">
-        <ul className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 justify-center">
+        <ul className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 justify-center ">
           <li>
             <Link to="/" className="hover:text-gray-600 text-lg font-medium">
               Dashboard
