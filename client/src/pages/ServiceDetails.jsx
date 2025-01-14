@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react'
-import { useParams } from 'react-router'
+import { useParams , useNavigate} from 'react-router'
 import axios from '../axios/axios'
 import { toast } from 'react-toastify'
 import {motion} from 'framer-motion'
@@ -7,12 +7,15 @@ import {motion} from 'framer-motion'
 function ServiceDatails() {
   const [service, setService] = useState({})
   const { id } = useParams()
+  
+  const navigate = useNavigate()
   const getServiceDetails = async () => {
     try {
       const res = await axios.get(`/client/service/${id}`)
       setService(res.data.service)
     } catch (error) {
       toast.error(error.response.data.message)
+      navigate('/services')
       console.log(error)
     }
   }
