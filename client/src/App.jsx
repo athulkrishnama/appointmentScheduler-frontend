@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Routes, Route} from 'react-router'
+import {BrowserRouter, Routes, Route, Navigate} from 'react-router'
 import { Provider } from 'react-redux';
 import store from './store/store';
 import Login from './pages/Login'
@@ -33,7 +33,9 @@ const App = () => {
                         <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />
                         <Route path="/serviceDetails/:id" element={<ServiceDetails/>} />
                     </Route>
+                    <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
+                
             </BrowserRouter>
             <ToastContainer/>
         </Provider>
