@@ -39,7 +39,8 @@ function ServiceProviders() {
     }
   }
   return (
-    <div >
+    <div className='flex-grow  py-20'>
+      <h1 className='text-4xl font-bold text-center '>Service Providers</h1>
       <ServiceProviderTable providers={providers} changeStatus={changeStatus} />
       <div className='mt-4'>
         {providers.length > 0 && <Pagination total={totalPages} current={page} setPage={setPage} />}

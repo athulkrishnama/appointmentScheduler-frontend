@@ -58,8 +58,9 @@ function Category() {
     }
   }
   return (
-    <div className='flex justify-center pt-10'>
+    <div className='flex justify-center pt-10 flex-grow'>
       <div className=''>
+        <h1 className='text-4xl font-bold text-center text-black mb-10'>Categories</h1>
         <button className='bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded flex items-center gap-2' onClick={() => setShowAddCategoryModal(true)}><FaPlus className='text-2xl' />Create Category</button>
         <CategoryTable categories={categories} changeStatus={changeStatus} updateCategory={updateCategory} />
         <div className='mt-5'>

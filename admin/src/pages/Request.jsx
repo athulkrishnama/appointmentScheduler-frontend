@@ -31,7 +31,7 @@ function Request() {
 
 
   return (
-    <div className='flex-grow flex flex-col pt-5'>
+    <div className='flex-grow flex flex-col pt-16'>
       <h1 className='text-4xl font-bold text-center text-black'>Service Provider's Registration Request</h1>
       {loading ? (
         <div className='text-center py-4'>Loading...</div>

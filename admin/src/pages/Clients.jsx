@@ -36,7 +36,8 @@ function Clients() {
     }
   }
   return (
-    <div className='flex justify-center flex-col w-full'>
+    <div className='flex  flex-col flex-grow pt-16'>
+      <h1 className='text-center text-4xl font-black '>Clients</h1>
       <ClientTable clients={clients.items} setPage={setPage} changeStatus={changeStatus} />
       <div className='flex justify-center my-5'>
       <Pagination total={totalPages} current={page} setPage={setPage} /></div>
