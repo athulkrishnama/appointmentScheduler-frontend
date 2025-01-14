@@ -41,7 +41,6 @@ instance.interceptors.response.use(
     console.log(error);
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      console.log("refreshing token");
       try {
         const response = await instance.get(`${BASE_URL}/auth/refresh-token`);
         const newAccessToken = response.data.accessToken;
@@ -50,7 +49,6 @@ instance.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return axios(originalRequest);
       } catch (refreshError) {
-        alert("no refresh token")
         store.dispatch(setAccessToken(''));
         store.dispatch(setName(''));
         store.dispatch(setEmail(''));
