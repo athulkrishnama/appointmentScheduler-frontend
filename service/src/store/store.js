@@ -4,9 +4,8 @@ import storage from 'redux-persist/lib/storage';
 import userReducer from './userSlice/userSlice.js';
 
 const persistConfig = {
-  key: 'root',
+  key: 'serviceProvider',
   storage,
-  blacklist: ['user.accessToken'],
 };
 
 const persistedReducer = persistReducer(persistConfig, userReducer);

@@ -1,7 +1,7 @@
 import axios from "axios";
 import BASE_URL from "../constants/baseurl";
 import  store  from '../store/store';
-import { setAccessToken } from '../store/userSlice/userSlice';
+import {setName,setAccessToken,setEmail,setPhoneNumber} from '../store/userSlice/userSlice'
 import { useNavigate } from 'react-router';
 import { toast } from "react-toastify";
 
@@ -50,6 +50,11 @@ instance.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return axios(originalRequest);
       } catch (refreshError) {
+        alert("no refresh token")
+        store.dispatch(setAccessToken(''));
+        store.dispatch(setName(''));
+        store.dispatch(setEmail(''));
+        store.dispatch(setPhoneNumber(''));
         window.location.href = '/login';
       }
     }

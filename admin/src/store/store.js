@@ -6,9 +6,8 @@ import requestReducer from './requestSlice/requestSlice';
 import clientsReducer from './cliientSlice/clientSlic';
 
 const persistConfig = {
-  key: 'root',
+  key: 'admin',
   storage,
-  blacklist: ['user.accessToken'],
 };
 
 const persistedReducer = persistReducer(persistConfig, userReducer);
