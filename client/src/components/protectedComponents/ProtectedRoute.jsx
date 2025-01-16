@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router';
 const ProtectedLogin = ({ children }) => {
     const navigate = useNavigate();
     const accessToken = useSelector((state) => state.user.accessToken);
-    console.log("accestoken", accessToken)
     React.useEffect(() => {
         if (!accessToken) {
             navigate('/login');
