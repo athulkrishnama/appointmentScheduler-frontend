@@ -13,6 +13,7 @@ function Header() {
     dispatch(setName(''));
     dispatch(setEmail(''));
     dispatch(setPhoneNumber(''));
+    window.location.href = '/login';
     // Additional logout logic if needed
   };
 

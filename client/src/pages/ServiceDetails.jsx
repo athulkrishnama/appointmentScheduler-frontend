@@ -3,6 +3,8 @@ import { useParams , useNavigate} from 'react-router'
 import axios from '../axios/axios'
 import { toast } from 'react-toastify'
 import {motion} from 'framer-motion'
+import store from '../store/store'
+import QuotationForm from '../components/serviceDetails/QuotationForm'
 
 function ServiceDatails() {
   const [service, setService] = useState({})
@@ -38,6 +40,12 @@ function ServiceDatails() {
         <h4>Provided  By: </h4>
         <img src={service.serviceProvider?.serviceDetails?.logo} className='h-8 rounded-lg' alt="" />
         <p>{service.serviceProvider?.fullname}</p>
+      </div>
+      <div className=" bg-slate-100 rounded-3xl shadow-lg shadow-neutral-300 p-5">
+        <h5 className='text-3xl text-gray-700 font-bold text-center'>Request a Quote</h5>
+        {
+          store.getState().user?.email ? <QuotationForm service={service} /> : <h3 className='text-center text-lg text-gray-500 mt-10'>Please login to request a quote</h3>
+        }
       </div>
     </motion.div>
   )
