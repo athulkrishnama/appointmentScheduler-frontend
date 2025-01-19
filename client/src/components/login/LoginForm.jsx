@@ -61,7 +61,7 @@ function LoginForm({ setIsForgetPassword }) {
       console.log(decodedData);
       const { email} = decodedData;
       const response = await axios.post("/auth/login", {
-        email, role:'client'
+        email, role:'client', googleId:true
       });
       if (response.status === 200) {
         const { accessToken, user } = response.data;
