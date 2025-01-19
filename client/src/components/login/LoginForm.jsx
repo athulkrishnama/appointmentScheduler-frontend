@@ -61,7 +61,7 @@ function LoginForm({ setIsForgetPassword }) {
       console.log(decodedData);
       const { email} = decodedData;
       const response = await axios.post("/auth/login", {
-        email, role:'client'
+        email, role:'client', googleId:true
       });
       if (response.status === 200) {
         const { accessToken, user } = response.data;
@@ -93,7 +93,8 @@ function LoginForm({ setIsForgetPassword }) {
     <motion.div
     initial={{ opacity: 0, scale: 0 }}
     animate={{ opacity: 1, scale: 1 }}
-    exit={{}}
+    exit={{y:300, scale: 0}}
+    key="loginForm"
     className="bg-white px-20 py-10 rounded-3xl shadow-2xl w-[90vw] md:w-[30vw]">
       <h1 className="text-center font-black text-blue-700 text-3xl">Login</h1>
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
