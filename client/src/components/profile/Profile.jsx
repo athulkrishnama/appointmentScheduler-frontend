@@ -11,12 +11,17 @@ import AddAddress from "../address/AddAddress";
 import { toast } from "react-toastify";
 import { MdModeEditOutline } from "react-icons/md";
 import UpdateProfile from "./UpdateProfile";
+import { TbPasswordUser } from "react-icons/tb";
+import UpdatePassword from "./UpdatePassword";
 function Profile() {
   const [user, setUser] = useState({});
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
   const [addresses, setAddresses] = useState([]);
   const [isUpdateProfileModalOpen, setIsUpdateProfileModalOpen] =
     useState(false);
+  const [isGoogleLogin, setIsGoogleLogin] = useState(false);
+  const [isUpdatePasswordModalOpen, setIsUpdatePasswordModalOpen] = useState(false);
+
 
   const dispatch = useDispatch();
 
@@ -29,6 +34,7 @@ function Profile() {
       dispatch(setName(res.data.user.fullname));
       dispatch(setEmail(res.data.user.email));
       dispatch(setPhoneNumber(res.data.user.phone));
+      setIsGoogleLogin(res.data.user.googleId);
     } catch (error) {
       console.log(error);
     }
@@ -68,42 +74,68 @@ function Profile() {
     }
   };
 
+  const onUpdatePasswordClose = ()=>{
+    setIsUpdatePasswordModalOpen(false)
+  }
+
+  const handleUpdatePassword = async(values)=>{
+    try {
+      console.log(values)
+      const response = await axios.patch("/auth/updatePassword", {currentPassword:values.currentPassword,newPassword:values.newPassword});
+      toast.success(response.data.message);
+      setIsUpdatePasswordModalOpen(false);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  }
+
   useEffect(() => {
     fetchUser();
   }, []);
   return (
     <div className="flex justify-center items-center h-[80vh]">
       <div className="bg-white p-8 rounded-3xl shadow-2xl">
-        <h2 className="text-xl font-bold mb-4 text-center">User Profile</h2>
+        <h2 className="text-3xl font-black mb-4 text-center">User Profile</h2>
         <div className="flex w-[90vw] md:w-[40vw] max-h-[50vh] overflow-y-auto items-center flex-col md:flex-row">
           <div className="flex flex-col w-full items-start">
-            <table className=" ">
-              <tbody>
-                <tr>
-                  <td className="text-leftpx-4 py-2  font-semibold">Name:</td>
-                  <td className="px-4 py-2">{user.fullname}</td>
-                </tr>
-                <tr>
-                  <td className="text-leftpx-4 py-2  font-semibold">Email:</td>
-                  <td className="px-4 py-2">{user.email}</td>
-                </tr>
-                <tr>
-                  <td className="text-leftpx-4 py-2  font-semibold">
-                    Phone Number:
-                  </td>
-                  <td className="px-4 py-2">
-                    {user.phone || "no phone number"}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <button
-              onClick={() => setIsUpdateProfileModalOpen(true)}
-              className="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded mt-4 flex items-center gap-2"
-            >
-              <MdModeEditOutline />
-              Update Profile
-            </button>
+            <div className="bg-gray-50  p-5 rounded-lg shadow-md w-full">
+              <table >
+                <tbody>
+                  <tr>
+                    <td className="text-leftpx-4 py-2  font-semibold">Name:</td>
+                    <td className="px-4 py-2">{user.fullname}</td>
+                  </tr>
+                  <tr>
+                    <td className="text-leftpx-4 py-2  font-semibold">Email:</td>
+                    <td className="px-4 py-2">{user.email}</td>
+                  </tr>
+                  <tr>
+                    <td className="text-leftpx-4 py-2  font-semibold">
+                      Phone Number:
+                    </td>
+                    <td className="px-4 py-2">
+                      {user.phone || "no phone number"}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="flex justify-between w-full">
+              <button
+                onClick={() => setIsUpdateProfileModalOpen(true)}
+                className="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded mt-4 flex items-center gap-2"
+              >
+                <MdModeEditOutline />
+                Update Profile
+              </button>
+              {!isGoogleLogin && <button 
+                className="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded mt-4 flex items-center gap-2 "
+                onClick={()=>setIsUpdatePasswordModalOpen(true)}
+              >
+                <TbPasswordUser />
+                Change Password
+              </button>}
+            </div>
           </div>
           <div className="flex flex-col  items-end w-full">
             <button
@@ -130,6 +162,13 @@ function Profile() {
           data={{ fullname: user.fullname, phone: user.phone }}
         />
       )}
+      {
+        isUpdatePasswordModalOpen && 
+        <UpdatePassword
+          onClose={onUpdatePasswordClose}
+          handleSubmit={handleUpdatePassword}
+        />
+      }
     </div>
   );
 }
