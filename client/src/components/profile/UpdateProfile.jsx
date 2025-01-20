@@ -10,6 +10,10 @@ function UpdateProfile({ onClose, handleSubmit , data}) {
         phone: data.phone
     }
 
+    const phoneCheck = (phone) => {
+        const phoneRegex = /^(\d)\1+$/;
+        return !phoneRegex.test(phone);
+    }
     const validationSchema = Yup.object({
         fullname: Yup.string()
             .required("Name is required")
@@ -18,7 +22,8 @@ function UpdateProfile({ onClose, handleSubmit , data}) {
         phone: Yup.string()
             .required("Phone Number is required")
             .min(10, "Phone Number must be at least 10 characters long")
-            .max(10, "Phone Number must be at most 10 characters long"),
+            .max(10, "Phone Number must be at most 10 characters long")
+            .test('phonecheck', 'Phone Number is not valid',phoneCheck ),
     })
   return (
     <div className="fixed top-0 right-0 bg-black bg-opacity-50 w-screen h-screen flex justify-center items-center">
