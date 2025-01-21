@@ -4,9 +4,9 @@ import { motion, AnimatePresence } from "framer-motion";
 function FormTextInput({ touched, error, label, name, classes,inputClasses, ...props }) {
   const classNames = (props.type == 'file' ? "rounded-md px-2 py-1" : "border border-gray-400 rounded-md px-2 py-1") + " " + inputClasses
   return (
-    <div className="flex flex-col  min-h-20">
+    <div className="flex flex-col  min-h-20 w-full  p-2">
       <label htmlFor={name}>{label}</label>
-      <Field name={name} {...props} className={classNames}/>
+      <Field name={name} {...props} className={`${classNames} focus:outline-gray-400`}/>
       <AnimatePresence>
         {touched && error && <AnimatedErrorMessage classess={classes}>{error}</AnimatedErrorMessage>}
       </AnimatePresence>
