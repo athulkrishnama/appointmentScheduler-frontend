@@ -8,6 +8,7 @@ import ScheduledServices from "./pages/ScheduledServices";
 import ServiceHistory from './pages/ServiceHistory';
 import Reviews from './pages/Reviews'
 import Coupons from './pages/Coupons'
+import Profile from './pages/Profile'
 import store from "./store/store";
 import Layout from "./components/layout/Layout";
 import { Provider } from "react-redux";
@@ -30,6 +31,7 @@ function App() {
             <Route path="/service-history" element={<ProtectedRoute><ServiceHistory /></ProtectedRoute>}/>
             <Route path='/reviews' element={<ProtectedRoute><Reviews /></ProtectedRoute>} />
             <Route path='/coupons' element={<ProtectedRoute><Coupons /></ProtectedRoute>} />
+            <Route path='/profile' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           </Route>
         </Routes>
       </Router>
