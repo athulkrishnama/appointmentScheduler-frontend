@@ -21,6 +21,7 @@ function Header() {
     { linktext: "Schedule Services", link: "schedule-services" },
     { linktext: "Service History", link: "service-history" },
     { linktext: "Reviews", link: "reviews" },
+    { linktext: "Profile", link: "profile" },
   ];
 
   const handleLogout = () => {
@@ -38,7 +39,11 @@ function Header() {
       <motion.img src={logo} className="h-20" alt="logo" />
       <div className="flex gap-3 items-center ">
         {links.map(({ linktext, link }) => (
-          <Link to={link} className="hover:text-gray-600 text-lg font-medium">
+          <Link
+            key={link}
+            to={link}
+            className="hover:text-gray-600 text-lg font-medium"
+          >
             {linktext}
           </Link>
         ))}
