@@ -92,6 +92,10 @@ function Info({ user, setUser }) {
               <td className="w-1/2">{user?.email}</td>
             </tr>
             <tr className="">
+              <th className="w-1/2">Phone:</th>
+              <td className="w-1/2">{user?.phone}</td>
+            </tr>
+            <tr className="">
               <th className="w-1/2 align-top">Description:</th>
               <td className="w-1/2 text-justify">
                 {user?.serviceDetails?.description}
