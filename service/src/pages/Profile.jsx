@@ -1,10 +1,9 @@
 import React from 'react'
+import ProfileDetails from '../components/profile/ProfileDetails'
 
 function Profile() {
   return (
-    <div>
-      This is profile page
-    </div>
+    <ProfileDetails/>
   )
 }
 
