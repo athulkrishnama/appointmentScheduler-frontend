@@ -4,11 +4,12 @@ import { motion } from "framer-motion";
 import Cropper from "../cropper/crop";
 import { toast } from "react-toastify";
 import ReactLoading from "react-loading";
+import UpdateProfileModal from "./UpdateProfileModal";
 function Info({ user, setUser }) {
   const inputRef = useRef(null);
   const [isCropperOpen, setIsCropperOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+    const [isUpdateProfileModalOpen, setIsUpdateProfileModalOpen] = useState(false);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     const validFileTypes = ["image/jpeg", "image/png", "image/jpg"];
@@ -41,6 +42,15 @@ function Info({ user, setUser }) {
       setIsLoading(false);
     }
   };
+
+  const handleUpdateProfile =async (user) => {
+    try {
+      setUser(user);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <motion.div
       key="info"
@@ -104,7 +114,7 @@ function Info({ user, setUser }) {
           </tbody>
         </table>
         <div className="flex gap-3">
-          <button className="bg-gray-800 text-white px-3 py-2 rounded-lg mt-2 font-bold hover:bg-gray-700">
+          <button className="bg-gray-800 text-white px-3 py-2 rounded-lg mt-2 font-bold hover:bg-gray-700" onClick={()=>setIsUpdateProfileModalOpen(true)}>
             Update Profile
           </button>
           <button className="bg-gray-800 text-white px-3 py-2 rounded-lg mt-2 font-bold hover:bg-gray-700">
@@ -112,6 +122,7 @@ function Info({ user, setUser }) {
           </button>
         </div>
       </div>
+      {isUpdateProfileModalOpen && <UpdateProfileModal onClose={() => setIsUpdateProfileModalOpen(false)} handleUpdateProfile={handleUpdateProfile} data={user}/>}
     </motion.div>
   );
 }
