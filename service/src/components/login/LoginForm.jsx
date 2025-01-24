@@ -14,7 +14,7 @@ import {
   setPhoneNumber,
 } from "../../store/userSlice/userSlice";
 import FormTextInput from "../form/FormTextInput";
-function LoginForm() {
+function LoginForm({setIsForgetPassword}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -55,10 +55,8 @@ function LoginForm() {
     }
   };
   return (
-    <>
+  
       <motion.div
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: 1, scale: 1 }}
         className="bg-white px-20 py-10 rounded-3xl shadow-2xl w-[90vw] md:w-[30vw]"
       >
         <h1 className="text-3xl font-black text-blue-700 text-center">Service Provider Login</h1>
@@ -88,7 +86,10 @@ function LoginForm() {
               >
                 Login
               </button>
-              <p>Don't have an account?<span className="text-blue-700 hover:cursor-pointer" onClick={() => navigate("/signup")}>signup</span></p>
+              <div className="flex justify-between">
+                <p>Don't have an account?<span className="text-blue-700 hover:cursor-pointer" onClick={() => navigate("/signup")}>signup</span></p>
+                <p className="text-blue-700 hover:cursor-pointer" onClick={() => setIsForgetPassword(true)}>forgetpassword</p>
+              </div>
               <div className="h-12 flex justify-center">
                 {isSubmitting && <ReactLoading type="bars" color="#3b82f6" />}
               </div>
@@ -96,7 +97,7 @@ function LoginForm() {
           )}
         </Formik>
       </motion.div>
-    </>
+    
   );
 }
 
