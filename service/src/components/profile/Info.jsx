@@ -5,11 +5,15 @@ import Cropper from "../cropper/crop";
 import { toast } from "react-toastify";
 import ReactLoading from "react-loading";
 import UpdateProfileModal from "./UpdateProfileModal";
+import PasswordChangeModal from './PasswordChangeModal'; // Import the PasswordChangeModal from "./PasswordChangeModal";'
 function Info({ user, setUser }) {
   const inputRef = useRef(null);
   const [isCropperOpen, setIsCropperOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-    const [isUpdateProfileModalOpen, setIsUpdateProfileModalOpen] = useState(false);
+  const [isUpdateProfileModalOpen, setIsUpdateProfileModalOpen] =
+    useState(false);
+  const [isPasswordChangeModalOpen, setIsPasswordChangeModalOpen] = useState(false);
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     const validFileTypes = ["image/jpeg", "image/png", "image/jpg"];
@@ -43,20 +47,20 @@ function Info({ user, setUser }) {
     }
   };
 
-  const handleUpdateProfile =async (user) => {
+  const handleUpdateProfile = async (user) => {
     try {
       setUser(user);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <motion.div
       key="info"
       initial={{ opacity: 0, x: -1000 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.5 }}
+      // transition={{ duration: 0.5 }}
       exit={{ opacity: 0, x: -1000 }}
       className="absolute bg-white w-full h-full mx-2 my-2 rounded-2xl p-5 flex flex-col md:flex-row"
     >
@@ -77,7 +81,7 @@ function Info({ user, setUser }) {
           </button>
         ) : (
           <div className="flex justify-center">
-              <ReactLoading type="bars" color="#000" />
+            <ReactLoading type="bars" color="#000" />
           </div>
         )}
 
@@ -114,15 +118,33 @@ function Info({ user, setUser }) {
           </tbody>
         </table>
         <div className="flex gap-3">
-          <button className="bg-gray-800 text-white px-3 py-2 rounded-lg mt-2 font-bold hover:bg-gray-700" onClick={()=>setIsUpdateProfileModalOpen(true)}>
+          <button
+            className="bg-gray-800 text-white px-3 py-2 rounded-lg mt-2 font-bold hover:bg-gray-700"
+            onClick={() => setIsUpdateProfileModalOpen(true)}
+          >
             Update Profile
           </button>
-          <button className="bg-gray-800 text-white px-3 py-2 rounded-lg mt-2 font-bold hover:bg-gray-700">
+          <button 
+          className="bg-gray-800 text-white px-3 py-2 rounded-lg mt-2 font-bold hover:bg-gray-700"
+            onClick={() => setIsPasswordChangeModalOpen(true)}>
             Change Password
           </button>
         </div>
       </div>
-      {isUpdateProfileModalOpen && <UpdateProfileModal onClose={() => setIsUpdateProfileModalOpen(false)} handleUpdateProfile={handleUpdateProfile} data={user}/>}
+      {isUpdateProfileModalOpen && (
+        <UpdateProfileModal
+          onClose={() => setIsUpdateProfileModalOpen(false)}
+          handleUpdateProfile={handleUpdateProfile}
+          data={user}
+        />
+      )}
+      {
+        isPasswordChangeModalOpen && (
+          <PasswordChangeModal
+            onClose={() => setIsPasswordChangeModalOpen(false)}
+          />
+        )
+      }
     </motion.div>
   );
 }
