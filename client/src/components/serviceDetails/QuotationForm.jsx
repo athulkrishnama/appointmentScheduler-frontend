@@ -99,7 +99,7 @@ function QuotationForm({ service }) {
         service: service._id,
       };
       const response = await axios.post("/client/serviceRequest", data);
-      toast.success(response.data.message, {autoClose:1000,onClose:()=>navigate('/quotes')});
+      toast.success(response.data.message, {autoClose:1000,onClose:()=>navigate('/serviceRequests')});
     } catch (err) {
       console.log(err);
       toast.error(err.response.data.message);
