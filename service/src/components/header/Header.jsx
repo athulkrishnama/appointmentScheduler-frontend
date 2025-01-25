@@ -17,7 +17,7 @@ function Header() {
     { linktext: "Dashboard", link: "" },
     { linktext: "Service Management", link: "serviceManagement" },
     { linktext: "Coupons", link: "coupons" },
-    { linktext: "Quotations", link: "quotations" },
+    { linktext: "Service Requests", link: "serviceRequests" },
     { linktext: "Schedule Services", link: "schedule-services" },
     { linktext: "Service History", link: "service-history" },
     { linktext: "Reviews", link: "reviews" },
