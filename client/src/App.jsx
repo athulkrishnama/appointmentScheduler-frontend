@@ -26,7 +26,7 @@ const App = () => {
                     <Route path="/" element={<Layout/>} >
                         <Route index element={<Home/>} />
                         <Route path="/services" element={<Services/>} />
-                        <Route path="/quotes" element={<ProtectedRoute><Quotes/></ProtectedRoute>} />
+                        <Route path="/serviceRequests" element={<ProtectedRoute><Quotes/></ProtectedRoute>} />
                         <Route path="/yourServices" element={<ProtectedRoute><YourServices/></ProtectedRoute>} />
                         <Route path="/history" element={<ProtectedRoute><History/></ProtectedRoute>} />
                         <Route path="/recurringServices" element={<ProtectedRoute><RecurringServices/></ProtectedRoute>} />
