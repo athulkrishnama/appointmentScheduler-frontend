@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import DatePicker from "react-tailwindcss-datepicker";
@@ -18,6 +19,8 @@ function QuotationForm({ service }) {
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
   const [isEditAddressModalOpen, setIsEditAddressModalOpen] = useState(false);
   const [addressToEdit, setAddressToEdit] = useState(null);
+
+  const navigate = useNavigate();
   const fetchAddresses = async () => {
     const response = await axios.get("/client/getAddresses");
     console.log(response.data.addresses);
@@ -93,9 +96,10 @@ function QuotationForm({ service }) {
         additionalNotes: values.additionalNotes,
         additionalDetails: details,
         address: selectedAddress,
+        service: service._id,
       };
       const response = await axios.post("/client/serviceRequest", data);
-      console.log(response);
+      toast.success(response.data.message, {autoClose:1000,onClose:()=>navigate('/quotes')});
     } catch (err) {
       console.log(err);
       toast.error(err.response.data.message);
