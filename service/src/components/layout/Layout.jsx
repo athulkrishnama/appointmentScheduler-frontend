@@ -4,7 +4,7 @@ import Header from '../header/Header';
 
 function Layout() {
   return (
-    <div>
+    <div className='flex flex-col h-screen'>
       <Header />
       <Outlet />
     </div>
