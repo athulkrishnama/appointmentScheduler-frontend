@@ -40,7 +40,7 @@ function Header() {
             </Link>
           </li>
           <li>
-            <Link to="/quotes" className="hover:text-gray-600 text-lg font-medium">
+            <Link to="/serviceRequests" className="hover:text-gray-600 text-lg font-medium">
               Quotes
             </Link>
           </li>
