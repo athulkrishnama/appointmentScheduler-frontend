@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ServiceManagement from "./pages/ServiceManagement";
-import Quotations from "./pages/Quotations";
+import ServiceRequests from "./pages/ServiceRequests";
 import ScheduledServices from "./pages/ScheduledServices";
 import ServiceHistory from './pages/ServiceHistory';
 import Reviews from './pages/Reviews'
@@ -26,7 +26,7 @@ function App() {
             <Route index element={<ProtectedRoute><Home /></ProtectedRoute> } />
             <Route path="/serviceManagement" element={<ProtectedRoute><ServiceManagement /></ProtectedRoute>} />
             <Route path="/coupons" element={<h1>This is coupons page</h1>} />
-            <Route path="/quotations" element={<ProtectedRoute><Quotations /></ProtectedRoute>} />
+            <Route path="/serviceRequests" element={<ProtectedRoute><ServiceRequests /></ProtectedRoute>} />
             <Route path="/schedule-services" element={<ProtectedRoute><ScheduledServices /></ProtectedRoute>} />
             <Route path="/service-history" element={<ProtectedRoute><ServiceHistory /></ProtectedRoute>}/>
             <Route path='/reviews' element={<ProtectedRoute><Reviews /></ProtectedRoute>} />
