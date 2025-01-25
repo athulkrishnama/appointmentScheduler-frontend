@@ -1,10 +1,8 @@
 import React from 'react'
-
+import ListRequests from '../components/serviceRequests/ListRequests'
 function Quotations() {
   return (
-    <div>
-      This is quotations page
-    </div>
+    <ListRequests />
   )
 }
 
