@@ -2,11 +2,16 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "../../axios/axios";
 import Pagination from "../pagination/Pagination";
+import { useNavigate } from "react-router";
 function ListQuotations() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [quotations, setQuotations] = useState([]);
+
   const limit = 5;
+
+  const navigate = useNavigate();
+
   const fetchQuotations = async () => {
     try {
       const response = await axios.get(
@@ -63,6 +68,7 @@ function ListQuotations() {
                   animate={{ scale: 1 }}
                   whileTap={{ scale: 0.95 }}
                   className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={() => navigate(`/serviceRequestDetails/${quotation._id}`)}
                 >
                   View Details
                 </motion.button>
