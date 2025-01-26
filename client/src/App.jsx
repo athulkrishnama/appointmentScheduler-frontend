@@ -15,6 +15,7 @@ import Profile from './pages/Profile'
 import ServiceDetails from './pages/ServiceDetails'
 import ProtectedRoute from './components/protectedComponents/ProtectedRoute'
 import {ToastContainer,} from 'react-toastify'
+import ServiceRequestChat from './pages/ServiceRequestChat'
 
 const App = () => {
     return (
@@ -32,6 +33,7 @@ const App = () => {
                         <Route path="/recurringServices" element={<ProtectedRoute><RecurringServices/></ProtectedRoute>} />
                         <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />
                         <Route path="/serviceDetails/:id" element={<ServiceDetails/>} />
+                        <Route path="/serviceRequestDetails/:id" element={<ProtectedRoute><ServiceRequestChat/></ProtectedRoute>} />
                     </Route>
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
