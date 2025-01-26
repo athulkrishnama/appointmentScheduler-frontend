@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaDollarSign } from 'react-icons/fa';
 
 function Quotation({ message }) {
   const { amountBreakdown } = message.message;
@@ -25,8 +24,7 @@ function Quotation({ message }) {
             <tr key={index} className='border-b hover:bg-gray-100'>
               <td className='p-2'>{item.description}</td>
               <td className='p-2 flex items-center'>
-              ₹
-                {item.amount.toFixed(2)}
+                ₹ {item.amount.toFixed(2)}
               </td>
             </tr>
           ))}
