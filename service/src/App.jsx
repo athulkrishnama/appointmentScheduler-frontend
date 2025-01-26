@@ -9,6 +9,7 @@ import ServiceHistory from './pages/ServiceHistory';
 import Reviews from './pages/Reviews'
 import Coupons from './pages/Coupons'
 import Profile from './pages/Profile'
+import ServiceRequestDetails from './pages/ServiceRequestDetails'
 import store from "./store/store";
 import Layout from "./components/layout/Layout";
 import { Provider } from "react-redux";
@@ -32,6 +33,7 @@ function App() {
             <Route path='/reviews' element={<ProtectedRoute><Reviews /></ProtectedRoute>} />
             <Route path='/coupons' element={<ProtectedRoute><Coupons /></ProtectedRoute>} />
             <Route path='/profile' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path='/service-request-details/:id' element={<ProtectedRoute><ServiceRequestDetails /></ProtectedRoute>} />
           </Route>
         </Routes>
       </Router>
