@@ -10,3 +10,14 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
   -moz-appearance: textfield; /* For Firefox */
 }
+
+/* For most modern browsers */
+html, body, .quotation {
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  overflow: auto; /* Ensure scrolling functionality */
+}
+
+html::-webkit-scrollbar, body::-webkit-scrollbar div::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Edge */
+}
