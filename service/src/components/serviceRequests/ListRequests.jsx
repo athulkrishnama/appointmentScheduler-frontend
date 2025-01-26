@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from '../../axios/axios';
 import Pagination from '../pagination/Pagination';
-
+import { useNavigate } from 'react-router';
 function ListRequests() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [serviceRequests, setServiceRequests] = useState([]);
+
+  const navigate = useNavigate();
+
   const limit = 3;
 
   const fetchServiceRequests = async () => {
@@ -65,7 +68,7 @@ function ListRequests() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="bg-black text-white px-4 py-2 rounded-md"
-                  onClick={() => console.log(`View details of ${request.service?.serviceName}`)}
+                  onClick={() => navigate(`/service-request-details/${request._id}`)}
                 >
                   View Details
                 </motion.button>
