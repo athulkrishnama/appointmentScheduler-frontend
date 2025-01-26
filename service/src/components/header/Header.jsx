@@ -32,7 +32,7 @@ function Header() {
   };
   return (
     <motion.nav
-      className="px-10 py-1 shadow-2xl rounded-3xl bg-white z-10 flex justify-between"
+      className="px-10 py-1 shadow-2xl rounded-3xl bg-white z-10 flex justify-between sticky top-0 left-0 right-0 w-full"
       initial={{ opacity: 0, y: -100 }}
       animate={{ opacity: 1, y: 0 }}
     >
