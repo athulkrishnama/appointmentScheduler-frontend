@@ -18,7 +18,7 @@ function Header() {
     { linktext: "Service Management", link: "serviceManagement" },
     { linktext: "Coupons", link: "coupons" },
     { linktext: "Service Requests", link: "serviceRequests" },
-    { linktext: "Schedule Services", link: "schedule-services" },
+    { linktext: "Scheduled Appointments", link: "scheduledAppointments" },
     { linktext: "Service History", link: "service-history" },
     { linktext: "Reviews", link: "reviews" },
     { linktext: "Profile", link: "profile" },
