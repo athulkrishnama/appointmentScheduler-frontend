@@ -35,7 +35,7 @@ function ListQuotations() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 4 }}
+        transition={{ duration: 0.2 }}
         className="w-full mt-5"
       >
         <thead className="bg-gray-200">
