@@ -40,7 +40,7 @@ function QuotationForm({ service }) {
   }, []);
 
   const endDateCheck = (value) => {
-    if (value < formik.values.date) {
+    if (value < formik.values.date && formik.values.serviceFrequency !== serviceFrequency.once) {
       return false;
     }
     return true;
