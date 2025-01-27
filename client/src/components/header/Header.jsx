@@ -19,7 +19,7 @@ function Header() {
 
   return (
     <motion.header 
-      className="bg-white text-black p-4 flex flex-col md:flex-row justify-between items-center shadow-md mb-5"
+      className="bg-white text-black p-4 flex flex-col md:flex-row justify-between items-center shadow-md mb-5 sticky top-0 left-0 right-0 z-50 w-full"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -41,12 +41,12 @@ function Header() {
           </li>
           <li>
             <Link to="/serviceRequests" className="hover:text-gray-600 text-lg font-medium">
-              Quotes
+              Service Requests
             </Link>
           </li>
           <li>
-            <Link to="/yourServices" className="hover:text-gray-600 text-lg font-medium">
-              Your Services
+            <Link to="/yourAppointments" className="hover:text-gray-600 text-lg font-medium">
+              Your Appointments
             </Link>
           </li>
           <li>

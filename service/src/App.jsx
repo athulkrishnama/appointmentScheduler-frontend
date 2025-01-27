@@ -4,7 +4,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ServiceManagement from "./pages/ServiceManagement";
 import ServiceRequests from "./pages/ServiceRequests";
-import ScheduledServices from "./pages/ScheduledServices";
+import ScheduledAppointments from "./pages/ScheduledAppointments";
 import ServiceHistory from './pages/ServiceHistory';
 import Reviews from './pages/Reviews'
 import Coupons from './pages/Coupons'
@@ -28,7 +28,7 @@ function App() {
             <Route path="/serviceManagement" element={<ProtectedRoute><ServiceManagement /></ProtectedRoute>} />
             <Route path="/coupons" element={<h1>This is coupons page</h1>} />
             <Route path="/serviceRequests" element={<ProtectedRoute><ServiceRequests /></ProtectedRoute>} />
-            <Route path="/schedule-services" element={<ProtectedRoute><ScheduledServices /></ProtectedRoute>} />
+            <Route path="/scheduledAppointments" element={<ProtectedRoute><ScheduledAppointments /></ProtectedRoute>} />
             <Route path="/service-history" element={<ProtectedRoute><ServiceHistory /></ProtectedRoute>}/>
             <Route path='/reviews' element={<ProtectedRoute><Reviews /></ProtectedRoute>} />
             <Route path='/coupons' element={<ProtectedRoute><Coupons /></ProtectedRoute>} />

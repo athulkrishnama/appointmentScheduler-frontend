@@ -18,7 +18,7 @@ function Header() {
     { linktext: "Service Management", link: "serviceManagement" },
     { linktext: "Coupons", link: "coupons" },
     { linktext: "Service Requests", link: "serviceRequests" },
-    { linktext: "Schedule Services", link: "schedule-services" },
+    { linktext: "Scheduled Appointments", link: "scheduledAppointments" },
     { linktext: "Service History", link: "service-history" },
     { linktext: "Reviews", link: "reviews" },
     { linktext: "Profile", link: "profile" },
@@ -32,7 +32,7 @@ function Header() {
   };
   return (
     <motion.nav
-      className="px-10 py-1 shadow-2xl rounded-3xl bg-white z-10 flex justify-between"
+      className="px-10 py-1 shadow-2xl rounded-3xl bg-white z-10 flex justify-between sticky top-0 left-0 right-0 w-full"
       initial={{ opacity: 0, y: -100 }}
       animate={{ opacity: 1, y: 0 }}
     >

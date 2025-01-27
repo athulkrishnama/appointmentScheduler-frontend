@@ -2,11 +2,16 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "../../axios/axios";
 import Pagination from "../pagination/Pagination";
+import { useNavigate } from "react-router";
 function ListQuotations() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [quotations, setQuotations] = useState([]);
+
   const limit = 5;
+
+  const navigate = useNavigate();
+
   const fetchQuotations = async () => {
     try {
       const response = await axios.get(
@@ -30,9 +35,30 @@ function ListQuotations() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 4 }}
+        transition={{ duration: 0.2 }}
         className="w-full mt-5"
       >
+        <thead className="bg-gray-200">
+          <tr>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              S.No
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Service
+            </th>
+
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Service Provider
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Date
+            </th>
+            
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Action
+            </th>
+          </tr>
+        </thead>
         <tbody className="divide-y divide-gray-300">
           {quotations.map((quotation, index) => (
             <motion.tr
@@ -54,6 +80,9 @@ function ListQuotations() {
                 {quotation.service.serviceName}
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
+                {quotation.service.serviceProvider?.fullname}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
                 {typeof quotation.date.split("T")[0] === "string" &&
                   quotation.date.split("T")[0]}
               </td>
@@ -63,6 +92,7 @@ function ListQuotations() {
                   animate={{ scale: 1 }}
                   whileTap={{ scale: 0.95 }}
                   className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={() => navigate(`/serviceRequestDetails/${quotation._id}`)}
                 >
                   View Details
                 </motion.button>
