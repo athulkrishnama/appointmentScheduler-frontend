@@ -8,7 +8,7 @@ import Home from './pages/Home'
 import Quotes from './pages/Quotes'
 import Layout from './components/layout/Layout'
 import Services from './pages/Services'
-import YourServices from './pages/YourServices'
+import YourAppointments from './pages/YourAppointments'
 import History from './pages/History'
 import RecurringServices from './pages/RecurringServices'
 import Profile from './pages/Profile'
@@ -28,7 +28,7 @@ const App = () => {
                         <Route index element={<Home/>} />
                         <Route path="/services" element={<Services/>} />
                         <Route path="/serviceRequests" element={<ProtectedRoute><Quotes/></ProtectedRoute>} />
-                        <Route path="/yourServices" element={<ProtectedRoute><YourServices/></ProtectedRoute>} />
+                        <Route path="/yourAppointments" element={<ProtectedRoute><YourAppointments/></ProtectedRoute>} />
                         <Route path="/history" element={<ProtectedRoute><History/></ProtectedRoute>} />
                         <Route path="/recurringServices" element={<ProtectedRoute><RecurringServices/></ProtectedRoute>} />
                         <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />
