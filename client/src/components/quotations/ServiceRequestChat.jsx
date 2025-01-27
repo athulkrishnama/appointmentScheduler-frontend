@@ -52,13 +52,13 @@ function ServiceRequestChat() {
       <ServiceRequestDetails serviceRequest={serviceRequest} />
       <div className='flex flex-col gap-5'>
         <AnimatePresence>
-          {chat?.map((message, index) => (
+          {chat?.map((message, index,arr) => (
             <motion.div
               key={message._id}
               initial={{ opacity: 0, x: -20 * (index % 2 ? -1 : 1) }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 * (index % 2 ? -1 : 1) }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 0.5, delay: (arr.length - 1 - index) * 0.1 }}
               className={`flex ${message.sender === 'service provider' ? 'justify-start' : 'justify-end'}`}
             >
               <div className='w-[70%]'>

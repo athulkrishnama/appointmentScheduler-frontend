@@ -80,13 +80,13 @@ function ServiceRequestChat({ requestId }) {
             <ServiceRequestDetails serviceRequest={serviceRequest} />
             <div className='flex flex-col gap-5'>
                 <AnimatePresence>
-                    {chat?.map((message, index) => (
+                    {chat?.map((message, index, array) => (
                         <motion.div 
                             key={message._id} 
                             initial={{ opacity: 0, y: 20 }} 
                             animate={{ opacity: 1, y: 0 }} 
                             exit={{ opacity: 0, y: 20 }} 
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            transition={{ duration: 0.5, delay: (array - index) * 0.1 }}
                             className={`flex ${message.sender === 'service provider' ? 'justify-end' : 'justify-start'}`}>
                             <div className='w-[70%]'>
                                 {message.messageType === "text" && <Message message={message} />}
