@@ -38,6 +38,27 @@ function ListQuotations() {
         transition={{ duration: 4 }}
         className="w-full mt-5"
       >
+        <thead className="bg-gray-200">
+          <tr>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              S.No
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Service
+            </th>
+
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Service Provider
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Date
+            </th>
+            
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Action
+            </th>
+          </tr>
+        </thead>
         <tbody className="divide-y divide-gray-300">
           {quotations.map((quotation, index) => (
             <motion.tr
@@ -57,6 +78,9 @@ function ListQuotations() {
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 {quotation.service.serviceName}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                {quotation.service.serviceProvider?.fullname}
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 {typeof quotation.date.split("T")[0] === "string" &&
