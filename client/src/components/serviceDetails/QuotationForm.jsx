@@ -56,6 +56,10 @@ function QuotationForm({ service }) {
         "End Date should be greater than Start Date",
         endDateCheck
       ),
+    additionalNotes: Yup.string()
+      .required("Additional notes are required")
+      .min(20, "Additional notes should be at least 20 characters long")
+      .max(200, "Additional notes should be at most 200 characters long"),
   });
 
   const formatDate = (date) => {
@@ -245,8 +249,10 @@ function QuotationForm({ service }) {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             ></textarea>
-            {formik.errors.endDate && formik.touched.endDate && (
-              <div className="text-red-500">{formik.errors.endDate}</div>
+            {formik.errors.additionalNotes && formik.touched.additionalNotes && (
+              <div className="text-red-500">
+                {formik.errors.additionalNotes}
+              </div>
             )}
           </div>
         </div>
