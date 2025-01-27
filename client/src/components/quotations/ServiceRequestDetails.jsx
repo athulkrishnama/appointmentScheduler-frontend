@@ -46,6 +46,16 @@ function ServiceRequestDetails({ serviceRequest }) {
             variants={animationVariants}
             initial="hidden"
             animate="visible"
+            transition={{ delay: 0.2 }}
+            className='border-b'
+          >
+            <td className='p-2 font-semibold'>Service Provider :</td>
+            <td className='p-2'>{serviceRequest.service.serviceProvider.fullname}</td>
+          </motion.tr>
+          <motion.tr 
+            variants={animationVariants}
+            initial="hidden"
+            animate="visible"
             transition={{ delay: 0.3 }}
             className='border-b'
           >
