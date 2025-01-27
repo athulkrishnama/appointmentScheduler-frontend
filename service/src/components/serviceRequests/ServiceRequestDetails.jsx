@@ -52,6 +52,14 @@ function ServiceRequestDetails({ serviceRequest }) {
             <td className="pr-4"><strong>Additional Notes:</strong></td>
             <td>{serviceRequest.additionalNotes}</td>
           </motion.tr>
+          <motion.tr variants={animationVariants} initial="hidden" animate="visible" transition={{ delay: 0.8 }} className="text-lg">
+            <td className="pr-4"><strong>Address:</strong></td>
+            <td>
+              {serviceRequest.address?.fullName}, {serviceRequest.address?.area}, 
+              {serviceRequest.address?.district}, {serviceRequest.address?.state}, 
+              {serviceRequest.address?.pincode}
+            </td>
+          </motion.tr>
         </tbody>
       </table>
       <h2 className="text-xl font-semibold mt-6">Additional Information</h2>
