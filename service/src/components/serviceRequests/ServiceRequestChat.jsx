@@ -7,12 +7,16 @@ import { toast } from 'react-toastify';
 import { motion, AnimatePresence } from 'framer-motion';
 import CreateQuotationModal from './CreateQuotationModal';
 import ChatInput from './ChatInput.jsx';
+import {useNavigate} from 'react-router'
 
 function ServiceRequestChat({ requestId }) {
     const [createQuotationModalOpen, setCreateQuotationModalOpen] = useState(false);
     const [chat, setChat] = useState([]);
     const [serviceRequest, setServiceRequest] = useState({});
+    
     const chatEndRef = useRef(null);
+    
+    const navigate = useNavigate()
 
     const fetchChat = async () => {
         try {
@@ -20,7 +24,8 @@ function ServiceRequestChat({ requestId }) {
             setChat(res.data.chat);
         } catch (error) {
             console.log(error);
-            toast.error(error.response.data.message);
+            // toast.error(error.response.data.message);
+            navigate('/serviceRequests')
         }
     };
     const fetchServiceRequest = async () => {
