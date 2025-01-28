@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from '../../axios/axios';
 import { toast } from 'react-toastify';
 
 function ChatInput({ serviceRequestId, onMessageSent }) {
@@ -7,14 +6,16 @@ function ChatInput({ serviceRequestId, onMessageSent }) {
 
   const handleSendMessage = async () => {
     if (!messageInput.trim()) return;
-    try {
-      const response = await axios.post(`/serviceProvider/textMessage/${serviceRequestId}`, { message: messageInput, sender: "client" });
-      onMessageSent(response.data.chat);
-      setMessageInput('');
-    } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message);
-    }
+    // try {
+    //   const response = await axios.post(`/serviceProvider/textMessage/${serviceRequestId}`, { message: messageInput, sender: "client" });
+    //   onMessageSent(response.data.chat);
+    //   setMessageInput('');
+    // } catch (error) {
+    //   console.log(error);
+    //   toast.error(error.response.data.message);
+    // }
+    onMessageSent(messageInput.trim());
+    setMessageInput('');
   };
 
   return (
