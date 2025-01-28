@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import logo from "../../assets/timelens.png";
-import { Link } from "react-router";
+import { NavLink } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setAccessToken,
@@ -9,6 +9,7 @@ import {
   setEmail,
   setPhoneNumber,
 } from "../../store/userSlice/userSlice";
+
 function Header() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -39,13 +40,19 @@ function Header() {
       <motion.img src={logo} className="h-20" alt="logo" />
       <div className="flex gap-3 items-center ">
         {links.map(({ linktext, link }) => (
-          <Link
+          <NavLink
             key={link}
             to={link}
-            className="hover:text-gray-600 text-lg font-medium"
+            className={({ isActive }) =>
+              `px-4 py-2 rounded-lg transition-all duration-200 text-lg font-medium ${
+                isActive
+                  ? "bg-gray-800 text-white"
+                  : "hover:bg-gray-100 text-gray-700"
+              }`
+            }
           >
             {linktext}
-          </Link>
+          </NavLink>
         ))}
       </div>
       <div className="flex gap-9 items-center">
@@ -60,12 +67,12 @@ function Header() {
             </button>
           </>
         ) : (
-          <Link
+          <NavLink
             to="/login"
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
           >
             Login
-          </Link>
+          </NavLink>
         )}
       </div>
     </motion.nav>

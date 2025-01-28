@@ -1,11 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { motion } from 'framer-motion';
 import { useSelector, useDispatch } from 'react-redux';
 import { setAccessToken, setName, setEmail, setPhoneNumber } from '../../store/userSlice/userSlice';
 import logo from '../../assets/timelens.png';
+import {useLocation} from 'react-router'
 
 function Header() {
+
+  
+
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -16,6 +20,23 @@ function Header() {
     window.location.href = '/login';
     // Additional logout logic if needed
   };
+
+  const location = useLocation();
+
+  const isActive = (link) => {
+    console.log(link, location.pathname, location.pathname === link);
+    return location.pathname === link;
+  };
+
+  const navigationLinks = [
+    { path: '/', label: 'Dashboard' },
+    { path: '/services', label: 'Services' },
+    { path: '/serviceRequests', label: 'Service Requests' },
+    { path: '/yourAppointments', label: 'Your Appointments' },
+    { path: '/history', label: 'History' },
+    { path: '/recurringServices', label: 'Recurring Services' },
+    { path: '/profile', label: 'Profile' }
+  ];
 
   return (
     <motion.header 
@@ -29,41 +50,20 @@ function Header() {
       </div>
       <nav className="navigation flex-grow">
         <ul className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 justify-center ">
-          <li>
-            <Link to="/" className="hover:text-gray-600 text-lg font-medium">
-              Dashboard
-            </Link>
-          </li>
-          <li>
-            <Link to="/services" className="hover:text-gray-600 text-lg font-medium">
-              Services
-            </Link>
-          </li>
-          <li>
-            <Link to="/serviceRequests" className="hover:text-gray-600 text-lg font-medium">
-              Service Requests
-            </Link>
-          </li>
-          <li>
-            <Link to="/yourAppointments" className="hover:text-gray-600 text-lg font-medium">
-              Your Appointments
-            </Link>
-          </li>
-          <li>
-            <Link to="/history" className="hover:text-gray-600 text-lg font-medium">
-              History
-            </Link>
-          </li>
-          <li>
-            <Link to="/recurringServices" className="hover:text-gray-600 text-lg font-medium">
-              Recurring Services
-            </Link>
-          </li>
-          <li>
-            <Link to="/profile" className="hover:text-gray-600 text-lg font-medium">
-              Profile
-            </Link>
-          </li>
+          {navigationLinks.map((link, index) => (
+            <li key={index}>
+              <Link 
+                to={link.path} 
+                className={`px-4 py-2 rounded-full transition-all duration-300 text-lg font-medium ${
+                  isActive(link.path) 
+                    ? 'bg-gray-900 text-white shadow-lg' 
+                    : 'text-gray-800 hover:bg-gray-100'
+                }`}
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
       <div className="ml-auto">
