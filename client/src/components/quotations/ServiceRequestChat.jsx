@@ -27,7 +27,8 @@ function ServiceRequestChat() {
       const res = await axios.get(`/serviceProvider/getChat/${id}`);
       setChat(res.data.chat);
     } catch (error) {
-      navigate('/serviceRequests')
+      navigate('/serviceRequests', { replace: true });
+      // toast.error(error.response.data.message);
       console.log(error);
       // toast.error(error.response.data.message);
     }
@@ -39,7 +40,7 @@ function ServiceRequestChat() {
       setServiceRequest(res.data.serviceRequest);
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      // toast.error(error.response.data.message);
 
     }
   };
