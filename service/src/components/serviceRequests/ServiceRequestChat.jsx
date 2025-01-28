@@ -9,6 +9,8 @@ import CreateQuotationModal from './CreateQuotationModal';
 import ChatInput from './ChatInput.jsx';
 import {useNavigate} from 'react-router'
 
+import socket from '../../services/socket'
+
 function ServiceRequestChat({ requestId }) {
     const [createQuotationModalOpen, setCreateQuotationModalOpen] = useState(false);
     const [chat, setChat] = useState([]);
@@ -44,9 +46,14 @@ function ServiceRequestChat({ requestId }) {
                 toast.error("Add some data");
                 return;
             }
-            const res = await axios.post(`/serviceProvider/createQuotation/${requestId}`, data);
-            toast.success(res.data.message);
-            fetchChat();
+            // const res = await axios.post(`/serviceProvider/createQuotation/${requestId}`, data);
+            socket.emit('quotationCreate', {room:requestId, amountBreakdown:data, sender:"service provider"},(data) => {
+                if(data.success){
+                    setChat([...chat, data.chat]);  
+                }
+            });
+            toast.success("Quotation created");
+            // fetchChat();
             setCreateQuotationModalOpen(false);
         } catch (error) {
             console.log(error);
@@ -62,17 +69,37 @@ function ServiceRequestChat({ requestId }) {
 
     const handleMessageSend = async (message) => {
      try {
-        const response = await axios.post(`/serviceProvider/textMessage/${requestId}`, { message , sender: "service provider" });
-        setChat([...chat, response.data.chat]);
+        // const response = await axios.post(`/serviceProvider/textMessage/${requestId}`, { message , sender: "service provider" });
+        // setChat([...chat, response.data.chat]);
+        socket.emit('sendMessage', {room:requestId, message, sender:'service provider'},(data) => {
+            if(data.success){
+                setChat([...chat, data.chat]);
+            }
+        });
      } catch (error) {
         console.log(error);
         toast.error(error.response.data.message);
      }   
     }
-
     useEffect(() => {
         fetchChat();
         fetchServiceRequest();
+
+        if(!socket.connected) socket.connect();
+
+        socket.emit('joinRoom', {room:requestId, name:'service provider'});
+
+        socket.on('receiveMessage', (message) => {
+            console.log("received message", message)
+            setChat(prev=>[...prev, message]);
+        })
+
+        return () => {
+            socket.off('quotationCreate');
+            socket.off('sendMessage');
+            socket.off('receiveMessage');
+            socket.disconnect({room:requestId});
+        }
     }, []);
 
     useEffect(() => {

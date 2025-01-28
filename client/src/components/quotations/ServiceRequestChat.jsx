@@ -3,11 +3,13 @@ import Message from './Message';
 import Quotation from './Quotation';
 import ServiceRequestDetails from './ServiceRequestDetails';
 import axios from '../../axios/axios';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useParams , useNavigate} from 'react-router';
+import { useParams, useNavigate } from 'react-router';
 import ChatInput from './ChatInput';
 import { MdClose } from 'react-icons/md';
+
+import socket from '../../services/socket'
 
 function ServiceRequestChat() {
   const { id } = useParams();
@@ -42,18 +44,31 @@ function ServiceRequestChat() {
     }
   };
 
-  const handleNewMessage = (newMessage) => {
-    setChat([...chat, newMessage]);
+  const handleNewMessage = (message) => {
+    try {
+      socket.emit('sendMessage', {
+        message: message,
+        room: id,
+        sender: "client"
+      }, (data) => {
+        if(data.success){
+          setChat([...chat, data.chat]);
+        }
+      })
+    } catch (err) {
+      console.log(err);
+    }
+    // setChat([...chat, newMessage]);
   };
 
   const handleAcceptClick = () => {
     setIsModalOpen(true);
   };
 
-  const handleConfirm =async () => {
+  const handleConfirm = async () => {
     try {
       const response = await axios.post(`/serviceProvider/acceptQuotation/${id}`, { quotation: lastQuotation.message._id });
-      toast.success(response.data.message,{onClose: () => navigate('/yourAppointments')});
+      toast.success(response.data.message, {autoClose: 1000, onClose: () => navigate('/yourAppointments') });
       setIsModalOpen(false);
     } catch (error) {
       console.log(error);
@@ -68,6 +83,19 @@ function ServiceRequestChat() {
   useEffect(() => {
     fetchChat();
     fetchServiceRequest();
+    if(!socket.connected)socket.connect();
+    socket.emit("joinRoom", { room: id, name: "client" });
+
+    socket.on('receiveMessage', (data) => {
+      setChat(prev => [...prev, data]);
+    })
+
+    return () => {
+      // socket.emit('disconnect', {room:id})
+      
+      socket.off('receiveMessage');
+      socket.disconnect({ room: id });
+    };
   }, []);
 
   useEffect(() => {
@@ -96,7 +124,7 @@ function ServiceRequestChat() {
                   <>
                     <Quotation message={message} />
                     {lastQuotation?.message?._id === message.message._id && (
-                      <button 
+                      <button
                         className='bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded'
                         onClick={handleAcceptClick}
                       >
@@ -114,7 +142,7 @@ function ServiceRequestChat() {
       <ChatInput serviceRequestId={id} onMessageSent={handleNewMessage} />
 
       {isModalOpen && (
-        <motion.div 
+        <motion.div
           className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center'
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -127,13 +155,13 @@ function ServiceRequestChat() {
             </div>
             <p className='mb-4'>Are you sure you want to confirm? <br />Once confirmed, you will no longer have access to this chat and <br /> cannot request changes to the quotation.</p>
             <div className='flex justify-end gap-3'>
-              <button 
+              <button
                 className='bg-gray-800 text-white py-2 px-4 rounded'
                 onClick={handleConfirm}
               >
                 Confirm
               </button>
-              <button 
+              <button
                 className='bg-gray-300 text-black py-2 px-4 rounded'
                 onClick={handleCancel}
               >
