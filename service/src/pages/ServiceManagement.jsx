@@ -54,7 +54,7 @@ function ServiceManagement() {
         {showCreateService && <CreateService setShowCreateService={setShowCreateService} setServices={setServices} />}
       </div>
         <ListServiceTable services={services} changeStatus={changeStatus} setUpdateData={setUpdateData}/>
-        <Pagination total={totalPages} current={page} setPage={setPage}/>
+        {services.length > 0 ?  <Pagination total={totalPages} current={page} setPage={setPage}/> : <p className='text-center py-4 text-gray-500'>No services available</p>}
     </div>
 
   )

@@ -53,7 +53,7 @@ function ListQuotations() {
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Date
             </th>
-            
+
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Action
             </th>
@@ -101,7 +101,12 @@ function ListQuotations() {
           ))}
         </tbody>
       </motion.table>
-      <Pagination current={page} setPage={setPage} total={totalPages} />
+      {
+        quotations.length === 0 ?
+          <p className='text-gray-500 text-center'>No quotations found</p>
+          :
+          <Pagination current={page} setPage={setPage} total={totalPages} />
+      }
     </div>
   );
 }

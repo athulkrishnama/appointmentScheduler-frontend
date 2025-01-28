@@ -53,7 +53,7 @@ function ServiceRequestChat() {
   const handleConfirm =async () => {
     try {
       const response = await axios.post(`/serviceProvider/acceptQuotation/${id}`, { quotation: lastQuotation.message._id });
-      toast.success(response.data.message,{onClose: () => navigate('/yourServices')});
+      toast.success(response.data.message,{onClose: () => navigate('/yourAppointments')});
       setIsModalOpen(false);
     } catch (error) {
       console.log(error);

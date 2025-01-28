@@ -77,11 +77,16 @@ function ListRequests() {
           ))}
         </tbody>
       </motion.table>
+      {
+        serviceRequests.length === 0 ?
+        <p className='text-gray-500 text-center'>No service requests found</p>
+        :
       <Pagination
-        total={totalPages}
-        current={page}
-        setPage={setPage}
+      total={totalPages}
+      current={page}
+      setPage={setPage}
       />
+    }
     </div>
   );
 }
