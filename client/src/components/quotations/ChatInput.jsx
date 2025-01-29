@@ -18,6 +18,11 @@ function ChatInput({ serviceRequestId, onMessageSent }) {
     setMessageInput('');
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSendMessage();
+    }
+  };
   return (
     <div className='mt-4 flex'>
       <input
@@ -26,6 +31,7 @@ function ChatInput({ serviceRequestId, onMessageSent }) {
         value={messageInput}
         onChange={(e) => setMessageInput(e.target.value)}
         placeholder='Type your message...'
+        onKeyDown={handleKeyDown}
       />
       <button
         className='bg-black text-white px-4 py-2 rounded-r-md'
