@@ -53,7 +53,7 @@ function CreateQuotationModal({ setCreateQuotationModalOpen , handleSubmit}) {
                 className='bg-white rounded-lg p-5 w-[90vw] md:w-[40vw] max-h-[80vh] md:max-h-[65vh]  flex flex-col gap-4 overflow-x-hidden quotation'
             >
                 <h1 className='text-black text-2xl'>Create Quotation</h1>
-                <div className='flex gap-2'>
+                <div className='flex gap-2 flex-wrap'>
                     <input
                         type='text'
                         placeholder='Description'
