@@ -27,7 +27,7 @@ function ServiceDatails() {
   },[])
   return (
     <motion.div
-      className='bg-white px-16 py-8   w-[90vw] md:w-[60vw] mx-auto flex justify-center flex-col gap-5'
+      className='bg-white px-3 md:px-16 py-8   w-[90vw] md:w-[60vw] mx-auto flex justify-center flex-col gap-5'
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

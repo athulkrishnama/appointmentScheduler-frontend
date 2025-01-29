@@ -24,9 +24,9 @@ const Filter = ({ filter, setFilter }) => {
         getFilterData()
     }, [])
     return (
-        <div className='flex justify-between gap-3  py-4' >
+        <div className='flex justify-between gap-3  py-4 flex-wrap ' >
             <motion.div
-                className='flex gap-5 text-xl items-center'
+                className='flex gap-5 text-xl items-center justify-between flex-grow md:flex-grow-0'
             >
                 <Dropdown name='category' data={categories} setFilter={setFilter} />
                 <Dropdown name='serviceProvider' data={serviceProviders} setFilter={setFilter} />
