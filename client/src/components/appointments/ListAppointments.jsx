@@ -57,14 +57,15 @@ function ListAppointments() {
         transition={{ duration: 0.5 }}
         className="bg-white rounded-lg shadow-md overflow-hidden"
       >
-        <table className="min-w-full divide-y divide-gray-200">
+        {/* Desktop Table View */}
+        <table className="min-w-full divide-y divide-gray-200 hidden md:table">
           <thead className="bg-gray-50">
             <tr>
-              <th className="w-[35%] px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
-              <th className="w-[35%] px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Provider</th>
-              <th className="w-[15%] px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-              <th className="w-[10%] px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
-              <th className="w-[5%] px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Provider</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -74,38 +75,79 @@ function ListAppointments() {
                 variants={animationVariants}
                 initial="hidden"
                 animate="visible"
-                whileHover={{ 
-                  scale: 1.01,
-                  transition: { duration: 0.1 }
-                }}
+                transition={{ delay: index * 0.1 }}
                 className="hover:bg-gray-50"
               >
-                <td className="w-[35%] px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-nowrap">
                   <div className="font-medium text-gray-900">{appointment.service.serviceName}</div>
                 </td>
-                <td className="w-[35%] px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-gray-900">{appointment.serviceProvider.fullname}</div>
                 </td>
-                <td className="w-[15%] px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-gray-900">{appointment.date.split('T')[0]}</div>
                 </td>
-                <td className="w-[10%] px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-gray-900">{appointment.time}</div>
                 </td>
-                <td className="w-[5%] px-6 py-4 whitespace-nowrap text-right font-medium">
+                <td className="px-6 py-4 whitespace-nowrap text-right">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="bg-black text-white hover:bg-gray-800 px-2 py-1 rounded-md transition-colors duration-200 shadow-sm text-bold w-full"
+                    className="bg-black text-white hover:bg-gray-800 px-4 py-2 rounded-md transition-colors duration-200 shadow-sm text-sm font-medium"
                     onClick={() => handleViewDetails(appointment)}
                   >
-                    View
+                    View Details
                   </motion.button>
                 </td>
               </motion.tr>
             ))}
           </tbody>
         </table>
+
+        {/* Mobile Card View */}
+        <div className="md:hidden">
+          {appointments.map((appointment, index) => (
+            <motion.div
+              key={appointment._id}
+              variants={animationVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: index * 0.1 }}
+              className="p-4 border-b border-gray-200 last:border-b-0"
+            >
+              <div className="flex justify-between items-start mb-3">
+                <div className="flex-1">
+                  <h3 className="font-medium text-gray-900 text-lg mb-1">
+                    {appointment.service.serviceName}
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-2">
+                    {appointment.serviceProvider.fullname}
+                  </p>
+                </div>
+              </div>
+              <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="font-medium">Date:</span>
+                  <span>{appointment.date.split('T')[0]}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="font-medium">Time:</span>
+                  <span>{appointment.time}</span>
+                </div>
+              </div>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full bg-black text-white hover:bg-gray-800 py-2 px-4 rounded-md transition-colors duration-200 shadow-sm text-sm font-medium"
+                onClick={() => handleViewDetails(appointment)}
+              >
+                View Details
+              </motion.button>
+            </motion.div>
+          ))}
+        </div>
+
         {appointments.length === 0 && (
           <div className="text-center py-8 text-gray-500">
             No appointments found
