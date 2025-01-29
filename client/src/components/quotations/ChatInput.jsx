@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from '../../axios/axios';
 import { toast } from 'react-toastify';
 
 function ChatInput({ serviceRequestId, onMessageSent }) {
@@ -7,16 +6,23 @@ function ChatInput({ serviceRequestId, onMessageSent }) {
 
   const handleSendMessage = async () => {
     if (!messageInput.trim()) return;
-    try {
-      const response = await axios.post(`/serviceProvider/textMessage/${serviceRequestId}`, { message: messageInput, sender: "client" });
-      onMessageSent(response.data.chat);
-      setMessageInput('');
-    } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message);
-    }
+    // try {
+    //   const response = await axios.post(`/serviceProvider/textMessage/${serviceRequestId}`, { message: messageInput, sender: "client" });
+    //   onMessageSent(response.data.chat);
+    //   setMessageInput('');
+    // } catch (error) {
+    //   console.log(error);
+    //   toast.error(error.response.data.message);
+    // }
+    onMessageSent(messageInput.trim());
+    setMessageInput('');
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSendMessage();
+    }
+  };
   return (
     <div className='mt-4 flex'>
       <input
@@ -25,6 +31,7 @@ function ChatInput({ serviceRequestId, onMessageSent }) {
         value={messageInput}
         onChange={(e) => setMessageInput(e.target.value)}
         placeholder='Type your message...'
+        onKeyDown={handleKeyDown}
       />
       <button
         className='bg-black text-white px-4 py-2 rounded-r-md'
