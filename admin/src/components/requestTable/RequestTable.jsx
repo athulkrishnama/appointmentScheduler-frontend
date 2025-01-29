@@ -75,7 +75,7 @@ const RequestTable = ({ requests }) => {
         <tbody>
           {requests.items.map((request, index) => (
             <tr
-              key={index}
+              key={request._id}
               className="border-b border-gray-200 hover:bg-gray-100"
             >
               <td className="py-4 px-6 text-black">
