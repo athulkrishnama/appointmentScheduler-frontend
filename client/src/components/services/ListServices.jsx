@@ -33,11 +33,11 @@ function ListServices() {
         getServices();
     }, [page, filter])
   return (
-    <div className='bg-white px-16 py-8 rounded-3xl shadow-2xl h-full '>
+    <div className='bg-white px-3 md:px-16 py-8 rounded-3xl shadow-2xl h-full '>
     <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className=' w-[90vw] md:w-[60vw] mx-auto flex flex-col mb-10'
+        className='md:w-[60vw] mx-auto flex flex-col mb-10'
     >
         <motion.h1 
         className='text-[3rem] font-bold text-center text-gray-800 '

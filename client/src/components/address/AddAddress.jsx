@@ -38,7 +38,7 @@ function AddAddress({ onClose, handleSubmit }) {
   return (
     <motion.div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50">
       <motion.div
-        className="bg-white  rounded-3xl relative w-90 md:w-[30vw] p-5"
+        className="bg-white  rounded-3xl relative w-[90vw] md:w-[30vw] p-5"
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
       >
@@ -55,7 +55,7 @@ function AddAddress({ onClose, handleSubmit }) {
           onSubmit={handleSubmit}
         >
           {({ errors, touched }) => (
-            <Form className="px-16">
+            <Form className="px-3 md:px-16">
               <FormTextInput
                 name="name"
                 label="Enter Your Name"
