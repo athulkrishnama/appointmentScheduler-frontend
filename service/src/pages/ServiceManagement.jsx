@@ -47,7 +47,8 @@ function ServiceManagement() {
   }
 
   return (
-    <div className='w-[90vw] md:w-[60vw] mx-auto mt-12'>
+    <div className='w-[90vw] md:w-[60vw] mx-auto my-5'>
+        <h1 className='text-3xl font-black text-center my-2'>Service Management</h1>
       <div className='flex justify-end'>
         <button className="bg-gray-800 text-gray-200 px-4 py-2 rounded hover:bg-gray-700 hover:text-white"
           onClick={() => setShowCreateService(true)}>Create Service</button>
