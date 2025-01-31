@@ -75,7 +75,7 @@ function ListQuotations() {
                 animate={{ scale: 1 }}
                 whileTap={{ scale: 0.95 }}
                 className="w-full bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-sm"
-                onClick={() => navigate(`/serviceRequestDetails/${quotation._id}`)}
+                onClick={() => navigate(`/serviceRequests/${quotation._id}`)}
               >
                 View Details
               </motion.button>
@@ -142,7 +142,7 @@ function ListQuotations() {
                     animate={{ scale: 1 }}
                     whileTap={{ scale: 0.95 }}
                     className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-                    onClick={() => navigate(`/serviceRequestDetails/${quotation._id}`)}
+                    onClick={() => navigate(`/serviceRequests/${quotation._id}`)}
                   >
                     View Details
                   </motion.button>

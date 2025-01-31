@@ -32,8 +32,8 @@ const App = () => {
                         <Route path="/history" element={<ProtectedRoute><History/></ProtectedRoute>} />
                         <Route path="/recurringServices" element={<ProtectedRoute><RecurringServices/></ProtectedRoute>} />
                         <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />
-                        <Route path="/serviceDetails/:id" element={<ServiceDetails/>} />
-                        <Route path="/serviceRequestDetails/:id" element={<ProtectedRoute><ServiceRequestChat/></ProtectedRoute>} />
+                        <Route path="/services/:id" element={<ServiceDetails/>} />
+                        <Route path="/serviceRequests/:id" element={<ProtectedRoute><ServiceRequestChat/></ProtectedRoute>} />
                     </Route>
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
