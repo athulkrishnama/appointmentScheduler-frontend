@@ -33,7 +33,7 @@ function App() {
             <Route path='/reviews' element={<ProtectedRoute><Reviews /></ProtectedRoute>} />
             <Route path='/coupons' element={<ProtectedRoute><Coupons /></ProtectedRoute>} />
             <Route path='/profile' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-            <Route path='/service-request-details/:id' element={<ProtectedRoute><ServiceRequestDetails /></ProtectedRoute>} />
+            <Route path='/serviceRequests/:id' element={<ProtectedRoute><ServiceRequestDetails /></ProtectedRoute>} />
           </Route>
         </Routes>
       </Router>
