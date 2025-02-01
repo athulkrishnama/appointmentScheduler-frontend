@@ -46,12 +46,16 @@ const CategoryTable = ({ categories, changeStatus, updateCategory , }) => {
   const handleEditSubmit = async (values) => {
     try {
       const response = await updateCategory(editModal.category._id, values);
-      if (response.status === 200) {
+      console.log(response);
+      if (response.data?.success) {
         toast.success(response.data.message);
         closeEditModal();
+      }else{
+        toast.error(response.response?.data?.message || "An unexpected error .");
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+      console.log(error);
+      toast.error(error.response?.data?.message || "An unexpected error occurred.");
     }
   };
 
@@ -72,10 +76,10 @@ const CategoryTable = ({ categories, changeStatus, updateCategory , }) => {
         <tbody>
           {categories.map((category) => (
             <tr 
-              key={category.id} 
+              key={category._id} 
               className="border-b border-gray-300 hover:bg-gray-100"
             >
-              <td className="py-4 px-2 md:px-6 text-gray-800">{category.categoryName}</td>
+              <td className="py-4 px-2 md:px-6 text-gray-800 capitalize">{category.categoryName}</td>
               <td className="py-4 px-2 md:px-6 text-gray-800">{category.categoryDescription}</td>
               <td className="py-4 px-2 md:px-6 flex">
                 {category.isActive ? (
