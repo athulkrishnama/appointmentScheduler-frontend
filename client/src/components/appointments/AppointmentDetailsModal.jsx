@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import CancelConfirmationModal from './CancelConfirmationModal'
+import { MdPending, MdCheckCircle, MdCancel, MdAccessTime } from 'react-icons/md'
 
-function AppointmentDetailsModal({ isOpen, onClose, appointment }) {
+function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCancel }) {
     if (!appointment) return null;
+
+    const [showCancelModal, setShowCancelModal] = useState(false);
 
     const modalVariants = {
         hidden: {
@@ -41,6 +45,36 @@ function AppointmentDetailsModal({ isOpen, onClose, appointment }) {
         visible: { opacity: 1, x: 0 },
         exit: { opacity: 0, x: 20 }
     }
+
+    const getStatusIcon = (status) => {
+        switch (status.toLowerCase()) {
+            case 'pending':
+                return <MdPending className="w-5 h-5 text-yellow-500" />;
+            case 'confirmed':
+                return <MdCheckCircle className="w-5 h-5 text-green-500" />;
+            case 'cancelled':
+                return <MdCancel className="w-5 h-5 text-red-500" />;
+            case 'completed':
+                return <MdAccessTime className="w-5 h-5 text-blue-500" />;
+            default:
+                return null;
+        }
+    };
+
+    const getStatusColor = (status) => {
+        switch (status.toLowerCase()) {
+            case 'pending':
+                return 'bg-yellow-100 text-yellow-800';
+            case 'confirmed':
+                return 'bg-green-100 text-green-800';
+            case 'cancelled':
+                return 'bg-red-100 text-red-800';
+            case 'completed':
+                return 'bg-blue-100 text-blue-800';
+            default:
+                return 'bg-gray-100 text-gray-800';
+        }
+    };
 
     return (
         <AnimatePresence>
@@ -97,6 +131,15 @@ function AppointmentDetailsModal({ isOpen, onClose, appointment }) {
                                         <div>
                                             <p className="text-sm text-gray-500">Provider Name</p>
                                             <p className="font-medium">{appointment.serviceProvider.fullname}</p>
+                                        </div>
+                                        <div className="col-span-2">
+                                            <p className="text-sm text-gray-500 mb-1">Status</p>
+                                            <div className="flex items-center space-x-2">
+                                                {getStatusIcon(appointment.status)}
+                                                <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(appointment.status)}`}>
+                                                    {appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </motion.div>
@@ -160,21 +203,44 @@ function AppointmentDetailsModal({ isOpen, onClose, appointment }) {
                                     </motion.div>
                                 )}
 
-                                {/* <motion.div variants={contentVariants} className="flex justify-end mt-6">
-                                    <motion.button
-                                        onClick={onClose}
-                                        className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors duration-200"
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                    >
-                                        Cancel
-                                    </motion.button>
-                                </motion.div> */}
+                                {appointment.status === 'cancelled' && appointment.cancellationReason && (
+                                    <motion.div variants={contentVariants}>
+                                        <h3 className="text-lg font-semibold mb-2 text-red-600">Cancellation Reason</h3>
+                                        <div className="bg-red-50 border border-red-200 rounded-md p-4">
+                                            <div className="flex items-start">
+                                                <MdCancel className="w-5 h-5 text-red-500 mt-0.5 mr-2" />
+                                                <p className="text-red-700">{appointment.cancellationReason}</p>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                )}
+
+                                {appointment.status !== 'cancelled' && (
+                                    <motion.div variants={contentVariants} className="flex justify-end mt-6">
+                                        <motion.button
+                                            onClick={() => setShowCancelModal(true)}
+                                            className="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition-colors duration-200"
+                                            whileHover={{ scale: 1.05 }}
+                                            whileTap={{ scale: 0.95 }}
+                                        >
+                                            Cancel Appointment
+                                        </motion.button>
+                                    </motion.div>
+                                )}
                             </motion.div>
                         </motion.div>
                     </div>
                 </motion.div>
             )}
+            <CancelConfirmationModal 
+                isOpen={showCancelModal}
+                onClose={() => setShowCancelModal(false)}
+                appointmentId={appointment._id}
+                onSuccess={() => {
+                    if (onAppointmentCancel) onAppointmentCancel();
+                    onClose();
+                }}
+            />
         </AnimatePresence>
     )
 }
