@@ -205,11 +205,18 @@ function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCa
 
                                 {appointment.status === 'cancelled' && appointment.cancellationReason && (
                                     <motion.div variants={contentVariants}>
-                                        <h3 className="text-lg font-semibold mb-2 text-red-600">Cancellation Reason</h3>
+                                        <h3 className="text-lg font-semibold mb-2 text-red-600">Cancellation Details</h3>
                                         <div className="bg-red-50 border border-red-200 rounded-md p-4">
-                                            <div className="flex items-start">
-                                                <MdCancel className="w-5 h-5 text-red-500 mt-0.5 mr-2" />
-                                                <p className="text-red-700">{appointment.cancellationReason}</p>
+                                            <div className="flex flex-col space-y-3">
+                                                <div className="flex items-start">
+                                                    <MdCancel className="w-5 h-5 text-red-500 mt-0.5 mr-2" />
+                                                    <div>
+                                                        <p className="text-red-700">{appointment.cancellationReason}</p>
+                                                        <p className="text-sm text-red-600 mt-2">
+                                                            Cancelled by: {appointment.cancelledBy === 'client' ? 'Client' : 'Service Provider'}
+                                                        </p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </motion.div>
