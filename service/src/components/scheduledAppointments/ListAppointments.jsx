@@ -36,6 +36,10 @@ function ListAppointments() {
     setSelectedAppointment(null)
   }
 
+  const handleAppointmentCancel = () => {
+    fetchAppointments();
+  };
+
   const animationVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 }
@@ -71,14 +75,14 @@ function ListAppointments() {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {appointments.map((appointment) => (
+              {appointments.map((appointment, index) => (
                 <motion.tr
                   key={appointment._id}
-                  variants={animationVariants}
+                  onClick={() => setSelectedAppointment(appointment)}
                   initial="hidden"
                   animate="visible"
-                  whileHover={{ scale: 1.01, transition: { duration: 0.1 } }}
-                  className="hover:bg-gray-50"
+                  transition={{ delay: index * 0.1 }}
+                  className={`cursor-pointer ${appointment.status === 'cancelled' ? "bg-red-100 hover:bg-red-200" : "hover:bg-gray-100"}`}
                 >
                   <td className="w-[35%] px-6 py-4 whitespace-nowrap">
                     <div className="font-medium text-gray-900">{appointment.service.serviceName}</div>
@@ -159,9 +163,10 @@ function ListAppointments() {
       </motion.div>
 
       <AppointmentDetailsModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
+        isOpen={!!selectedAppointment}
+        onClose={() => setSelectedAppointment(null)}
         appointment={selectedAppointment}
+        onAppointmentCancel={handleAppointmentCancel}
       />
     </div>
   )
