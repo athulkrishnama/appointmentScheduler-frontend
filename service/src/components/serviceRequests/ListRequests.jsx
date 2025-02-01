@@ -63,7 +63,7 @@ function ListRequests() {
               >
                 <td className="px-6 py-4 whitespace-nowrap">{limit * (page - 1) + index + 1}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{request.client?.fullname}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{request.date.split('T')[0]}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{new Date(request.date).toLocaleDateString()}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{request.service?.serviceName}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <motion.button
@@ -99,7 +99,7 @@ function ListRequests() {
                 #{limit * (page - 1) + index + 1}
               </span>
               <span className="text-sm text-gray-500">
-                {request.date.split('T')[0]}
+                {new Date(request.date).toLocaleDateString()}
               </span>
             </div>
             
