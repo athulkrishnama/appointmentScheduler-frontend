@@ -1,23 +1,34 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { FaSearch } from 'react-icons/fa';
 import { motion } from 'framer-motion'
 import axios from '../../axios/axios'
 import Dropdown from './Dropdown'
-import SortBy  from './SortBy'
+import SortBy from './SortBy'
+import _ from 'lodash'
 
 const Filter = ({ filter, setFilter }) => {
     const [categories, setCategories] = useState([])
     const [serviceProviders, setServiceProviders] = useState([])
+    const [search, setSearch] = useState('')
 
 
     const getFilterData = async () => {
-        try{
+        try {
             const res = await axios.get('/client/getFilterData')
             setCategories(res.data.categories)
             setServiceProviders(res.data.serviceProviders)
-        }catch(error){
+        } catch (error) {
             console.log(error)
         }
+    }
+
+    const throttledSearchFilter = useCallback(
+        _.throttle((search) => setFilter({ ...filter, search }), 1000)
+    , [])
+
+    const handleSearchChange = (e) => {
+        setSearch(e.target.value);
+        throttledSearchFilter(e.target.value);
     }
 
     useEffect(() => {
@@ -35,14 +46,14 @@ const Filter = ({ filter, setFilter }) => {
                 <FaSearch size={20} className="mr-2 text-gray-500" />
                 <input
                     type="text"
-                    value={filter.search}
-                    onChange={(e) => setFilter({ ...filter, search: e.target.value })}
+                    value={search}
+                    onChange={handleSearchChange}
                     placeholder="Search"
                     className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
                 />
             </motion.div>
             <motion.div>
-                <SortBy setFilter={setFilter}/>
+                <SortBy setFilter={setFilter} />
             </motion.div>
         </div>
     );
