@@ -76,7 +76,7 @@ function ListAppointments() {
                 initial="hidden"
                 animate="visible"
                 transition={{ delay: index * 0.1 }}
-                className="hover:bg-gray-50"
+                className={` cursor-pointer ${appointment.status === 'cancelled' ? "bg-red-100 hover:bg-red-200" : "hover:bg-gray-100"}`}
               >
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="font-medium text-gray-900">{appointment.service.serviceName}</div>
