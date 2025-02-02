@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MdPending, MdCheckCircle, MdCancel, MdAccessTime } from 'react-icons/md'
 import CancelConfirmationModal from './CancelConfirmationModal'
+import CompletionConfirmationModal from './CompletionConfirmationModal'
 
-function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCancel }) {
+function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCancel, onAppointmentComplete }) {
     const [showCancelModal, setShowCancelModal] = useState(false);
+    const [showCompleteModal, setShowCompleteModal] = useState(false);
 
     if (!appointment) return null;
 
@@ -193,37 +195,28 @@ function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCa
                                     </motion.div>
                                 )}
 
-                                {appointment.status === 'cancelled' && appointment.cancellationReason && (
-                                    <motion.div variants={contentVariants}>
-                                        <h3 className="text-lg font-semibold mb-2 text-red-600">Cancellation Details</h3>
-                                        <div className="bg-red-50 border border-red-200 rounded-md p-4">
-                                            <div className="flex flex-col space-y-3">
-                                                <div className="flex items-start">
-                                                    <MdCancel className="w-5 h-5 text-red-500 mt-0.5 mr-2" />
-                                                    <div>
-                                                        <p className="text-red-700">{appointment.cancellationReason}</p>
-                                                        <p className="text-sm text-red-600 mt-2">
-                                                            Cancelled by: {appointment.cancelledBy === 'client' ? 'Client' : 'Service Provider'}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                )}
 
-                                {appointment.status !== 'cancelled' && (
-                                    <motion.div variants={contentVariants} className="flex justify-end mt-6">
-                                        <motion.button
-                                            onClick={() => setShowCancelModal(true)}
-                                            className="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition-colors duration-200"
-                                            whileHover={{ scale: 1.05 }}
-                                            whileTap={{ scale: 0.95 }}
-                                        >
-                                            Cancel Appointment
-                                        </motion.button>
+
+                                    <motion.div variants={contentVariants} className="flex justify-end mt-6 space-x-4">
+                                            <motion.button
+                                                onClick={() => setShowCompleteModal(true)}
+                                                className="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 transition-colors duration-200"
+                                                whileHover={{ scale: 1.05 }}
+                                                whileTap={{ scale: 0.95 }}
+                                            >
+                                                Mark as Completed
+                                            </motion.button>
+                                        {(appointment.status === 'pending' ) && (
+                                            <motion.button
+                                                onClick={() => setShowCancelModal(true)}
+                                                className="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition-colors duration-200"
+                                                whileHover={{ scale: 1.05 }}
+                                                whileTap={{ scale: 0.95 }}
+                                            >
+                                                Cancel Appointment
+                                            </motion.button>
+                                        )}
                                     </motion.div>
-                                )}
                             </motion.div>
                         </motion.div>
                     </div>
@@ -234,7 +227,17 @@ function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCa
                 onClose={() => setShowCancelModal(false)}
                 appointmentId={appointment._id}
                 onSuccess={() => {
-                    if (onAppointmentCancel) onAppointmentCancel();
+                    if (onAppointmentCancel) onAppointmentCancel(appointment._id);
+                    onClose();
+                }}
+            />
+            <CompletionConfirmationModal 
+                isOpen={showCompleteModal}
+                onClose={() => setShowCompleteModal(false)}
+                appointmentId={appointment._id}
+                onSuccess={() => {
+                    if (onAppointmentComplete) onAppointmentComplete(appointment._id);
+                    setShowCompleteModal(false);
                     onClose();
                 }}
             />
