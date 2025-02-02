@@ -2,22 +2,28 @@ import React, { useEffect, useState } from 'react'
 import axios from '../../axios/axios'
 import { motion } from 'framer-motion'
 import AppointmentDetailsModal from './AppointmentDetailsModal'
+import Pagination from '../pagination/Pagination'
 
 function ListAppointments() {
   const [appointments, setAppointments] = useState([])
   const [loading, setLoading] = useState(true)
   const [selectedAppointment, setSelectedAppointment] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+
+  const LIMIT = 5;
 
   useEffect(() => {
     fetchAppointments()
-  }, [])
+  }, [currentPage])
 
   const fetchAppointments = async () => {
     try {
-      const response = await axios.get('/serviceProvider/getAppointments')
+      const response = await axios.get(`/serviceProvider/getAppointments?page=${currentPage}&limit=${LIMIT}`)
       if (response.data.success) {
         setAppointments(response.data.appointments)
+        setTotalPages(response.data.totalPages)
       }
     } catch (error) {
       console.error('Error fetching appointments:', error)
@@ -31,14 +37,16 @@ function ListAppointments() {
     setIsModalOpen(true)
   }
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false)
-    setSelectedAppointment(null)
-  }
 
-  const handleAppointmentCancel = () => {
+  const handleAppointmentCancel = (appointmentId) => {
+    setAppointments(appointments.filter(appointment => appointment._id !== appointmentId))
     fetchAppointments();
   };
+
+  const handleAppointmentComplete = (appointmentId) => {
+    setAppointments(appointments.filter(appointment => appointment._id !== appointmentId))
+    fetchAppointments();
+  }
 
   const animationVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -79,10 +87,14 @@ function ListAppointments() {
                 <motion.tr
                   key={appointment._id}
                   onClick={() => setSelectedAppointment(appointment)}
+                  variants={{
+                    hidden:{opacity:0,y:-20},
+                    visible:{opacity:1,y:0}
+                  }}
                   initial="hidden"
                   animate="visible"
                   transition={{ delay: index * 0.1 }}
-                  className={`cursor-pointer ${appointment.status === 'cancelled' ? "bg-red-100 hover:bg-red-200" : "hover:bg-gray-100"}`}
+                  className={`cursor-pointer hover:bg-gray-100`}
                 >
                   <td className="w-[35%] px-6 py-4 whitespace-nowrap">
                     <div className="font-medium text-gray-900">{appointment.service.serviceName}</div>
@@ -160,13 +172,19 @@ function ListAppointments() {
             No appointments found
           </div>
         )}
+
+        <div className='py-4'>
+          <Pagination total={totalPages} current={currentPage} setPage={setCurrentPage} />
+        </div>
+
       </motion.div>
 
       <AppointmentDetailsModal
-        isOpen={!!selectedAppointment}
-        onClose={() => setSelectedAppointment(null)}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
         appointment={selectedAppointment}
         onAppointmentCancel={handleAppointmentCancel}
+        onAppointmentComplete={handleAppointmentComplete}
       />
     </div>
   )
