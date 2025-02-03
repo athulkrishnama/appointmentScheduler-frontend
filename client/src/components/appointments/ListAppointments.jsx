@@ -2,22 +2,28 @@ import React, { useEffect, useState } from 'react'
 import axios from '../../axios/axios'
 import { motion } from 'framer-motion'
 import AppointmentDetailsModal from './AppointmentDetailsModal'
+import Pagination from '../pagination/Pagination'
 
 function ListAppointments() {
   const [appointments, setAppointments] = useState([])
   const [loading, setLoading] = useState(true)
   const [selectedAppointment, setSelectedAppointment] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [page, setPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+
+  const LIMIT = 5;
 
   useEffect(() => {
     fetchAppointments()
-  }, [])
+  }, [page])
 
   const fetchAppointments = async () => {
     try {
-      const response = await axios.get('/client/getAppointments')
+      const response = await axios.get(`/client/getAppointments?page=${page}&limit=${LIMIT}`)
       if (response.data.success) {
         setAppointments(response.data.appointments)
+        setTotalPages(response.data.totalPages)
       }
     } catch (error) {
       console.error('Error fetching appointments:', error)
@@ -57,7 +63,6 @@ function ListAppointments() {
         transition={{ duration: 0.5 }}
         className="bg-white rounded-lg shadow-md overflow-hidden"
       >
-        {/* Desktop Table View */}
         <table className="min-w-full divide-y divide-gray-200 hidden md:table">
           <thead className="bg-gray-50">
             <tr>
@@ -105,7 +110,6 @@ function ListAppointments() {
           </tbody>
         </table>
 
-        {/* Mobile Card View */}
         <div className="md:hidden">
           {appointments.map((appointment, index) => (
             <motion.div
@@ -148,9 +152,13 @@ function ListAppointments() {
           ))}
         </div>
 
-        {appointments.length === 0 && (
+        {appointments.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
             No appointments found
+          </div>
+        ) : (
+          <div className='py-5'>
+            <Pagination total={totalPages} current={page} setPage={setPage} />
           </div>
         )}
       </motion.div>

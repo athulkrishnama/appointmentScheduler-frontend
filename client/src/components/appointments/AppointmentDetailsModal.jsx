@@ -149,7 +149,7 @@ function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCa
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
                                             <p className="text-sm text-gray-500">Date</p>
-                                            <p className="font-medium">{appointment.date.split('T')[0]}</p>
+                                            <p className="font-medium">{new Date(appointment.date).toLocaleDateString()}</p>
                                         </div>
                                         <div>
                                             <p className="text-sm text-gray-500">Time</p>
@@ -164,7 +164,7 @@ function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCa
                                         {appointment.endDate && (
                                             <div>
                                                 <p className="text-sm text-gray-500">End Date</p>
-                                                <p className="font-medium">{appointment.endDate.split('T')[0]}</p>
+                                                <p className="font-medium">{new Date(appointment.endDate).toLocaleDateString()}</p>
                                             </div>
                                         )}
                                     </div>
@@ -203,26 +203,7 @@ function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCa
                                     </motion.div>
                                 )}
 
-                                {appointment.status === 'cancelled' && appointment.cancellationReason && (
-                                    <motion.div variants={contentVariants}>
-                                        <h3 className="text-lg font-semibold mb-2 text-red-600">Cancellation Details</h3>
-                                        <div className="bg-red-50 border border-red-200 rounded-md p-4">
-                                            <div className="flex flex-col space-y-3">
-                                                <div className="flex items-start">
-                                                    <MdCancel className="w-5 h-5 text-red-500 mt-0.5 mr-2" />
-                                                    <div>
-                                                        <p className="text-red-700">{appointment.cancellationReason}</p>
-                                                        <p className="text-sm text-red-600 mt-2">
-                                                            Cancelled by: {appointment.cancelledBy === 'client' ? 'Client' : 'Service Provider'}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                )}
-
-                                {appointment.status !== 'cancelled' && (
+                                
                                     <motion.div variants={contentVariants} className="flex justify-end mt-6">
                                         <motion.button
                                             onClick={() => setShowCancelModal(true)}
@@ -233,7 +214,6 @@ function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCa
                                             Cancel Appointment
                                         </motion.button>
                                     </motion.div>
-                                )}
                             </motion.div>
                         </motion.div>
                     </div>
