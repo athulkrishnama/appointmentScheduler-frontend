@@ -224,7 +224,7 @@ function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCa
                 onClose={() => setShowCancelModal(false)}
                 appointmentId={appointment._id}
                 onSuccess={() => {
-                    if (onAppointmentCancel) onAppointmentCancel();
+                    if (onAppointmentCancel) onAppointmentCancel(appointment._id);
                     onClose();
                 }}
             />

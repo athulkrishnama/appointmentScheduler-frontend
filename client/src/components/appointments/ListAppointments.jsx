@@ -42,6 +42,10 @@ function ListAppointments() {
     setSelectedAppointment(null)
   }
 
+  const handleCancelAppointment = async (id) => {
+    setAppointments(appointments.filter(appointment => appointment._id !== id))
+  }
+
   const animationVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 }
@@ -167,6 +171,7 @@ function ListAppointments() {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         appointment={selectedAppointment}
+        onAppointmentCancel={handleCancelAppointment}
       />
     </div>
   )
