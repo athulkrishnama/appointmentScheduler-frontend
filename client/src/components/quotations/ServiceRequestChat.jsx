@@ -8,6 +8,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useParams, useNavigate } from 'react-router';
 import ChatInput from './ChatInput';
 import { MdClose } from 'react-icons/md';
+import { MdAttachMoney, MdCreditCard } from 'react-icons/md';
+import ConfirmationModal from './ConfirmationModal';
 
 import socket from '../../services/socket'
 
@@ -19,6 +21,7 @@ function ServiceRequestChat() {
   const [serviceRequest, setServiceRequest] = useState({});
   const [lastQuotation, setLastQuotation] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState('Cash');
 
   const chatEndRef = useRef(null);
 
@@ -66,9 +69,9 @@ function ServiceRequestChat() {
     setIsModalOpen(true);
   };
 
-  const handleConfirm = async () => {
+  const handleConfirm = async (paymentMethod) => {
     try {
-      const response = await axios.post(`/serviceProvider/acceptQuotation/${id}`, { quotation: lastQuotation.message._id });
+      const response = await axios.post(`/serviceProvider/acceptQuotation/${id}`, { quotation: lastQuotation.message._id, paymentMethod });
       toast.success(response.data.message, {autoClose: 1000, onClose: () => navigate('/yourAppointments',{replace:true}) });
       setIsModalOpen(false);
     } catch (error) {
@@ -79,6 +82,10 @@ function ServiceRequestChat() {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+
+  const handlePaymentMethodClick = (method) => {
+    setPaymentMethod(method);
   };
 
   useEffect(() => {
@@ -142,36 +149,13 @@ function ServiceRequestChat() {
       </div>
       <ChatInput serviceRequestId={id} onMessageSent={handleNewMessage} />
 
-      {isModalOpen && (
-        <motion.div
-          className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center'
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          <div className='bg-white rounded-lg p-5 w-96 shadow-lg'>
-            <div className='flex justify-between items-center mb-4'>
-              <h2 className='text-xl font-bold'>Confirmation</h2>
-              <MdClose className='cursor-pointer' onClick={handleCancel} />
-            </div>
-            <p className='mb-4'>Are you sure you want to confirm? <br />Once confirmed, you will no longer have access to this chat and <br /> cannot request changes to the quotation.</p>
-            <div className='flex justify-end gap-3'>
-              <button
-                className='bg-gray-800 text-white py-2 px-4 rounded'
-                onClick={handleConfirm}
-              >
-                Confirm
-              </button>
-              <button
-                className='bg-gray-300 text-black py-2 px-4 rounded'
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </motion.div>
-      )}
+      <ConfirmationModal
+        isOpen={isModalOpen}
+        onClose={handleCancel}
+        onConfirm={handleConfirm}
+        paymentMethod={paymentMethod}
+        setPaymentMethod={setPaymentMethod}
+      />
     </div>
   );
 }
