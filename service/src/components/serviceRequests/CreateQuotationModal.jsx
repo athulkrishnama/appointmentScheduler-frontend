@@ -16,6 +16,10 @@ function CreateQuotationModal({ setCreateQuotationModalOpen , handleSubmit}) {
 
         if (isEditing) {
             const updatedItems = [...items];
+            if(amount <= 0){
+                toast.error("Amount should be greater than 0");
+                return;
+            }
             updatedItems[editIndex] = { description, amount: parseFloat(amount) };
             setItems(updatedItems);
             setIsEditing(false);
@@ -23,6 +27,10 @@ function CreateQuotationModal({ setCreateQuotationModalOpen , handleSubmit}) {
         } else {
             if (items.some(item => item.description === description)) {
                 toast.error('Duplicate description!');
+                return;
+            }
+            if(amount <= 0){
+                toast.error("Amount should be greater than 0");
                 return;
             }
             setItems([...items, { description, amount: parseFloat(amount) }]);
