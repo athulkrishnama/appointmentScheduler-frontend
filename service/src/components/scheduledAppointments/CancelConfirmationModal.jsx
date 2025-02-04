@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from '../../axios/axios';
+import { toast } from 'react-toastify';
 
 function CancelConfirmationModal({ isOpen, onClose, appointmentId, onSuccess }) {
     const [reason, setReason] = useState('');
@@ -9,9 +10,15 @@ function CancelConfirmationModal({ isOpen, onClose, appointmentId, onSuccess }) 
     const handleCancel = async () => {
         try {
             setIsLoading(true);
-            await axios.patch(`/serviceProvider/cancelAppointment/${appointmentId}`, { reason });
-            onSuccess();
-            onClose();
+            if(reason.trim().length === 0){
+                return toast.error('Reason is required');
+            }
+            const response = await axios.patch(`/serviceProvider/cancelAppointment/${appointmentId}`, { reason });
+            if (response.data.success) {
+                toast.success('Appointment cancelled successfully');
+                onSuccess();
+                onClose();
+            }
         } catch (error) {
             console.error(error);
         } finally {

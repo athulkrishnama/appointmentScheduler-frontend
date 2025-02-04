@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import CancelConfirmationModal from './CancelConfirmationModal'
-import { MdPending, MdCheckCircle, MdCancel, MdAccessTime } from 'react-icons/md'
+import { MdPending, MdCheckCircle, MdCancel, MdAccessTime, MdAttachMoney, MdCreditCard } from 'react-icons/md'
 
 function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCancel }) {
     if (!appointment) return null;
@@ -46,33 +46,16 @@ function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCa
         exit: { opacity: 0, x: 20 }
     }
 
-    const getStatusIcon = (status) => {
-        switch (status.toLowerCase()) {
-            case 'pending':
-                return <MdPending className="w-5 h-5 text-yellow-500" />;
-            case 'confirmed':
-                return <MdCheckCircle className="w-5 h-5 text-green-500" />;
-            case 'cancelled':
-                return <MdCancel className="w-5 h-5 text-red-500" />;
-            case 'completed':
-                return <MdAccessTime className="w-5 h-5 text-blue-500" />;
+
+
+    const getPaymentMethodIcon = (method) => {
+        switch (method) {
+            case 'cash':
+                return <MdAttachMoney className="w-5 h-5 text-green-500" />;
+            case 'online':
+                return <MdCreditCard className="w-5 h-5 text-blue-500" />;
             default:
                 return null;
-        }
-    };
-
-    const getStatusColor = (status) => {
-        switch (status.toLowerCase()) {
-            case 'pending':
-                return 'bg-yellow-100 text-yellow-800';
-            case 'confirmed':
-                return 'bg-green-100 text-green-800';
-            case 'cancelled':
-                return 'bg-red-100 text-red-800';
-            case 'completed':
-                return 'bg-blue-100 text-blue-800';
-            default:
-                return 'bg-gray-100 text-gray-800';
         }
     };
 
@@ -132,15 +115,7 @@ function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCa
                                             <p className="text-sm text-gray-500">Provider Name</p>
                                             <p className="font-medium">{appointment.serviceProvider.fullname}</p>
                                         </div>
-                                        <div className="col-span-2">
-                                            <p className="text-sm text-gray-500 mb-1">Status</p>
-                                            <div className="flex items-center space-x-2">
-                                                {getStatusIcon(appointment.status)}
-                                                <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(appointment.status)}`}>
-                                                    {appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
-                                                </span>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </motion.div>
 
@@ -179,6 +154,14 @@ function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCa
                                             {appointment.address.district}<br />
                                             {appointment.address.state} {appointment.address.pincode}
                                         </p>
+                                    </div>
+                                </motion.div>
+
+                                <motion.div variants={contentVariants}>
+                                    <h3 className="text-lg font-semibold mb-2">Payment Method</h3>
+                                    <div className="flex items-center space-x-2">
+                                        {getPaymentMethodIcon(appointment.paymentMethod)}
+                                        <span className="font-medium">{appointment.paymentMethod}</span>
                                     </div>
                                 </motion.div>
 
