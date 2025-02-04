@@ -95,7 +95,7 @@ const AppointmentDetailsModal = ({ isOpen, onClose, appointment }) => {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <p className="text-sm text-gray-500">Date</p>
-                      <p className="font-medium">{appointment.date.split('T')[0]}</p>
+                      <p className="font-medium">{new Date(appointment.date).toLocaleDateString()}</p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-500">Time</p>
