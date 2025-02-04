@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import CancelConfirmationModal from './CancelConfirmationModal'
 import { MdPending, MdCheckCircle, MdCancel, MdAccessTime, MdAttachMoney, MdCreditCard } from 'react-icons/md'
+import { FaRupeeSign } from 'react-icons/fa'
 
 function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCancel }) {
     if (!appointment) return null;
@@ -51,7 +52,7 @@ function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCa
     const getPaymentMethodIcon = (method) => {
         switch (method) {
             case 'cash':
-                return <MdAttachMoney className="w-5 h-5 text-green-500" />;
+                return <FaRupeeSign className="w-5 h-5 text-green-500" />;
             case 'online':
                 return <MdCreditCard className="w-5 h-5 text-blue-500" />;
             default:
@@ -154,6 +155,15 @@ function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCa
                                             {appointment.address.district}<br />
                                             {appointment.address.state} {appointment.address.pincode}
                                         </p>
+                                    </div>
+                                </motion.div>
+
+                                <motion.div variants={contentVariants}>
+                                    <h3 className="text-lg font-semibold mb-2">Payment Details</h3>
+                                    <div className="flex items-center space-x-2">
+                                        <FaRupeeSign className="w-5 h-5 text-green-500" />
+                                        <span className="text-sm text-gray-500">Amount:</span>
+                                        <span className="font-medium">{appointment?.amount?.toFixed?.(2)}</span>
                                     </div>
                                 </motion.div>
 

@@ -53,8 +53,7 @@ function ListQuotations() {
                 #{limit * (page - 1) + index + 1}
               </div>
               <div className="text-sm text-gray-500">
-                {typeof quotation.date.split("T")[0] === "string" &&
-                  quotation.date.split("T")[0]}
+                {new Date(quotation.date).toLocaleDateString()}
               </div>
             </div>
             <div className="space-y-2">
@@ -133,8 +132,7 @@ function ListQuotations() {
                   {quotation.service.serviceProvider?.fullname}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {typeof quotation.date.split("T")[0] === "string" &&
-                    quotation.date.split("T")[0]}
+                  {new Date(quotation.date).toLocaleDateString()}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <motion.button

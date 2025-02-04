@@ -40,7 +40,7 @@ function History() {
 
   const getPaymentStatusIcon = (status) => {
     switch (status.toLowerCase()) {
-      case 'paid':
+      case 'completed':
         return <MdCheckCircle className="w-5 h-5 text-green-500" />;
       case 'pending':
         return <MdRefresh className="w-5 h-5 text-yellow-500" />;
@@ -76,6 +76,7 @@ function History() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                   <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
@@ -101,10 +102,15 @@ function History() {
                       <div className="text-gray-900">{appointment.time}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center space-x-2">
-                        {getPaymentStatusIcon(appointment.paymentStatus)}
-                        <span className="text-gray-900">{appointment.paymentStatus.charAt(0).toUpperCase() + appointment.paymentStatus.slice(1)}</span>
-                      </div>
+                      <div className="text-gray-900">₹{appointment?.amount?.toFixed?.(2)}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {appointment.status !== 'cancelled' && (
+                        <div className="flex items-center space-x-2">
+                          {getPaymentStatusIcon(appointment.paymentStatus)}
+                          <span className="text-gray-900">{appointment.paymentStatus.charAt(0).toUpperCase() + appointment.paymentStatus.slice(1)}</span>
+                        </div>
+                      )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className="text-gray-900">{appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}</span>
@@ -140,10 +146,15 @@ function History() {
                 </div>
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-gray-900">{appointment.time}</span>
-                  <div className="flex items-center space-x-2">
-                    {getPaymentStatusIcon(appointment.paymentStatus)}
-                    <span className="text-gray-900">{appointment.paymentStatus.charAt(0).toUpperCase() + appointment.paymentStatus.slice(1)}</span>
-                  </div>
+                  {appointment.status !== 'cancelled' && (
+                    <div className="flex items-center space-x-2">
+                      {getPaymentStatusIcon(appointment.paymentStatus)}
+                      <span className="text-gray-900">{appointment.paymentStatus.charAt(0).toUpperCase() + appointment.paymentStatus.slice(1)}</span>
+                    </div>
+                  )}
+                </div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-gray-900">Amount: ₹{appointment?.amount?.toFixed?.(2)}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-900">{appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}</span>

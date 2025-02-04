@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MdPending, MdCheckCircle, MdCancel, MdAccessTime, MdCheckCircle as MdCheckCircleIcon, MdError, MdRefresh } from 'react-icons/md';
+import { FaRupeeSign } from 'react-icons/fa';
 
 const AppointmentDetailsModal = ({ isOpen, onClose, appointment }) => {
   if (!appointment) return null;
@@ -154,6 +155,15 @@ const AppointmentDetailsModal = ({ isOpen, onClose, appointment }) => {
                     <span className="font-medium text-gray-900">{appointment.paymentStatus.charAt(0).toUpperCase() + appointment.paymentStatus.slice(1)}</span>
                   </div>
                 )}
+                <div className="flex items-center space-x-2">
+                  <FaRupeeSign className="w-5 h-5 text-green-500" />
+                  <span className="text-sm text-gray-500">Amount:</span>
+                  <span className="font-medium">{appointment?.amount?.toFixed?.(2)}</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm text-gray-500">Payment Method:</span>
+                  <span className="font-medium">{appointment.paymentMethod.charAt(0).toUpperCase() + appointment.paymentMethod.slice(1)}</span>
+                </div>
               </div>
             </motion.div>
           </div>
