@@ -1,10 +1,9 @@
 import React from 'react'
+import History from '../components/history/History'
 
 function ServiceHistory() {
   return (
-    <div>
-      this is servcie history
-    </div>
+      <History />
   )
 }
 
