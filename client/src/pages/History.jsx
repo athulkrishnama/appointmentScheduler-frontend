@@ -1,10 +1,8 @@
 import React from 'react'
-
+import HistoryComponent from '../components/history/History.jsx'
 function History() {
   return (
-    <div>
-      <h1 className='text-2xl font-bold text-center text-blue-800'>History</h1>
-    </div>
+    <HistoryComponent/>
   )
 }
 
