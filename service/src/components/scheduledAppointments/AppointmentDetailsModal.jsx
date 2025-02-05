@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MdPending, MdCheckCircle, MdCancel, MdAccessTime } from 'react-icons/md'
+import { FaCreditCard, FaMoneyBillAlt, FaRupeeSign } from 'react-icons/fa';
 import CancelConfirmationModal from './CancelConfirmationModal'
 import CompletionConfirmationModal from './CompletionConfirmationModal'
 
@@ -133,6 +134,26 @@ function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCa
                                                 </span>
                                             </div>
                                         </div>
+                                        <div className="col-span-2 mt-4">
+                                            <p className="text-sm text-gray-500 mb-1">Payment Method</p>
+                                            <div className="flex items-center space-x-2">
+                                                {appointment.paymentMethod === 'online' ? (
+                                                    <FaCreditCard className="text-blue-500" />
+                                                ) : (
+                                                    <FaMoneyBillAlt className="text-green-500" />
+                                                )}
+                                                <span className="text-gray-900">{appointment.paymentMethod.charAt(0).toUpperCase() + appointment.paymentMethod.slice(1)}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+
+                                <motion.div variants={contentVariants}>
+                                    <h3 className="text-lg font-semibold mb-2">Payment Details</h3>
+                                    <div className="flex items-center space-x-2">
+                                        <FaRupeeSign className="w-5 h-5 text-green-500" />
+                                        <span className="text-sm text-gray-500">Amount:</span>
+                                        <span className="font-medium">{appointment?.amount?.toFixed?.(2)}</span>
                                     </div>
                                 </motion.div>
 
@@ -141,7 +162,7 @@ function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCa
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
                                             <p className="text-sm text-gray-500">Date</p>
-                                            <p className="font-medium">{appointment.date.split('T')[0]}</p>
+                                            <p className="font-medium">{new Date(appointment.date).toLocaleDateString()}</p>
                                         </div>
                                         <div>
                                             <p className="text-sm text-gray-500">Time</p>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import COMMISION_PERCENTAGE from '../../constants/commision';
 
 function Quotation({ message }) {
   const { amountBreakdown } = message.message;
@@ -28,6 +29,24 @@ function Quotation({ message }) {
               </td>
             </tr>
           ))}
+            <tr className='border-b hover:bg-gray-200'>
+              <td className='p-2 font-semibold'>Commission:</td>
+              <td className='p-2 flex items-center'>
+                ₹ {(
+                  amountBreakdown.reduce((acc, item) => acc + item.amount, 0) *
+                  COMMISION_PERCENTAGE
+                ).toFixed(2)}
+              </td>
+            </tr>
+            <tr className='border-b hover:bg-gray-200'>
+              <td className='p-2 font-semibold'>Your Earning:</td>
+              <td className='p-2 flex items-center'>
+                ₹ {(
+                  amountBreakdown.reduce((acc, item) => acc + item.amount, 0) *
+                  (1 - COMMISION_PERCENTAGE)
+                ).toFixed(2)}
+              </td>
+            </tr>
         </tbody>
       </table>
       <div className='mt-4 text-black font-semibold'>

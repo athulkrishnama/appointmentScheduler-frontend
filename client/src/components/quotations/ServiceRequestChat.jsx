@@ -21,7 +21,7 @@ function ServiceRequestChat() {
   const [serviceRequest, setServiceRequest] = useState({});
   const [lastQuotation, setLastQuotation] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState('Cash');
+  const [paymentMethod, setPaymentMethod] = useState('cash');
 
   const chatEndRef = useRef(null);
 
@@ -71,6 +71,7 @@ function ServiceRequestChat() {
 
   const handleConfirm = async (paymentMethod) => {
     try {
+      if(!paymentMethod) return toast.error("Please select a payment method");
       const response = await axios.post(`/serviceProvider/acceptQuotation/${id}`, { quotation: lastQuotation.message._id, paymentMethod });
       toast.success(response.data.message, {autoClose: 1000, onClose: () => navigate('/yourAppointments',{replace:true}) });
       setIsModalOpen(false);
@@ -84,9 +85,7 @@ function ServiceRequestChat() {
     setIsModalOpen(false);
   };
 
-  const handlePaymentMethodClick = (method) => {
-    setPaymentMethod(method);
-  };
+
 
   useEffect(() => {
     fetchChat();

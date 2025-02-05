@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import COMMISION_PERCENTAGE from '../../constants/commision';
 
 function CreateQuotationModal({ setCreateQuotationModalOpen , handleSubmit}) {
     const [description, setDescription] = useState('');
@@ -15,6 +16,10 @@ function CreateQuotationModal({ setCreateQuotationModalOpen , handleSubmit}) {
 
         if (isEditing) {
             const updatedItems = [...items];
+            if(amount <= 0){
+                toast.error("Amount should be greater than 0");
+                return;
+            }
             updatedItems[editIndex] = { description, amount: parseFloat(amount) };
             setItems(updatedItems);
             setIsEditing(false);
@@ -22,6 +27,10 @@ function CreateQuotationModal({ setCreateQuotationModalOpen , handleSubmit}) {
         } else {
             if (items.some(item => item.description === description)) {
                 toast.error('Duplicate description!');
+                return;
+            }
+            if(amount <= 0){
+                toast.error("Amount should be greater than 0");
                 return;
             }
             setItems([...items, { description, amount: parseFloat(amount) }]);
@@ -98,7 +107,30 @@ function CreateQuotationModal({ setCreateQuotationModalOpen , handleSubmit}) {
                                 </td>
                             </motion.tr>
                         ))}
+                            <motion.tr
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.3 }}
+                                className='border-b bg-gray-100'
+                            >
+                                <td className='p-2 font-medium text-gray-700'>Commision</td>
+                                <td className='p-2 font-medium text-gray-700'>{(totalAmount * COMMISION_PERCENTAGE).toFixed(2)}</td>
+                                <td className='p-2'></td>
+                            </motion.tr>
+                            <motion.tr
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.3 }}
+                                className='border-b bg-gray-100'
+                            >
+                                <td className='p-2 font-medium text-gray-700'>You Earning After Commision</td>
+                                <td className='p-2 font-medium text-gray-700'>{(totalAmount * (1 - COMMISION_PERCENTAGE)).toFixed(2)}</td>
+                                <td className='p-2'></td>
+                            </motion.tr>
                     </tbody>
+
                 </table>
                 <div className='mt-4 text-black'>
                     <strong>Total:</strong> {totalAmount.toFixed(2)}

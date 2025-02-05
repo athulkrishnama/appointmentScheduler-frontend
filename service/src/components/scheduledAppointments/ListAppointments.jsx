@@ -3,6 +3,7 @@ import axios from '../../axios/axios'
 import { motion } from 'framer-motion'
 import AppointmentDetailsModal from './AppointmentDetailsModal'
 import Pagination from '../pagination/Pagination'
+import { FaRupeeSign } from 'react-icons/fa'
 
 function ListAppointments() {
   const [appointments, setAppointments] = useState([])
@@ -75,10 +76,11 @@ function ListAppointments() {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="w-[35%] px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
-                <th className="w-[35%] px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
+                <th className="w-[30%] px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
+                <th className="w-[30%] px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
                 <th className="w-[15%] px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                 <th className="w-[10%] px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
+                <th className="w-[10%] px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
                 <th className="w-[5%] px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
@@ -96,10 +98,10 @@ function ListAppointments() {
                   transition={{ delay: index * 0.1 }}
                   className={`cursor-pointer hover:bg-gray-100`}
                 >
-                  <td className="w-[35%] px-6 py-4 whitespace-nowrap">
+                  <td className="w-[30%] px-6 py-4 whitespace-nowrap">
                     <div className="font-medium text-gray-900">{appointment.service.serviceName}</div>
                   </td>
-                  <td className="w-[35%] px-6 py-4 whitespace-nowrap">
+                  <td className="w-[30%] px-6 py-4 whitespace-nowrap">
                     <div className="text-gray-900">{appointment.client.fullname}</div>
                   </td>
                   <td className="w-[15%] px-6 py-4 whitespace-nowrap">
@@ -107,6 +109,9 @@ function ListAppointments() {
                   </td>
                   <td className="w-[10%] px-6 py-4 whitespace-nowrap">
                     <div className="text-gray-900">{appointment.time}</div>
+                  </td>
+                  <td className="w-[10%] px-6 py-4 whitespace-nowrap">
+                    <div className="text-gray-900">₹{appointment?.amount?.toFixed?.(2)}</div>
                   </td>
                   <td className="w-[5%] px-6 py-4 whitespace-nowrap text-right font-medium">
                     <motion.button
@@ -161,6 +166,10 @@ function ListAppointments() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   {appointment.time}
+                </div>
+                <div className="flex items-center">
+                  <FaRupeeSign className="w-4 h-4 mr-1 text-green-500" />
+                  {appointment?.amount?.toFixed?.(2)}
                 </div>
               </div>
             </motion.div>

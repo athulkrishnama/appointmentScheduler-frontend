@@ -74,6 +74,7 @@ function ListAppointments() {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Provider</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
               <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider ">Actions</th>
             </tr>
           </thead>
@@ -94,10 +95,13 @@ function ListAppointments() {
                   <div className="text-gray-900">{appointment.serviceProvider.fullname}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-gray-900">{appointment.date.split('T')[0]}</div>
+                  <div className="text-gray-900">{new Date(appointment.date).toLocaleDateString()}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-gray-900">{appointment.time}</div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-gray-900">₹{appointment?.amount?.toFixed?.(2)}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-center">
                   <motion.button
@@ -137,11 +141,15 @@ function ListAppointments() {
               <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
                 <div className="flex items-center gap-2">
                   <span className="font-medium">Date:</span>
-                  <span>{appointment.date.split('T')[0]}</span>
+                  <span>{new Date(appointment.date).toLocaleDateString()}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="font-medium">Time:</span>
                   <span>{appointment.time}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="font-medium">Amount:</span>
+                  <span>₹{appointment?.amount?.toFixed?.(2)}</span>
                 </div>
               </div>
               <motion.button

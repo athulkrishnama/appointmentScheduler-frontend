@@ -46,6 +46,11 @@ function ServiceRequestChat({ requestId }) {
                 toast.error("Add some data");
                 return;
             }
+            const total = data.reduce((acc,curr) => acc + curr.amount, 0);
+            if(total <= 0){
+                toast.error("Total amount should be greater than 0");
+                return;
+            }
             // const res = await axios.post(`/serviceProvider/createQuotation/${requestId}`, data);
             socket.emit('quotationCreate', {room:requestId, amountBreakdown:data, sender:"service provider"},(data) => {
                 if(data.success){
