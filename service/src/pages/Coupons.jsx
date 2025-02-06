@@ -1,10 +1,9 @@
 import React from 'react'
-
+import CouponPage from '../components/coupon/CouponPage'
 function Coupons() {
+
   return (
-    <div>
-      This is coupons page
-    </div>
+    <CouponPage />
   )
 }
 
