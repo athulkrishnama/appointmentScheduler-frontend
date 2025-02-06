@@ -26,12 +26,11 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<ProtectedRoute><Home /></ProtectedRoute> } />
             <Route path="/serviceManagement" element={<ProtectedRoute><ServiceManagement /></ProtectedRoute>} />
-            <Route path="/coupons" element={<h1>This is coupons page</h1>} />
+            <Route path="/coupons" element={<ProtectedRoute><Coupons /></ProtectedRoute>} />
             <Route path="/serviceRequests" element={<ProtectedRoute><ServiceRequests /></ProtectedRoute>} />
             <Route path="/scheduledAppointments" element={<ProtectedRoute><ScheduledAppointments /></ProtectedRoute>} />
             <Route path="/service-history" element={<ProtectedRoute><ServiceHistory /></ProtectedRoute>}/>
             <Route path='/reviews' element={<ProtectedRoute><Reviews /></ProtectedRoute>} />
-            <Route path='/coupons' element={<ProtectedRoute><Coupons /></ProtectedRoute>} />
             <Route path='/profile' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path='/serviceRequests/:id' element={<ProtectedRoute><ServiceRequestDetails /></ProtectedRoute>} />
           </Route>
