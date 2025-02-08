@@ -19,6 +19,7 @@ function CouponCreateModal({ onClose }) {
         description: '',
         discount: 0,
         minAmount: 0,
+        maxDiscount: 0,
         limit: 0,
         expiryDate: dateConverter(Date.now())
     }
@@ -35,6 +36,7 @@ function CouponCreateModal({ onClose }) {
         description: Yup.string().required('Description is required').min(10, 'Description must be at least 10 characters long').max(50, 'Description must be at most 50 characters long'),
         discount: Yup.number().required('Discount is required').integer("Discount must be an integer").min(0, 'Discount should be between 0 and 99').max(99, 'Discount should be between 0 and 99'),
         minAmount: Yup.number().required('Minimum amount is required').min(0, 'Minimum amount should be greater than 0'),
+        maxDiscount: Yup.number().required('Maximum discount is required').min(0, 'Maximum discount should be greater than 0'),
         limit: Yup.number().required('Limit is required').min(0, 'Limit should be greater than or equal to 0'),
         expiryDate: Yup.date().required('Expiry date is required').min(new Date(), 'Expiry date should be in the future')
     })
@@ -114,7 +116,7 @@ function CouponCreateModal({ onClose }) {
                                 animate={{ opacity: 1, y: 0 }}
                                 className="flex flex-col gap-2"
                             >
-                                <label htmlFor="minAmount">Description:</label>
+                                <label htmlFor="description">Description:</label>
                                 <Field
                                     type="text"
                                     id="description"
@@ -128,7 +130,7 @@ function CouponCreateModal({ onClose }) {
                                 animate={{ opacity: 1, y: 0 }}
                                 className="flex flex-col gap-2"
                             >
-                                <label htmlFor="minAmount">Minimum Amount:</label>
+                                <label htmlFor="minAmount">Minimum Purchase Amount:</label>
                                 <Field
                                     type="number"
                                     id="minAmount"
@@ -136,6 +138,20 @@ function CouponCreateModal({ onClose }) {
                                     className="border border-gray-300 rounded-md p-2 focus:outline-gray-400"
                                 />  
                                 <ErrorMessage name="minAmount" component="div" className="text-red-500" />
+                            </motion.div>
+                            <motion.div
+                                initial={{ opacity: 0, y: 100 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="flex flex-col gap-2"
+                            >
+                                <label htmlFor="maxDiscount">Maximum Discount:</label>
+                                <Field
+                                    type="number"
+                                    id="maxDiscount"
+                                    name="maxDiscount"
+                                    className="border border-gray-300 rounded-md p-2 focus:outline-gray-400"
+                                />  
+                                <ErrorMessage name="maxDiscount" component="div" className="text-red-500" />
                             </motion.div>
                             <motion.div
                                 initial={{ opacity: 0, y: 100 }}
