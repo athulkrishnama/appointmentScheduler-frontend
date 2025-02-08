@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MdPending, MdCheckCircle, MdCancel, MdAccessTime, MdCheckCircle as MdCheckCircleIcon, MdError, MdRefresh } from 'react-icons/md';
-import { FaRupeeSign } from 'react-icons/fa';
+import { FaRupeeSign, FaUser, FaUserShield } from 'react-icons/fa';
 
 const AppointmentDetailsModal = ({ isOpen, onClose, appointment }) => {
   if (!appointment) return null;
@@ -82,13 +82,22 @@ const AppointmentDetailsModal = ({ isOpen, onClose, appointment }) => {
                       <p className="text-sm text-gray-500">Phone</p>
                       <p className="font-medium">{appointment.serviceProvider.phone}</p>
                     </div>
-                    <div className="col-span-2">
+                    <div className="">
                       <p className="text-sm text-gray-500 mb-1">Status</p>
                       <div className="flex items-center space-x-2">
                         {getStatusIcon(appointment.status)}
                         <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(appointment.status)}`}>{appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}</span>
                       </div>
                     </div>
+                    {
+                      appointment.status === 'cancelled' &&
+                      <div className=''>
+                        <p className='text-gray-500'>Cancelled By:</p>
+                        <div className='flex items-center space-x-2'>
+                          <p className='flex gap-2 items-center'>{appointment.cancelledBy === 'client' ? <><FaUser  /> Client</> : <><FaUserShield  /> ServiceProvider</>}</p>
+                        </div>
+                      </div>
+                    }
                   </div>
                 </div>
                 <div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MdPending, MdCheckCircle, MdCancel, MdAccessTime, MdCheckCircle as MdCheckCircleIcon, MdError, MdRefresh } from 'react-icons/md';
-import { FaRupeeSign } from 'react-icons/fa';
+import { FaRupeeSign, FaUser, FaUserShield } from 'react-icons/fa';
 
 const AppointmentDetailsModal = ({ isOpen, onClose, appointment }) => {
   if (!appointment) return null;
@@ -75,42 +75,51 @@ const AppointmentDetailsModal = ({ isOpen, onClose, appointment }) => {
                   <h3 className="text-lg font-semibold mb-2">Client Information</h3>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-gray-500">Name</p>
+                      <p className="  text-gray-500">Name</p>
                       <p className="font-medium">{appointment.client.fullname}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">Phone</p>
+                      <p className="  text-gray-500">Phone</p>
                       <p className="font-medium">{appointment.client.phone}</p>
                     </div>
-                    <div className="col-span-2">
-                      <p className="text-sm text-gray-500 mb-1">Status</p>
+                    <div className="">
+                      <p className="  text-gray-500 mb-1">Status</p>
                       <div className="flex items-center space-x-2">
                         {getStatusIcon(appointment.status)}
-                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(appointment.status)}`}>{appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}</span>
+                        <span className={`px-3 py-1 rounded-full  font-medium ${getStatusColor(appointment.status)}`}>{appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}</span>
                       </div>
                     </div>
+                    {
+                      appointment.status === 'cancelled' &&
+                      <div className='mb-1  space-x-2'>
+                        <p className='text-gray-500 mb-1'>Cancelled By</p>
+                        <div className='flex items-center'>
+                          <p className='flex gap-3 items-center'>{appointment.cancelledBy === 'client' ? <><FaUser  /> Client</> : <> <FaUserShield  /> ServiceProvider</>}</p>
+                        </div>
+                      </div>
+                    }
                   </div>
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Schedule</h3>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-gray-500">Date</p>
+                      <p className="  text-gray-500">Date</p>
                       <p className="font-medium">{new Date(appointment.date).toLocaleDateString()}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">Time</p>
+                      <p className="  text-gray-500">Time</p>
                       <p className="font-medium">{appointment.time}</p>
                     </div>
                     {appointment.serviceFrequency && (
                       <div>
-                        <p className="text-sm text-gray-500">Frequency</p>
+                        <p className="  text-gray-500">Frequency</p>
                         <p className="font-medium">{appointment.serviceFrequency}</p>
                       </div>
                     )}
                     {appointment.endDate && (
                       <div>
-                        <p className="text-sm text-gray-500">End Date</p>
+                        <p className="  text-gray-500">End Date</p>
                         <p className="font-medium">{appointment.endDate.split('T')[0]}</p>
                       </div>
                     )}
@@ -157,11 +166,11 @@ const AppointmentDetailsModal = ({ isOpen, onClose, appointment }) => {
                 )}
                 <div className="flex items-center space-x-2">
                   <FaRupeeSign className="w-5 h-5 text-green-500" />
-                  <span className="text-sm text-gray-500">Amount:</span>
+                  <span className="  text-gray-500">Amount:</span>
                   <span className="font-medium">{appointment?.amount?.toFixed?.(2)}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <span className="text-sm text-gray-500">Payment Method:</span>
+                  <span className="  text-gray-500">Payment Method:</span>
                   <span className="font-medium">{appointment.paymentMethod.charAt(0).toUpperCase() + appointment.paymentMethod.slice(1)}</span>
                 </div>
               </div>
