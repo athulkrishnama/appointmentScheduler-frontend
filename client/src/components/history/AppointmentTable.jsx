@@ -3,6 +3,7 @@ import axios from '../../axios/axios';
 import Pagination from '../pagination/Pagination';
 import { motion } from 'framer-motion';
 import AppointmentDetailsModal from './AppointmentDetailsModal';
+import PaymentModal from './paymentModal';
 
 const animationVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -16,6 +17,7 @@ function AppointmentTable() {
   const [totalPages, setTotalPages] = useState(1);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
   const LIMIT = 5;
 
@@ -59,6 +61,17 @@ function AppointmentTable() {
     setIsModalOpen(false);
     setSelectedAppointment(null);
   };
+
+  const paymentModalOpen = (appointment) => {
+    setSelectedAppointment(appointment);
+    setIsPaymentModalOpen(true);
+  }
+
+  const closePaymentModal = () => {
+    fetchAppointments()
+    setIsPaymentModalOpen(false);
+    setSelectedAppointment(null);
+  }
 
   return (
     <div className="w-[90vw] md:w-[50vw] mx-auto px-4 py-8">
@@ -108,7 +121,11 @@ function AppointmentTable() {
                       <div className="text-gray-900">₹{appointment?.amount?.toFixed?.(2)}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <button className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800 focus:outline-none disabled:bg-gray-600" disabled={appointment.status === 'cancelled'}>
+                      <button 
+                      className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800 focus:outline-none disabled:bg-gray-600" 
+                      disabled={appointment.status === 'cancelled' || appointment.paymentStatus === 'completed'}
+                      onClick={() => paymentModalOpen(appointment)}
+                      >
                         {renderPaymentButton(appointment.paymentStatus)}
                       </button>
                     </td>
@@ -137,7 +154,7 @@ function AppointmentTable() {
                   </div>
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-gray-900">{appointment.status}</span>
-                    <button className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800 focus:outline-none">
+                    <button className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800 focus:outline-none" disabled={appointment.status === 'cancelled' || appointment.paymentStatus === 'completed'} onClick={() => paymentModalOpen(appointment)}>
                       {renderPaymentButton(appointment.paymentStatus)}
                     </button>
                   </div>
@@ -175,6 +192,13 @@ function AppointmentTable() {
           onAppointmentComplete={() => {}}
         />
       )}
+      {
+        isPaymentModalOpen && 
+          <PaymentModal 
+            onClose={closePaymentModal}
+            appointment={selectedAppointment}
+          />
+      }
     </div>
   );
 }
