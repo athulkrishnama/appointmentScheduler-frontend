@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import axios from '../../axios/axios';
 import transactionTypes from '../../constants/transactionType';
+import {FaMoneyCheck} from 'react-icons/fa'
 
 function Wallet() {
   const [transactions, setTransactions] = useState([]);
@@ -50,7 +51,7 @@ function Wallet() {
     >
       <div className="bg-white p-6 rounded-xl shadow-lg mb-6">
         <h1 className="text-4xl font-bold text-gray-900">
-          Balance: <span className={balance > 0 ? 'text-black' : 'text-rose-600'}>₹{balance}</span>
+          Balance: <span className={balance > 0 ? 'text-green-600' : 'text-rose-600'}>₹{balance.toFixed(2)}</span>
         </h1>
       </div>
       
@@ -81,24 +82,25 @@ function Wallet() {
                 {/* Transaction Details */}
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <p className="text-sm text-gray-500">Amount</p>
-                    <div className={`inline-block px-2 py-1 rounded-md text-sm font-semibold ${getAmountColor(transaction.type)}`}>
-                    ₹{transaction.amount}
+                    <p className="text-lg text-gray-500">Amount</p>
+                    <div className={`inline-block px-2 py-1 rounded-md text-lg font-semibold ${getAmountColor(transaction.type)}`}>
+                    ₹{transaction.amount.toFixed(2)}
                     </div>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Status</p>
-                    <p className="text-sm font-semibold text-gray-900">{transaction.status}</p>
+                    <p className="text-lg text-gray-500">Date</p>
+                    <p className="text-lg font-semibold text-gray-900">{new Date(transaction.createdAt).toLocaleDateString()}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Type</p>
-                    <p className="text-sm font-medium text-gray-700">
+                    <p className="text-lg text-gray-500">Type</p>
+                    <p className={`text-lg font-medium ${transaction.type === 'credit' ? 'text-green-600' : 'text-red-600'} flex items-center gap-3`}>
+                      <FaMoneyCheck/>
                       {transaction.type === 'credit' ? 'Credited' : 'Debited'}
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Transaction</p>
-                    <p className="text-sm font-medium text-gray-700 truncate">
+                    <p className="text-lg text-gray-500">Transaction</p>
+                    <p className="text-lg font-medium text-gray-700 truncate">
                       {getTransactionType(transaction.transactionType)}
                     </p>
                   </div>
