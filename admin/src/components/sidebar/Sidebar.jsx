@@ -20,7 +20,8 @@ function Sidebar() {
     { linktext: "Service Providers", link: "serviceProviders" },
     { linktext: "Requests", link: "requests" },
     { linktext: "Clients", link: "clients" },
-    { linktext: "Categories", link: "category" }
+    { linktext: "Categories", link: "category" },
+    { linktext: "Wallet", link: "wallet" }
   ]
 
   const handleLogout = () => {
@@ -45,7 +46,7 @@ function Sidebar() {
       <h1 className="text-4xl font-bold text-gray-800 tracking-tight my-4 text-center mb-10">Admin Panel</h1>
       <div className="flex gap-3  flex-col items-stretch">
         {links.map(({ linktext, link }) => (
-          <Link to={link} className={`${isActive(link) ? "text-white bg-black" : "text-gray-800"} text-md text-center py-3 rounded-lg transition duration-500 ease-in-out`}>
+          <Link key={linktext} to={link} className={`${isActive(link) ? "text-white bg-black" : "text-gray-800"} text-md text-center py-3 rounded-lg transition duration-500 ease-in-out`}>
             {linktext}
           </Link>
         ))}
