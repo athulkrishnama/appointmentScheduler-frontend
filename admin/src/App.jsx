@@ -11,6 +11,7 @@ import ServiceProviders from './pages/ServiceProviders';
 import { ToastContainer, } from 'react-toastify'
 import ProtectedRoute from './components/protectedComponents/ProtectedRoute'
 import Layout from './components/layout/Layout';
+import Wallet from './pages/Wallet';
 
 const App = () => {
     return (
@@ -23,6 +24,7 @@ const App = () => {
                         <Route path="/clients" element={<><ProtectedRoute><Clients /></ProtectedRoute></>} />
                         <Route path="/serviceProviders" element={<><ProtectedRoute><ServiceProviders /></ProtectedRoute></>} />
                         <Route path="/category" element={<><ProtectedRoute><Category /></ProtectedRoute></>} />
+                        <Route path="/wallet" element={<><ProtectedRoute><Wallet /></ProtectedRoute></>} />
                     </Route>
                     <Route path="/login" element={<Login />} />
                 </Routes>
