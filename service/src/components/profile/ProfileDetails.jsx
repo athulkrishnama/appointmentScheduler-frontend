@@ -23,7 +23,7 @@ function ProfileDetails() {
       <motion.div
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-gray-100 rounded-2xl shadow-2xl p-5 w-[90vw] md:w-[60vw] h-[80vh] md:h-[65vh] flex flex-col gap-4 overflow-x-hidden"
+        className="bg-gray-100 rounded-2xl shadow-2xl p-5 w-[90vw] md:w-[60vw] h-[80vh] md:h-[80vh] flex flex-col gap-4 overflow-x-hidden"
       >
         <div>
           <h1 className="text-3xl text-center font-black">Profile Page</h1>

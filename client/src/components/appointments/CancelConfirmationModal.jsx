@@ -2,18 +2,21 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from '../../axios/axios';
 import { toast } from 'react-toastify';
+import cancellationReasons from '../../constants/cancellationReason';
 
 function CancelConfirmationModal({ isOpen, onClose, appointmentId, onSuccess }) {
     const [reason, setReason] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [selectedReason, setSelectedReason] = useState(cancellationReasons[0]);
 
     const handleCancel = async () => {
         try {
             setIsLoading(true);
-            if(reason.trim().length === 0){
+            if(selectedReason === 'Others' && reason.trim().length === 0){
                 return toast.error('Reason is required');
             }
-            const response = await axios.patch(`/client/cancelAppointment/${appointmentId}`, { reason });
+            const cancellationReason = selectedReason === 'Others' ? reason : selectedReason;
+            const response = await axios.patch(`/client/cancelAppointment/${appointmentId}`, { reason: cancellationReason });
             if (response.data.success) {
                 toast.success('Appointment cancelled successfully');
                 onSuccess();
@@ -21,6 +24,7 @@ function CancelConfirmationModal({ isOpen, onClose, appointmentId, onSuccess }) 
             }
         } catch (error) {
             console.error(error);
+            toast.error(error.response.data.message)
         } finally {
             setIsLoading(false);
         }
@@ -65,15 +69,34 @@ function CancelConfirmationModal({ isOpen, onClose, appointmentId, onSuccess }) 
                             
                             <div className="mb-4">
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Reason for cancellation
+                                    Select Reason for cancellation
                                 </label>
-                                <textarea
-                                    value={reason}
-                                    onChange={(e) => setReason(e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                                    rows="3"
-                                    placeholder="Please provide a reason for cancellation"
-                                />
+                                <select
+                                    value={selectedReason}
+                                    onChange={(e) => setSelectedReason(e.target.value)}
+                                    className="w-full px-3 py-2 my-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                                >
+                                    {cancellationReasons.map((reason) => (
+                                        <option key={reason} value={reason}>
+                                            {reason}
+                                        </option>
+                                    ))}
+                                </select>
+
+                                <AnimatePresence mode='wait'>
+                                    {selectedReason === 'Others' && (
+                                        <motion.textarea
+                                            initial={{ opacity: 0 , height:0}}
+                                            animate={{ opacity: 1, height:100}}
+                                            exit={{ opacity: 0 ,height:0}}
+                                            value={reason}
+                                            onChange={(e) => setReason(e.target.value)}
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                                            rows="3"
+                                            placeholder="Please provide a reason for cancellation"
+                                        />
+                                    )}
+                                    </AnimatePresence>
                             </div>
 
                             <div className="flex justify-end space-x-3">
