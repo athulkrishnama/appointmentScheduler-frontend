@@ -2,6 +2,10 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MdPending, MdCheckCircle, MdCancel, MdAccessTime, MdCheckCircle as MdCheckCircleIcon, MdError, MdRefresh } from 'react-icons/md';
 import { FaRupeeSign, FaUser, FaUserShield } from 'react-icons/fa';
+import Invoice from '../invoice/Invoice';
+import { pdf } from '@react-pdf/renderer';
+import { saveAs } from 'file-saver';
+import axios from '../../axios/axios';
 
 const AppointmentDetailsModal = ({ isOpen, onClose, appointment }) => {
   if (!appointment) return null;
@@ -55,6 +59,19 @@ const AppointmentDetailsModal = ({ isOpen, onClose, appointment }) => {
     }
   };
 
+  const handleInvoiceDownload = async () => {
+    try{
+      const serviceRequest = await axios.get(`/client/getServiceRequest/${appointment.serviceRequest}`);
+      console.log(serviceRequest.data);
+      console.log(appointment)
+      const doc = <Invoice appointment={appointment} serviceRequest={serviceRequest.data.serviceRequest} />;
+      const blob = await pdf(doc).toBlob();
+      saveAs(blob, 'invoice.pdf');
+    }catch(error){
+      console.log(error);
+    }
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -94,7 +111,7 @@ const AppointmentDetailsModal = ({ isOpen, onClose, appointment }) => {
                       <div className=''>
                         <p className='text-gray-500'>Cancelled By:</p>
                         <div className='flex items-center space-x-2'>
-                          <p className='flex gap-2 items-center'>{appointment.cancelledBy === 'client' ? <><FaUser  /> Client</> : <><FaUserShield  /> ServiceProvider</>}</p>
+                          <p className='flex gap-2 items-center'>{appointment.cancelledBy === 'client' ? <><FaUser /> Client</> : <><FaUserShield /> ServiceProvider</>}</p>
                         </div>
                       </div>
                     }
@@ -157,21 +174,28 @@ const AppointmentDetailsModal = ({ isOpen, onClose, appointment }) => {
                     <p className="font-medium text-red-600">{appointment.cancellationReason}</p>
                   </div>
                 )}
-                {appointment.status === 'completed' && (
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-lg font-semibold mb-2">Payment Status</h3>
-                    {getPaymentStatusIcon(appointment.paymentStatus)}
-                    <span className="font-medium text-gray-900">{appointment.paymentStatus.charAt(0).toUpperCase() + appointment.paymentStatus.slice(1)}</span>
+                <div className='grid grid-cols-2 gap-4'>
+                  {appointment.status === 'completed' && (
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-lg font-semibold mb-2">Payment Status</h3>
+                      {getPaymentStatusIcon(appointment.paymentStatus)}
+                      <span className="font-medium text-gray-900">{appointment.paymentStatus.charAt(0).toUpperCase() + appointment.paymentStatus.slice(1)}</span>
+                    </div>
+                  )}
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm text-gray-500">Payment Method:</span>
+                    <span className="font-medium">{appointment.paymentMethod.charAt(0).toUpperCase() + appointment.paymentMethod.slice(1)}</span>
                   </div>
-                )}
-                <div className="flex items-center space-x-2">
-                  <FaRupeeSign className="w-5 h-5 text-green-500" />
-                  <span className="text-sm text-gray-500">Amount:</span>
-                  <span className="font-medium">{appointment?.amount?.toFixed?.(2)}</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <span className="text-sm text-gray-500">Payment Method:</span>
-                  <span className="font-medium">{appointment.paymentMethod.charAt(0).toUpperCase() + appointment.paymentMethod.slice(1)}</span>
+                <div className='grid grid-cols-2 gap-4'>
+                  <div className="flex items-center space-x-2">
+                    <FaRupeeSign className="w-5 h-5 text-green-500" />
+                    <span className="text-sm text-gray-500">Amount:</span>
+                    <span className="font-medium">{appointment?.amount?.toFixed?.(2)}</span>
+                  </div>
+                  <div className='flex items-center space-x-2'>
+                    <button onClick={handleInvoiceDownload} className='bg-black text-white px-4 py-2 rounded'>Download Invoice</button>
+                  </div>
                 </div>
               </div>
             </motion.div>

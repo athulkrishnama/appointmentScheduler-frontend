@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@react-oauth/google": "^0.12.1",
+    "@react-pdf/renderer": "^4.2.1",
     "@reduxjs/toolkit": "^2.5.0",
     "axios": "^1.7.9",
+    "file-saver": "^2.0.5",
     "formik": "^2.4.6",
     "framer-motion": "^11.15.0",
     "jwt-decode": "^4.0.0",
