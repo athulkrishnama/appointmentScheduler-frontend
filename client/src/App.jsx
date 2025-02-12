@@ -16,11 +16,14 @@ import ServiceDetails from './pages/ServiceDetails'
 import ProtectedRoute from './components/protectedComponents/ProtectedRoute'
 import {ToastContainer,} from 'react-toastify'
 import ServiceRequestChat from './pages/ServiceRequestChat'
+import Notification from './components/notification/Notification'
 
 const App = () => {
     return (
         <Provider store={store}>
             <BrowserRouter>
+            <Notification />
+
                 <Routes>
                     <Route path="/login" element={<Login/>} />
                     <Route path="/signup" element={<Signup/>} />
@@ -40,7 +43,7 @@ const App = () => {
                 
             </BrowserRouter>
             <ToastContainer/>
-        </Provider>
+        </Provider> 
     )
 }
 
