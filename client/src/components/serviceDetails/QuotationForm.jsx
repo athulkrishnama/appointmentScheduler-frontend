@@ -23,7 +23,6 @@ function QuotationForm({ service }) {
   const navigate = useNavigate();
   const fetchAddresses = async () => {
     const response = await axios.get("/client/getAddresses");
-    console.log(response.data.addresses);
     setAddresses(response.data.addresses);
     setSelectedAddress(response.data.addresses.length?response.data.addresses[0]._id:null);
   };

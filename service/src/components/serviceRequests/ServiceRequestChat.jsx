@@ -107,7 +107,6 @@ function ServiceRequestChat({ requestId }) {
         socket.emit('joinRoom', { room: requestId, name: 'service provider' });
 
         socket.on('receiveMessage', (message) => {
-            console.log("received message", message)
             setChat(prev => [...prev, message]);
         })
 
