@@ -37,7 +37,7 @@ function Header() {
   ];
 
   return (
-    <div className='sticky top-0 left-0 right-0 z-50 w-full'>
+    <div className='sticky top-0 left-0 right-0 z-40 w-full'>
       <motion.header
         className="bg-white text-black p-4 shadow-md "
         initial={{ opacity: 0, y: -20 }}

@@ -15,11 +15,14 @@ import Layout from "./components/layout/Layout";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import ProtectedRoute from './components/protectedComponents/ProtectedRoute'
+import Notification from './components/notification/Notification'
 
 function App() {
   return (
     <Provider store={store}>
       <Router>
+      <Notification />
+
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

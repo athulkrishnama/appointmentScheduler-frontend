@@ -11,7 +11,7 @@ import { MdClose } from 'react-icons/md';
 import { MdAttachMoney, MdCreditCard } from 'react-icons/md';
 import ConfirmationModal from './ConfirmationModal';
 
-import socket from '../../services/socket'
+import socket from '../../services/ chat'
 
 function ServiceRequestChat() {
   const { id } = useParams();
@@ -53,7 +53,9 @@ function ServiceRequestChat() {
       socket.emit('sendMessage', {
         message: message,
         room: id,
-        sender: "client"
+        sender: "client",
+        receiverId:serviceRequest.service.serviceProvider._id,
+        senderId:serviceRequest.client._id
       }, (data) => {
         if(data.success){
           setChat([...chat, data.chat]);
@@ -103,7 +105,7 @@ function ServiceRequestChat() {
       socket.off('receiveMessage');
       socket.disconnect({ room: id });
     };
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const lastQuotation = chat.findLast((message) => message.messageType === 'quotation');

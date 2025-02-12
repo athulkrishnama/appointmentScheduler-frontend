@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 function ServiceRequestDetails({ serviceRequest }) {
-    console.log(serviceRequest)
   if (!Object.keys(serviceRequest).length) {
     return <div>Loading...</div>;
   }
