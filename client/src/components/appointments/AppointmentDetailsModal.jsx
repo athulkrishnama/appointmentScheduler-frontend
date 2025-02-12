@@ -6,6 +6,7 @@ import { FaRupeeSign } from 'react-icons/fa'
 
 function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCancel }) {
     if (!appointment) return null;
+    const CANCELABLE_TIME = 30;
 
     const [showCancelModal, setShowCancelModal] = useState(false);
 
@@ -45,6 +46,37 @@ function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCa
         hidden: { opacity: 0, x: -20 },
         visible: { opacity: 1, x: 0 },
         exit: { opacity: 0, x: 20 }
+    }
+
+
+    const  isTimePassed = (storedTime) =>{
+        const now = new Date();
+
+        const currentHours = now.getHours();
+        const currentMinutes = now.getMinutes();
+    
+
+        const [storedHours, storedMinutes] = storedTime.split(":").map(Number);
+    
+        const currentTotalMinutes = currentHours * 60 + currentMinutes;
+        const storedTotalMinutes = storedHours * 60 + storedMinutes;
+    
+        return (storedTotalMinutes - currentTotalMinutes) > CANCELABLE_TIME;
+    }
+
+    const isDayPassed = (date)=>{
+        const newDate = new Date(date)
+        const now = new Date();
+
+        newDate.setHours(0,0,0,0);
+        now.setHours(0,0,0,0);
+
+        return newDate > now
+    }
+
+    const isCancellable = (date, time)=>{
+        if(isDayPassed(date)) return false
+        return !isTimePassed(time)
     }
 
 
@@ -200,7 +232,9 @@ function AppointmentDetailsModal({ isOpen, onClose, appointment, onAppointmentCa
                                     <motion.div variants={contentVariants} className="flex justify-end mt-6">
                                         <motion.button
                                             onClick={() => setShowCancelModal(true)}
-                                            className="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition-colors duration-200"
+                                            disabled={isCancellable(appointment.date, appointment.time)}
+                                            // disabled={()=>isCancellable(appointment.date, appointment.time)}
+                                            className="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition-colors duration-200 disabled:bg-red-300"
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
                                         >
