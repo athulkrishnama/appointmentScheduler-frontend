@@ -187,11 +187,26 @@ const AppointmentDetailsModal = ({ isOpen, onClose, appointment }) => {
                     <span className="font-medium">{appointment.paymentMethod.charAt(0).toUpperCase() + appointment.paymentMethod.slice(1)}</span>
                   </div>
                 </div>
-                <div className='grid grid-cols-2 gap-4'>
+               
+                {
+                  appointment.coupon && (
+                    <div className='grid grid-cols-2 gap-4'>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-sm text-gray-500">Coupon:</span>
+                        <span className="font-medium">{appointment.coupon?.couponCode}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-sm text-gray-500">Discount:</span>
+                        <span className="font-medium">₹{appointment.couponDiscount}</span>
+                      </div>
+                    </div>
+                  )
+                }
+                 <div className='grid grid-cols-2 gap-4'>
                   <div className="flex items-center space-x-2">
                     <FaRupeeSign className="w-5 h-5 text-green-500" />
                     <span className="text-sm text-gray-500">Amount:</span>
-                    <span className="font-medium">{appointment?.amount?.toFixed?.(2)}</span>
+                    <span className="font-medium">{appointment.couponDiscount?appointment?.finalAmount?.toFixed?.(2):appointment?.amount?.toFixed?.(2)}</span>
                   </div>
                   <div className='flex items-center space-x-2'>
                     <button onClick={handleInvoiceDownload} className='bg-black text-white px-4 py-2 rounded'>Download Invoice</button>

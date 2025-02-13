@@ -4,6 +4,9 @@ import Pagination from '../pagination/Pagination';
 import { motion } from 'framer-motion';
 import AppointmentDetailsModal from './AppointmentDetailsModal';
 import PaymentModal from './paymentModal';
+import { useRazorpay } from 'react-razorpay';
+import store from '../../store/store'
+import { toast } from 'react-toastify';
 
 const animationVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -18,6 +21,14 @@ function AppointmentTable() {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+
+  const { error, isLoading, Razorpay } = useRazorpay();
+
+  const userData = {
+    name: store.getState().user.name,
+    email: store.getState().user.email,
+    phone: store.getState().user.phone
+  }
 
   const LIMIT = 5;
 
@@ -73,6 +84,54 @@ function AppointmentTable() {
     setSelectedAppointment(null);
   }
 
+  const paymentSuccessHandler = async (data, appointment) => {
+    try {
+      const response = await axios.post("/client/verifyRazorpayPayment", { ...data, appointmentId: appointment._id, paymentStatus: true })
+      toast.success(response.data.message)
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message)
+    } finally {
+      fetchAppointments()
+    }
+  }
+
+  const retryPayment = async (appointment) => {
+    try {
+      const response = await axios.post("/client/retryPaymentCreateOrder", { appointmentId: appointment._id })
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        name: "Timelens",
+        description: "Retrying Payment",
+        prefill: userData,
+        order_id: response.data.order.id,
+        retry: {
+          enabled: false
+        },
+        handler: (data) => paymentSuccessHandler(data, appointment),
+        theme: {
+          color: "#000000"
+        }
+      }
+      const rzpay = new Razorpay(options)
+      rzpay.open()
+      rzpay.on('payment.failed', async (response) => {
+        try {
+          const res = await axios.post("/client/verifyRazorpayPayment", { ...response, appointmentId: appointment._id, paymentStatus: false })
+          toast.error(res.data.message)
+        } catch (error) {
+          toast.error(error.response.data.message)
+          console.log(error)
+        } finally {
+          fetchAppointments()
+        }
+      })
+    } catch (error) {
+      console.log(error)
+      toast.error(error.response.data.message)
+    }
+  }
+
   return (
     <div className="w-[90vw] md:w-[50vw] mx-auto px-4 py-8">
       <motion.div
@@ -118,13 +177,13 @@ function AppointmentTable() {
                       <div className="text-gray-900">{appointment.status}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-gray-900">₹{appointment?.amount?.toFixed?.(2)}</div>
+                      <div className="text-gray-900">₹{!appointment.couponDiscount ? appointment?.amount?.toFixed?.(2) : appointment?.finalAmount?.toFixed?.(2)}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <button 
-                      className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800 focus:outline-none disabled:bg-gray-600" 
-                      disabled={appointment.status === 'cancelled' || appointment.paymentStatus === 'completed'}
-                      onClick={() => paymentModalOpen(appointment)}
+                      <button
+                        className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800 focus:outline-none disabled:bg-gray-600"
+                        disabled={appointment.status === 'cancelled' || appointment.paymentStatus === 'completed'}
+                        onClick={() => appointment.paymentStatus === 'pending' ? paymentModalOpen(appointment) : retryPayment(appointment)}
                       >
                         {renderPaymentButton(appointment.paymentStatus)}
                       </button>
@@ -154,13 +213,16 @@ function AppointmentTable() {
                   </div>
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-gray-900">{appointment.status}</span>
-                    <button className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800 focus:outline-none" disabled={appointment.status === 'cancelled' || appointment.paymentStatus === 'completed'} onClick={() => paymentModalOpen(appointment)}>
+                    <button className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800 focus:outline-none" disabled={appointment.status === 'cancelled' || appointment.paymentStatus === 'completed'}
+                      onClick={() => appointment.paymentStatus === 'pending' ? paymentModalOpen(appointment) : retryPayment(appointment)}
+
+                    >
                       {renderPaymentButton(appointment.paymentStatus)}
                     </button>
                   </div>
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-gray-900">Amount:</span>
-                    <span className="font-medium">₹{appointment?.amount?.toFixed?.(2)}</span>
+                    <span className="font-medium">₹{appointment.paymentStatus === 'pending' ? appointment?.amount?.toFixed?.(2) : appointment?.finalAmount?.toFixed?.(2)}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <motion.button
@@ -188,16 +250,16 @@ function AppointmentTable() {
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           appointment={selectedAppointment}
-          onAppointmentCancel={() => {}}
-          onAppointmentComplete={() => {}}
+          onAppointmentCancel={() => { }}
+          onAppointmentComplete={() => { }}
         />
       )}
       {
-        isPaymentModalOpen && 
-          <PaymentModal 
-            onClose={closePaymentModal}
-            appointment={selectedAppointment}
-          />
+        isPaymentModalOpen &&
+        <PaymentModal
+          onClose={closePaymentModal}
+          appointment={selectedAppointment}
+        />
       }
     </div>
   );
