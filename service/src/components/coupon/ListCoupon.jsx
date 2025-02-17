@@ -27,6 +27,7 @@ function ListCoupon({ coupons, toggleStatus }) {
             <th className="border-b border-gray-300 text-left px-4 py-5">Minimum Amount</th>
             <th className="border-b border-gray-300 text-left px-4 py-5">Limit</th>
             <th className="border-b border-gray-300 text-left px-4 py-5">Used Count</th>
+            <th className="border-b border-gray-300 text-left px-4 py-5">Max Discount</th>
             <th className="border-b border-gray-300 text-left px-4 py-5 rounded-tr-xl">Expiry Date</th>
             <th className="border-b border-gray-300 text-left px-4 py-5 rounded-tr-xl">Active</th>
           </motion.tr>
@@ -47,6 +48,7 @@ function ListCoupon({ coupons, toggleStatus }) {
               <td className="py-5  border-gray-300 px-4 text-gray-800 w-[15%]">₹{coupon.minAmount}</td>
               <td className="py-5  border-gray-300 px-4 text-gray-800 w-[8%]">{coupon.limit}</td>
               <td className="py-5  border-gray-300 px-4 text-gray-800 w-[12%]">{coupon.usedCount}</td>
+              <td className="py-5  border-gray-300 px-4 text-gray-800 w-[12%]">{coupon.maxDiscount}</td>
               <td className="py-5  border-gray-300 px-4 text-gray-800 w-[15%] rounded-br-lg">
                 {new Date(coupon.expiryDate).toLocaleDateString()}
               </td>

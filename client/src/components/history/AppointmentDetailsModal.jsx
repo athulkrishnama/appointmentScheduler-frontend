@@ -203,10 +203,19 @@ const AppointmentDetailsModal = ({ isOpen, onClose, appointment }) => {
                   )
                 }
                  <div className='grid grid-cols-2 gap-4'>
-                  <div className="flex items-center space-x-2">
-                    <FaRupeeSign className="w-5 h-5 text-green-500" />
-                    <span className="text-sm text-gray-500">Amount:</span>
-                    <span className="font-medium">{appointment.couponDiscount?appointment?.finalAmount?.toFixed?.(2):appointment?.amount?.toFixed?.(2)}</span>
+                  <div className="flex justify-center gap-4 flex-col space-x-2">
+                    <div className='flex gap-2'>
+                      <FaRupeeSign className="w-5 h-5 text-green-500" />
+                      <span className="text-sm text-gray-500">Amount:</span>
+                      <span className="font-medium">₹{appointment?.amount?.toFixed?.(2)}</span>
+                    </div>
+                    {
+                      appointment.couponDiscount &&
+                      <div>
+                        <span>Final Amount: </span>
+                        <span>₹{appointment?.finalAmount.toFixed(2)}</span>
+                      </div>
+                    }
                   </div>
                   <div className='flex items-center space-x-2'>
                     <button onClick={handleInvoiceDownload} className='bg-black text-white px-4 py-2 rounded'>Download Invoice</button>
