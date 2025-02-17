@@ -7,6 +7,8 @@ import PaymentModal from './paymentModal';
 import { useRazorpay } from 'react-razorpay';
 import store from '../../store/store'
 import { toast } from 'react-toastify';
+import { MdCheckCircle, MdError,  } from 'react-icons/md';
+import {TbClockCancel} from 'react-icons/tb'
 
 const animationVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -62,6 +64,19 @@ function AppointmentTable() {
         return null;
     }
   };
+
+  const getPaymentStatusIcon = (status) => {
+    switch (status.toLowerCase()) {
+      case 'completed':
+        return <MdCheckCircle className="w-5 h-5 text-green-500" />;
+      case 'pending':
+        return <TbClockCancel className="w-5 h-5 text-red-500" />;
+      case 'failed':
+        return <MdError className="w-5 h-5 text-red-500" />;
+      default:
+        return null;
+    }
+  }
 
   const handleViewDetails = (appointment) => {
     setSelectedAppointment(appointment);
@@ -133,7 +148,7 @@ function AppointmentTable() {
   }
 
   return (
-    <div className="w-[90vw] md:w-[50vw] mx-auto px-4 py-8">
+    <div className="w-[90vw] md:w-[60vw] mx-auto px-4 py-8">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -153,8 +168,9 @@ function AppointmentTable() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Status</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -178,6 +194,9 @@ function AppointmentTable() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-gray-900">₹{!appointment.couponDiscount ? appointment?.amount?.toFixed?.(2) : appointment?.finalAmount?.toFixed?.(2)}</div>
+                    </td>
+                    <td className='px-6 py-4 whitespace-nowrap'>
+                      <div className='flex gap-2'>{getPaymentStatusIcon(appointment.paymentStatus)} <span>{appointment.status}</span></div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <button
@@ -213,7 +232,7 @@ function AppointmentTable() {
                   </div>
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-gray-900">{appointment.status}</span>
-                    <button className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800 focus:outline-none" disabled={appointment.status === 'cancelled' || appointment.paymentStatus === 'completed'}
+                    <button className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800 focus:outline-none disabled:bg-gray-600" disabled={appointment.status === 'cancelled' || appointment.paymentStatus === 'completed'}
                       onClick={() => appointment.paymentStatus === 'pending' ? paymentModalOpen(appointment) : retryPayment(appointment)}
 
                     >
@@ -222,7 +241,11 @@ function AppointmentTable() {
                   </div>
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-gray-900">Amount:</span>
-                    <span className="font-medium">₹{appointment.paymentStatus === 'pending' ? appointment?.amount?.toFixed?.(2) : appointment?.finalAmount?.toFixed?.(2)}</span>
+                    <span className="font-medium">₹{!appointment.couponDiscount ? appointment?.amount?.toFixed?.(2) : appointment?.finalAmount?.toFixed?.(2)}</span>
+                  </div>
+                  <div className='flex justify-between items-center mb-2'>
+                    <span className="text-gray-900">Payment Status:</span>
+                    <span className="font-medium flex gap-2">{getPaymentStatusIcon(appointment.paymentStatus)}{appointment.paymentStatus}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <motion.button
