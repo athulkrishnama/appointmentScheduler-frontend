@@ -196,7 +196,7 @@ function AppointmentTable() {
                       <div className="text-gray-900">₹{!appointment.couponDiscount ? appointment?.amount?.toFixed?.(2) : appointment?.finalAmount?.toFixed?.(2)}</div>
                     </td>
                     <td className='px-6 py-4 whitespace-nowrap'>
-                      <div className='flex gap-2'>{getPaymentStatusIcon(appointment.paymentStatus)} <span>{appointment.status}</span></div>
+                      <div className='flex gap-2'>{getPaymentStatusIcon(appointment.paymentStatus)} <span>{appointment.paymentStatus}</span></div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <button
