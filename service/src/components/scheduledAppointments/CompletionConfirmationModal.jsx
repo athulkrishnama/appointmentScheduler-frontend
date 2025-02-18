@@ -1,19 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from '../../axios/axios';
 import { toast } from 'react-toastify';
 
 function CompletionConfirmationModal({ isOpen, onClose, appointmentId, onSuccess }) {
+    const [isLoading, setIsLoading] = useState(false);
+
     const handleComplete = async () => {
         try {
+            setIsLoading(true);
             const response = await axios.patch(`/serviceProvider/markAsCompleted/${appointmentId}`);
             if (response.data.success) {
                 toast.success('Appointment marked as completed successfully');
-                if (onSuccess) onSuccess();
+                 onSuccess();
             }
         } catch (error) {
             console.error('Error completing appointment:', error);
+            onSuccess();
             toast.error(error.response?.data?.message || 'Error marking appointment as completed');
+        }finally{
+            setIsLoading(false);
         }
     };
 
@@ -77,7 +83,7 @@ function CompletionConfirmationModal({ isOpen, onClose, appointmentId, onSuccess
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
                                 >
-                                    Complete
+                                    {isLoading ? 'Loading...' : 'Complete'}
                                 </motion.button>
                             </div>
                         </motion.div>

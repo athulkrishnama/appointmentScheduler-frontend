@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import axios from '../../axios/axios';
 import transactionTypes from '../../constants/transactionType';
 import {FaMoneyCheck} from 'react-icons/fa'
+import DUE_THRESHHOLD from '../../constants/dueThreshhold'; 
 
 function Wallet() {
   const [transactions, setTransactions] = useState([]);
@@ -53,6 +54,11 @@ function Wallet() {
         <h1 className="text-4xl font-bold text-gray-900">
           Balance: <span className={balance > 0 ? 'text-green-600' : 'text-rose-600'}>₹{balance.toFixed(2)}</span>
         </h1>
+        {
+          balance <= DUE_THRESHHOLD && (
+            <p className="text-lg text-rose-600">If your due is greater than ₹{DUE_THRESHHOLD}, your account will be automatically deactivated</p>
+          )
+        }
       </div>
       
       <div className="flex-1">
@@ -72,10 +78,10 @@ function Wallet() {
                 {/* Priority Information */}
                 <div className="border-b border-gray-100 pb-3">
                   <h4 className="text-lg font-bold text-gray-900 mb-1 truncate">
-                    {transaction.appointment.client.fullname}
+                    {transaction?.appointment?.client?.fullname}
                   </h4>
                   <p className="text-base text-gray-700 font-medium truncate">
-                    {transaction.appointment.service.serviceName}
+                    {transaction?.appointment?.service?.serviceName}
                   </p>
                 </div>
 

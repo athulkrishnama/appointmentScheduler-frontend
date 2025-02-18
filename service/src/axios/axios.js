@@ -37,7 +37,7 @@ instance.interceptors.response.use(
           console.log("user blocked")
           isBlockedToastActive = true; 
           toast.error(error.response.data.message, {
-            autoClose: 1000,
+            autoClose: 5000,
             onClose: () => {
               
               store.dispatch(setAccessToken(""));
