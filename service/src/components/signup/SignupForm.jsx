@@ -260,6 +260,9 @@ function SignupForm({ setOtpSent }) {
               />
             </div>
             <div className="w-full my-3 flex justify-center flex-col items-center">
+              <label htmlFor="" className="text-base text-gray-600 block mb-2">
+                Please upload a valid business registration certificate or license. This document is required for verification to ensure that your business is legally registered and authorized to provide services
+              </label>
               <img
                 src={
                   documentImage
