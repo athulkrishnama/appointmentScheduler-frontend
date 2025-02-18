@@ -5,45 +5,90 @@ import { toast } from "react-toastify";
 import { removeRequest } from "../../store/requestSlice/requestSlice";
 import { useDispatch } from "react-redux";
 import DocumentModal from "./DocumentModal";
+import AcceptModal from "./AcceptModal";
+import RejectModal from "./RejectModal";
 
 const RequestTable = ({ requests }) => {
   const [confirmation, setConfirmation] = useState({
     show: false,
     requestId: null,
-    status: "",
   });
+
+  const [rejectModal, setRejectModal] = useState({
+    show: false,
+    requestId: null,
+  });
+
   const [document, setDocument] = useState(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const dispatch = useDispatch();
-  const handleButtonClick = (requestId, status) => {
-    setConfirmation({ show: true, requestId, status });
+  const handleAccept = (requestId) => {
+    setConfirmation({ show: true, requestId });
   };
 
-  const confirmStatusChange = async () => {
+  const confirmAccept = async () => {
     try {
+      setIsLoading(true);
       const response = await axios.patch("/admin/updateRequestStatus", {
         id: confirmation.requestId,
-        status: confirmation.status,
+        status: "accepted",
       });
-      console.log(response.data.message);
       if (response.data.success) {
         dispatch(removeRequest(confirmation.requestId));
         toast.success(response.data.message);
       } else {
         toast.error(response.data.message);
       }
-      setConfirmation({ show: false, requestId: null, status: "" });
+      setConfirmation({ show: false, requestId: null });
     } catch (error) {
-      setConfirmation({ show: false, requestId: null, status: "" });
+      setConfirmation({ show: false, requestId: null });
       console.error("There was an error updating the status:", error);
       toast.error(
         error.response?.data?.message || "An unexpected error occurred."
       );
+    }finally{
+      setIsLoading(false);
     }
   };
 
+  const handleRejectModal = (requestId) => {
+    setRejectModal({ show: true, requestId });
+  };
+
+  const handleRejectModalClose = () => {
+    setRejectModal({ show: false, requestId: null });
+  };
+
+  const handleReject = async (reason) =>{
+    try {
+      setIsLoading(true);
+      const response = await axios.patch("/admin/updateRequestStatus", {
+        id: rejectModal.requestId,
+        status: "rejected",
+        reason
+      })
+      if (response.data.success) {
+        dispatch(removeRequest(rejectModal.requestId));
+        toast.success(response.data.message);
+      } else {
+        toast.error(response.data.message);
+      }
+      setRejectModal({ show: false, requestId: null });
+    } catch (error) {
+      setRejectModal({ show: false, requestId: null });
+      console.error("There was an error updating the status:", error);
+      toast.error(
+        error.response?.data?.message || "An unexpected error occurred."
+      );
+    }finally{
+      setIsLoading(false);
+    }
+  }
+
   const cancelConfirmation = () => {
-    setConfirmation({ show: false, requestId: null, status: "" });
+    setConfirmation({ show: false, requestId: null });
   };
 
   if (!requests || requests.items.length === 0) {
@@ -103,13 +148,13 @@ const RequestTable = ({ requests }) => {
               <td className="py-4 px-6  h-full">
                 <div className="flex ">
                   <button
-                    onClick={() => handleButtonClick(request._id, "accepted")}
+                    onClick={() => handleAccept(request._id)}
                     className="bg-gray-800 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded mr-2"
                   >
                     Accept
                   </button>
                   <button
-                    onClick={() => handleButtonClick(request._id, "rejected")}
+                    onClick={() => handleRejectModal(request._id)}
                     className="bg-gray-800 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
                   >
                     Reject
@@ -122,34 +167,17 @@ const RequestTable = ({ requests }) => {
       </table>
 
       {confirmation.show && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded shadow-lg">
-            <h3 className="text-lg font-medium text-gray-900">
-              Confirm {confirmation.status.toLowerCase()} Request
-            </h3>
-            <p className="mt-2 text-sm text-gray-500">
-              Are you sure you want to {confirmation.status.toLowerCase()} this
-              request?
-            </p>
-            <div className="mt-4">
-              <button
-                type="button"
-                className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-black border border-transparent rounded-md hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black"
-                onClick={confirmStatusChange}
-              >
-                Confirm
-              </button>
-              <button
-                type="button"
-                className="ml-2 inline-flex justify-center px-4 py-2 text-sm font-medium text-black bg-white border border-black rounded-md hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black"
-                onClick={cancelConfirmation}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
+        <AcceptModal
+          confirmAccept={confirmAccept}
+          cancelConfirmation={cancelConfirmation}
+          isLoading={isLoading}
+        />
       )}
+      {
+        rejectModal.show && (
+          <RejectModal onClose={handleRejectModalClose} handleReject={handleReject} isLoading={isLoading}/>
+        )
+      }
 
       {document && (
             <DocumentModal src={document} onClose={closeDocumentModal} />
