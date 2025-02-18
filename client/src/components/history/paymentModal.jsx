@@ -38,8 +38,9 @@ function PaymentModal({ onClose, appointment }) {
   const [coupons, setCoupons] = useState([]);
   const [inputData, setInputData] = useState('')
   const [appliedCoupon, setAppliedCoupon] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const {error, isLoading, Razorpay} = useRazorpay()
+  const {error, Razorpay} = useRazorpay()
 
   const userData = {
     name:store.getState().user.name,
@@ -71,11 +72,14 @@ function PaymentModal({ onClose, appointment }) {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message)
+    }finally{
+      setIsLoading(false)
     }
   }
 
   const handlePayment = async () => {
     try {
+      setIsLoading(true)
       const response = await axios.post("/client/createRazorPayOrder", { appointmentId: appointment._id, couponId: appliedCoupon?._id });
       const options  = {
         key:import.meta.env.VITE_RAZORPAY_KEY_ID,
@@ -102,11 +106,13 @@ function PaymentModal({ onClose, appointment }) {
           console.log(error)
         }finally{
           onClose()
+          setIsLoading(false)
         }
       })
     } catch (error) {
       toast.error(error.response.data.message)
       console.log(error);
+      setIsLoading(false)
     }
   };
 
@@ -266,7 +272,7 @@ function PaymentModal({ onClose, appointment }) {
               className="px-6 py-2.5 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors flex items-center gap-2"
             >
               <MdPayment />
-              Pay Now
+              {isLoading ? 'Processing...' : 'Pay Now'}
             </motion.button>
           </div>
         </div>
