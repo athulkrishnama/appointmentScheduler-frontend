@@ -11,6 +11,7 @@ import Coupons from './pages/Coupons'
 import Profile from './pages/Profile'
 import ServiceRequestDetails from './pages/ServiceRequestDetails'
 import store from "./store/store";
+import Topup from './pages/Topup'
 import Layout from "./components/layout/Layout";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
@@ -26,6 +27,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/topup/:token" element={<Topup />} />
           <Route path="/" element={<Layout />}>
             <Route index element={<ProtectedRoute><Home /></ProtectedRoute> } />
             <Route path="/serviceManagement" element={<ProtectedRoute><ServiceManagement /></ProtectedRoute>} />
