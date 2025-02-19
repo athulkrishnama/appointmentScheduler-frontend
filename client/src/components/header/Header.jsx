@@ -6,6 +6,7 @@ import { setAccessToken, setName, setEmail, setPhoneNumber } from '../../store/u
 import logo from '../../assets/timelens.png';
 import { useLocation } from 'react-router'
 import BreadCrumbs from '../breadCrumbs/BreadCrumbs';
+import Notification from '../notification/Notification'
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -79,6 +80,7 @@ function Header() {
           <div className="hidden md:block">
             {user.accessToken ? (
               <div className="flex items-center space-x-4">
+                <Notification/>
                 <span className="text-lg font-medium">{user.name}</span>
                 <button
                   onClick={handleLogout}
@@ -126,6 +128,7 @@ function Header() {
                 <div className="mt-4 pt-4 border-t border-gray-200">
                   {user.accessToken ? (
                     <div className="flex flex-col space-y-3 items-center">
+                      <Notification/>
                       <span className="text-lg font-medium">{user.name}</span>
                       <button
                         onClick={() => {

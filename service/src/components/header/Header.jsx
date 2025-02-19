@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import logo from "../../assets/timelens.png";
 import { NavLink } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
+import Notification from "../notification/Notification";
 import {
   setAccessToken,
   setName,
@@ -72,6 +73,7 @@ function Header() {
           <div className="hidden md:flex gap-9 items-center">
             {user.accessToken ? (
               <>
+                <Notification />
                 <h3 className="hover:cursor-pointer">{user.name}</h3>
                 <button
                   onClick={handleLogout}
@@ -118,6 +120,7 @@ function Header() {
                 <div className="mt-4 flex flex-col gap-4 items-center">
                   {user.accessToken ? (
                     <>
+                      <NotificationBar />
                       <h3 className="hover:cursor-pointer">{user.name}</h3>
                       <button
                         onClick={() => {
