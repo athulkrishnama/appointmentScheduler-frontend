@@ -3,10 +3,12 @@ import createSocket from '../../services/notifcation'
 import { useSelector } from 'react-redux'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Link, useNavigate } from 'react-router'
+import NotificationBar from './NotificationBar'
 
 function Notification() {
   const { accessToken } = useSelector((state) => state.user)
   const [notification, setNotification] = useState([])
+  const [allNotifications, setAllNotifications] = useState([]) 
   const navigate = useNavigate()
 
   const MAX_NOTIFICATIONS = 5;
@@ -24,6 +26,7 @@ function Notification() {
 
       }, 7000)
       setNotification((prev) => [data, ...prev])
+      setAllNotifications((prev) => [data, ...prev])
       callback(true)
     })
     return () => {
@@ -36,7 +39,8 @@ function Notification() {
     setNotification((prev) => prev.filter((noti) => noti.id !== notificationId))
   }
   return (
-    <div className='absolute top-0 right-0 z-50'>
+    <>
+    <div className='absolute top-20 right-0 z-50'>
       <AnimatePresence>
         {notification.slice(0, MAX_NOTIFICATIONS).map((noti) => (
           <motion.div
@@ -52,6 +56,8 @@ function Notification() {
         ))}
       </AnimatePresence>
     </div>
+    <NotificationBar notifications={allNotifications} />
+    </>
   )
 }
 
