@@ -15,7 +15,7 @@ function Notification() {
     const socket = createSocket()
     socket.connect()
 
-    socket.on('newNotification', (data) => {
+    socket.on('newNotification', (data, callback) => {
       setTimeout(() => {
         const removeNotification = (id) => {
           setNotification((prev) => prev.filter((noti) => noti.id !== id))
@@ -24,6 +24,7 @@ function Notification() {
 
       }, 7000)
       setNotification((prev) => [data, ...prev])
+      callback(true)
     })
     return () => {
       socket.disconnect()
