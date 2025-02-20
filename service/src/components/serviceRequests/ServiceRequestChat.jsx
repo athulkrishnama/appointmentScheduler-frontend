@@ -123,8 +123,8 @@ function ServiceRequestChat({ requestId }) {
     }, [chat]);
 
     return (
-        <div className='w-[90vw] md:w-[50vw] mx-auto px-5 py-16 -z-10 flex-grow' id='chat'>
-            <button onClick={handleCreateQuotationModalOpen} className='mb-5 bg-black text-white px-5 py-2 rounded-md hover:bg-gray-700 absolute top-30 right-20 z-[30]'>Create Quotation</button>
+        <div className='w-[90vw] md:w-[50vw] mx-auto px-5 py-16  flex-grow' id='chat'>
+            {/* <button onClick={handleCreateQuotationModalOpen} className='mb-5 bg-black text-white px-5 py-2 rounded-md hover:bg-gray-700 absolute top-30 left-20 z-[30]'>Create Quotation</button> */}
             <ServiceRequestDetails serviceRequest={serviceRequest} />
             <div className='flex flex-col gap-5'>
                 <AnimatePresence>
@@ -146,7 +146,7 @@ function ServiceRequestChat({ requestId }) {
                 </AnimatePresence>
             </div>
             {/* chat typing area */}
-            <ChatInput onSend={handleMessageSend} />
+            <ChatInput onSend={handleMessageSend} handleCreateQuotationModalOpen={handleCreateQuotationModalOpen} />
             {createQuotationModalOpen && <CreateQuotationModal setCreateQuotationModalOpen={setCreateQuotationModalOpen} handleSubmit={handleQuotationCreate} />}
         </div>
     );
