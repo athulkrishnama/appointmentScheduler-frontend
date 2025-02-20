@@ -12,6 +12,7 @@ import Profile from './pages/Profile'
 import ServiceRequestDetails from './pages/ServiceRequestDetails'
 import store from "./store/store";
 import Topup from './pages/Topup'
+import SalesReport from './pages/SalesReport'
 import Layout from "./components/layout/Layout";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
@@ -35,6 +36,7 @@ function App() {
             <Route path='/reviews' element={<ProtectedRoute><Reviews /></ProtectedRoute>} />
             <Route path='/profile' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path='/serviceRequests/:id' element={<ProtectedRoute><ServiceRequestDetails /></ProtectedRoute>} />
+            <Route path='/salesReport' element={<ProtectedRoute><SalesReport /></ProtectedRoute>} />
           </Route>
         </Routes>
       </Router>
