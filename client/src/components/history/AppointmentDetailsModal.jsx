@@ -62,8 +62,6 @@ const AppointmentDetailsModal = ({ isOpen, onClose, appointment }) => {
   const handleInvoiceDownload = async () => {
     try{
       const serviceRequest = await axios.get(`/client/getServiceRequest/${appointment.serviceRequest}`);
-      console.log(serviceRequest.data);
-      console.log(appointment)
       const doc = <Invoice appointment={appointment} serviceRequest={serviceRequest.data.serviceRequest} />;
       const blob = await pdf(doc).toBlob();
       saveAs(blob, 'invoice.pdf');

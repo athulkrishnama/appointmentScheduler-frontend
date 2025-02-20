@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import axios from '../../axios/axios'
 import { motion } from 'framer-motion'
 import Pagination from '../pagination/Pagination'
+import SalesReportPDF from './SalesReportPDF'
+import { saveAs } from 'file-saver'
+import { pdf } from '@react-pdf/renderer'
 
 function SalesReport() {
     const [salesReport, setSalesReport] = useState([])
@@ -34,7 +37,9 @@ function SalesReport() {
     const downloadSalesReport = async () => {
         try {
             const res = await axios.get(`/serviceProvider/salesReport?page=${currentPage}&limit=all&status=${filter.status}&period=${filter.period}${filter.period === 'custom' ? `&startDate=${filter.startDate}&endDate=${filter.endDate}` : ''}`)
-
+            const doc = <SalesReportPDF salesReport={res.data.sales} />
+            const blob = await pdf(doc).toBlob();
+            saveAs(blob, 'salesReport.pdf');
         } catch (error) {
             console.log(error)
         }
