@@ -15,7 +15,7 @@ function SalesReport() {
         period: ''
     })
     const [currentPage, setCurrentPage] = useState(1)
-    const [itemsPerPage, setItemsPerPage] = useState(5)
+    const [itemsPerPage, setItemsPerPage] = useState(10)
     const [totalPages, setTotalPages] = useState(0)
 
     const fetchSalesReport = async () => {
@@ -52,6 +52,7 @@ function SalesReport() {
                     <select
                         id="itemsPerPage"
                         className="bg-white border border-gray-300 rounded-md shadow-sm py-1 px-2 focus:outline-none focus:ring-gray-500 focus:border-gray-500"
+                        value={itemsPerPage}
                         onChange={(e) => setItemsPerPage(e.target.value)}
                     >
                         <option value="5">5</option>
