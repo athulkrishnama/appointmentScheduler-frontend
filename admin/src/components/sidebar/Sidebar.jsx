@@ -21,7 +21,8 @@ function Sidebar() {
     { linktext: "Requests", link: "requests" },
     { linktext: "Clients", link: "clients" },
     { linktext: "Categories", link: "category" },
-    { linktext: "Wallet", link: "wallet" }
+    { linktext: "Wallet", link: "wallet" },
+    { linktext: "Reports", link: "report" },
   ]
 
   const handleLogout = () => {
