@@ -12,6 +12,7 @@ import { ToastContainer, } from 'react-toastify'
 import ProtectedRoute from './components/protectedComponents/ProtectedRoute'
 import Layout from './components/layout/Layout';
 import Wallet from './pages/Wallet';
+import Report from './pages/Report';
 
 const App = () => {
     return (
@@ -25,6 +26,7 @@ const App = () => {
                         <Route path="/serviceProviders" element={<><ProtectedRoute><ServiceProviders /></ProtectedRoute></>} />
                         <Route path="/category" element={<><ProtectedRoute><Category /></ProtectedRoute></>} />
                         <Route path="/wallet" element={<><ProtectedRoute><Wallet /></ProtectedRoute></>} />
+                        <Route path='/report' element={<ProtectedRoute><Report/></ProtectedRoute>}/>
                     </Route>
                     <Route path="/login" element={<Login />} />
                 </Routes>
