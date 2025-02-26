@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MdPending, MdCheckCircle, MdCancel, MdAccessTime, MdCheckCircle as MdCheckCircleIcon, MdError, MdRefresh } from 'react-icons/md';
 import { FaRupeeSign, FaUser, FaUserShield } from 'react-icons/fa';
@@ -6,8 +6,12 @@ import Invoice from '../invoice/Invoice';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
 import axios from '../../axios/axios';
+import ReportModal from './ReportModal'
+import {toast} from 'react-toastify'
 
 const AppointmentDetailsModal = ({ isOpen, onClose, appointment }) => {
+  const [isReportModalOpen, setReportModalOpen] = useState(false);
+
   if (!appointment) return null;
 
   const modalVariants = {
@@ -70,10 +74,28 @@ const AppointmentDetailsModal = ({ isOpen, onClose, appointment }) => {
     }
   };
 
+  const handleReportModalOpen = ()=>{
+    setReportModalOpen(true);
+  }
+
+  const handleReportModalClose = ()=>{
+    setReportModalOpen(false);
+  }
+
+  const handleReport = async(reason)=>{
+    try {
+      const response = await axios.post("/client/report", {reason, appointment:appointment._id, serviceProvider:appointment.serviceProvider._id})
+      toast.success(response.data.message)
+    } catch (error) {
+      toast.error(error.response?.data?.message)
+    }finally{
+      handleReportModalClose()
+    }
+  }
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div className="fixed inset-0 z-50 overflow-y-auto" initial="hidden" animate="visible" exit="exit">
+        <motion.div className="fixed inset-0 z-40 overflow-y-auto" initial="hidden" animate="visible" exit="exit">
           <div className="flex min-h-screen items-center justify-center px-4">
             <motion.div className="fixed inset-0 bg-black opacity-50" onClick={onClose} />
             <motion.div variants={modalVariants} className="bg-white rounded-lg shadow-xl p-6 w-full max-w-2xl relative z-10">
@@ -219,9 +241,19 @@ const AppointmentDetailsModal = ({ isOpen, onClose, appointment }) => {
                     <button onClick={handleInvoiceDownload} className='bg-black text-white px-4 py-2 rounded'>Download Invoice</button>
                   </div>
                 </div>
+                {
+                  appointment.status === 'completed' &&(
+                    <div>
+                      <p className='text-gray-500'>Not satisfied with service? <span onClick={handleReportModalOpen} className='text-red-600 cursor-pointer '>Report </span></p>
+                    </div>
+                  )
+                }
               </div>
             </motion.div>
           </div>
+          {
+            isReportModalOpen && <ReportModal onClose={handleReportModalClose} onConfirm={handleReport}/>
+          }
         </motion.div>
       )}
     </AnimatePresence>
