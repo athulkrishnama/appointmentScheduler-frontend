@@ -45,6 +45,15 @@ function QuotationForm({ service }) {
     return true;
   };
 
+  const formateDate = (date)=>{
+    const newDate = [];
+    newDate.push(date.getMonth());
+    newDate.push(date.getDate());
+    newDate.push(date.getFullYear());
+    return newDate.join("/");
+    
+  }
+
   const validationSchema = Yup.object({
     date: Yup.date().required("Date is required"),
     time: Yup.string().required("Time is required"),
@@ -91,8 +100,10 @@ function QuotationForm({ service }) {
         };
       });
 
+      
+
       const data = {
-        date: values.date.toLocaleDateString(),
+        date: formateDate(values.date),
         time: values.time,
         serviceFrequency: values.serviceFrequency,
         endDate: values.endDate.toLocaleDateString(),
