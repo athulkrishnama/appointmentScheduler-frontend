@@ -20,6 +20,7 @@ function EditService({ setEditModalClose, service,setUpdateData }) {
   })
   const [categories, setCategories] = useState([]);
   const [isEditing, setIsEditing] = useState(false)
+  const [editingIndex, setEditingIndex] = useState(null)
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -112,7 +113,8 @@ function EditService({ setEditModalClose, service,setUpdateData }) {
     }
   }
 
-  const handleEditClick = (details) => {
+  const handleEditClick = (details, index) => {
+    setEditingIndex(index)
     setNewField(details)
     setIsEditing(true)
   }
@@ -120,7 +122,8 @@ function EditService({ setEditModalClose, service,setUpdateData }) {
   const updateField = () => {
     const existingFieldNames = additionlDetails.some(detail => detail.fieldName === newField.fieldName)
     if (existingFieldNames) return toast.error("Field name already exists")
-    setAdditionalDetails(additionlDetails.map(detail => detail.fieldName === newField.fieldName ? newField : detail))
+    setAdditionalDetails(additionlDetails.map((detail, i) => editingIndex === i ? newField : detail))
+    setEditingIndex(null)
     setIsEditing(false)
     setnewField({
       fieldName: '',
@@ -224,7 +227,7 @@ function EditService({ setEditModalClose, service,setUpdateData }) {
                             <td className="py-2 px-4 border-b border-r w-[60%]">{detail.fieldName}</td>
                             <td className="py-2 px-4 border-b border-r w-[20%]">{detail.fieldType}</td>
                             <td className="py-2 px-4 border-b border-r w-[10%]">
-                              <button type='button' className="text-gray-500 hover:text-gray-700 " onClick={() => handleEditClick(detail)}><MdEdit size={20} /></button>
+                              <button type='button' className="text-gray-500 hover:text-gray-700 " onClick={() => handleEditClick(detail, index)}><MdEdit size={20} /></button>
                             </td>
                             <td className="py-2 px-4 border-b">
                               <button type='button' className="text-red-500 hover:text-red-700 " onClick={() => deleteField(index)}><MdDelete size={20} /></button>
