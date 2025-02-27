@@ -24,7 +24,7 @@ function Header() {
     { linktext: "Service Requests", link: "serviceRequests" },
     { linktext: "Scheduled Appointments", link: "scheduledAppointments" },
     { linktext: "Service History", link: "service-history" },
-    { linktext: "Reviews", link: "reviews" },
+    // { linktext: "Reviews", link: "reviews" },
     { linktext: "Profile", link: "profile" },
   ];
 

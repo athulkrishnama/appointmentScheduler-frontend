@@ -33,7 +33,7 @@ function Header() {
     { path: '/serviceRequests', label: 'Service Requests' },
     { path: '/yourAppointments', label: 'Your Appointments' },
     { path: '/history', label: 'History' },
-    { path: '/recurringServices', label: 'Recurring Services' },
+    // { path: '/recurringServices', label: 'Recurring Services' },
     { path: '/profile', label: 'Profile' }
   ];
 

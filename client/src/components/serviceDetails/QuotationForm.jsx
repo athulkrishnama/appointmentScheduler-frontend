@@ -193,7 +193,7 @@ function QuotationForm({ service }) {
               onBlur={formik.handleBlur}
             />
           </div>
-          <div className="w-full md:w-1/2 flex flex-col px-4 my-2">
+          <div className="w-full md:w-1/2  flex-col px-4 my-2 hidden">
             <label htmlFor="time" className="inline-block pb-2 text-gray-700">
               Select Service Frequency
             </label>
@@ -212,7 +212,7 @@ function QuotationForm({ service }) {
               ))}
             </select>
           </div>
-          <div className="w-full md:w-1/2  px-4 my-2">
+          <div className="w-full md:w-1/2  px-4 my-2 hidden">
             <label htmlFor="date" className="inline-block pb-2 text-gray-700">
               Select Recurrance End Date
             </label>
