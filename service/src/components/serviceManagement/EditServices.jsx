@@ -125,7 +125,7 @@ function EditService({ setEditModalClose, service,setUpdateData }) {
     setAdditionalDetails(additionlDetails.map((detail, i) => editingIndex === i ? newField : detail))
     setEditingIndex(null)
     setIsEditing(false)
-    setnewField({
+    setNewField({
       fieldName: '',
       fieldType: 'number'
     })
