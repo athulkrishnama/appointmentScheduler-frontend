@@ -5,6 +5,7 @@ import axios from "../../axios/axios";
 import {toast} from 'react-toastify'
 import {useRazorpay} from 'react-razorpay'
 import store from '../../store/store'
+import { FaTrash } from "react-icons/fa";
 
 const modalVariants = {
   hidden: { opacity: 0 },
@@ -62,6 +63,10 @@ function PaymentModal({ onClose, appointment }) {
   const couponDiscount = (coupon) => {
     const discount = (coupon.discount / 100) * appointment.amount;
     return coupon.maxDiscount > discount ? discount : coupon.maxDiscount;
+  }
+
+  const removeCoupon = ()=>{
+    setAppliedCoupon(null)
   }
 
   const paymentSuccessHandler = async (data) => {
@@ -253,9 +258,18 @@ function PaymentModal({ onClose, appointment }) {
                 transition={{ duration: 0.3 }}
                 className="flex flex-grow flex-col md:flex-row gap-5 justify-between items-start md:items-center"
               >
-              <div>
-                <p className="text-sm text-gray-500">Coupon Discount</p>
-                <p className="text-2xl font-bold text-green-500">₹{couponDiscount(appliedCoupon)}</p>
+              <div className="flex items-center gap-4">
+                <div>
+                  <p className="text-sm text-gray-500">Coupon Discount</p>
+                  <p className="text-2xl font-bold text-green-500">₹{couponDiscount(appliedCoupon)}</p>
+                </div>
+                <motion.button
+                  whileHover={{scale:1.1}}
+                  whileTap={{scale:0.98}}
+                  onClick={removeCoupon}
+                >
+                  <FaTrash className="text-red-600 text-2xl"/>
+                </motion.button>
               </div>
               <div>
                 <p className="text-sm text-gray-500">Final Amount</p>
