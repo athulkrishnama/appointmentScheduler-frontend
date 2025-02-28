@@ -47,7 +47,7 @@ function QuotationForm({ service }) {
 
   const formateDate = (date)=>{
     const newDate = [];
-    newDate.push(date.getMonth());
+    newDate.push(date.getMonth()+1);
     newDate.push(date.getDate());
     newDate.push(date.getFullYear());
     return newDate.join("/");
