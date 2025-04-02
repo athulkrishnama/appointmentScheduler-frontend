@@ -3,7 +3,7 @@ import BASE_URL from "../constants/baseurl";
 import store from "../store/store";
 import { setAccessToken, setName, setEmail, setPhoneNumber } from "../store/userSlice/userSlice";
 import { toast } from "react-toastify";
-
+ 
 const instance = axios.create({ baseURL: BASE_URL, withCredentials: true });
 
 instance.interceptors.request.use(
