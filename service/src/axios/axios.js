@@ -13,7 +13,7 @@ instance.interceptors.request.use(
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
-  },
+  }, 
   (error) => {
     return Promise.reject(error);
   }
